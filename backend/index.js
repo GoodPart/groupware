@@ -8,7 +8,11 @@ const port = 9999;
 const bodyParser = require('body-parser')
 const config = require('./config/key');
 
-app.use(cors())
+app.use(cors({
+    origin : 'http://localhost:3000',
+    credentials : true,
+    optionsSuccessStatus: 200
+}));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
@@ -55,6 +59,7 @@ app.post('/signup', (req,res)=> {
 
     const user = new User(getUserData);
 
+    console.log(getUserData)
     user.save((err, ele)=> {
         if(err) return res.json({
             success : false,
@@ -70,17 +75,22 @@ app.post('/signup', (req,res)=> {
 app.post('/signup/checkid', (req,res)=> {
     const data = req.body; //user id
 
+    console.log(data)
+
     User.findOne({
         userId : data.userId
     }, (err, result)=> {
-        if(result) res.json({
-            success : false,
-            message : "중복된 아이디입니다."
-        })
-        return res.status(200).json({
-            success : true,
-            message : "사용 가능한 아이디입니다."
-        })
+        if(result) {
+            return res.json({
+                success : false,
+                message : "중복된 아이디입니다."
+            })
+        }else {
+            return res.status(200).json({
+                success : true,
+                message : "사용 가능한 아이디입니다."
+            })
+        }
     })
 
 })

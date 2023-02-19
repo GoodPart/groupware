@@ -8,10 +8,15 @@ import CounterContainer from './containers/CounterContainer';
 
 //start redux 
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './modules';
+import SigninContainer from './containers/SigninContainer';
 
-const store = createStore(rootReducer);
+import promiseMiddleware from 'redux-promise';
+import reduxThunk from 'redux-thunk'
+const store = createStore(rootReducer, applyMiddleware(promiseMiddleware,reduxThunk));
+
+// const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore)
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,7 +24,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     {/* <App /> */}
-    <CounterContainer />;
+    {/* <CounterContainer />; */}
+    <SigninContainer />
   </Provider>
 );
 
