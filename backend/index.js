@@ -75,7 +75,7 @@ app.post('/signup', (req,res)=> {
 app.post('/signup/checkid', (req,res)=> {
     const data = req.body; //user id
 
-    console.log(data)
+    console.log(req.body)
 
     User.findOne({
         userId : data.userId
@@ -86,6 +86,7 @@ app.post('/signup/checkid', (req,res)=> {
                 message : "중복된 아이디입니다."
             })
         }else {
+
             return res.status(200).json({
                 success : true,
                 message : "사용 가능한 아이디입니다."

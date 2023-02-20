@@ -13,8 +13,8 @@ import rootReducer from './modules';
 import SigninContainer from './containers/SigninContainer';
 
 import promiseMiddleware from 'redux-promise';
-import reduxThunk from 'redux-thunk'
-const store = createStore(rootReducer, applyMiddleware(promiseMiddleware,reduxThunk));
+import ReduxThunk from 'redux-thunk'
+const store = createStore(rootReducer, applyMiddleware(promiseMiddleware,ReduxThunk));
 
 // const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore)
 
