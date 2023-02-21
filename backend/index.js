@@ -71,6 +71,55 @@ app.post('/signup', (req,res)=> {
         })
     })
 })
+
+//비밀번호 확인
+app.post('/login', (req,res)=> {
+    const data = req.body; // {userId : '', userPw : ''}
+
+    //아이디 확인
+    User.findOne({
+        userId : data.userId
+    }, (err, user)=> {
+        if(!user || err) {
+            return res.json({
+                success : false,
+                message : "해당 아이디는 존재하지 않습니다."
+            })
+        }
+        //비밀번호 복호화 후 비교
+        user.comparePassword(data.userPw, (err, isMatch)=> {
+            if(!isMatch) {
+                return res.json({
+                    success : false,
+                    message : "비밀번호가 틀렸습니다."
+                })
+            }
+            
+            //맞다면 로그인 유저 db의 '_id' 값을 jwt를 이용해 쿠키 발급.
+            user.generateToken((err, user) => {
+                if(err) return res.status(400).send(err)
+
+                res.cookie("x_auth", user.token)
+                    .status(200)
+                    .json({
+                        loginSuccess : true,
+                        userId : user._id
+                    })
+                
+            } )
+            
+            
+            
+            
+        })
+        
+
+
+    })
+
+
+    //jwt 값 비교
+})
 //회원가입 - 중복 아이디 확인
 app.post('/signup/checkid', (req,res)=> {
     const data = req.body; //user id
@@ -93,7 +142,35 @@ app.post('/signup/checkid', (req,res)=> {
             })
         }
     })
+})
 
+// 사용자 제거 - 임시
+app.post('/user/deleteuser', (req,res)=> {
+    const data = req.body; //user id
+
+    User.findOne({
+        userId : data.userId
+    },(err, result)=> {
+        if(result) {
+            User.findOneAndDelete({
+                userId : data.userId
+            }, ()=> {
+                return res.json({
+                    searchId : data.userId,
+                    findId : result.userId,
+                    message : "해당 아이디를 삭제 했습니다."
+                })
+            })
+            
+        }else {
+
+            return res.json({
+                searchId : data.userId,
+                message : '해당 아이디가 없습니다.',
+                err : err
+            })
+        }
+    })
 })
 
 //특정 카테고리 조회

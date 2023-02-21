@@ -3,8 +3,6 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10;
 const jwt = require('jsonwebtoken')
 
-const {DbId} = require('./Db_Id');
-
 /*
 userNo : 사원번호
 name: 이름
@@ -65,8 +63,45 @@ const userSchema = mongoose.Schema({
 
 
 // 비밀번호 암호화
+userSchema.pre('save',function(next) {
+    var user = this;
 
+    if(user.isModified('userPw')) {
+        // 비밀번호 암호화
+        bcrypt.genSalt(saltRounds, (err, salt)=> {
+            if(err) return next(err);
+            bcrypt.hash(user.userPw,salt, (err, hash) => {
+                if(err) return next(err);
+                user.userPw = hash;
+                next()
+            })
+        })
+    }else {
+        next();
+    }
+})
+
+// 비밀번호 복호화
+userSchema.methods.comparePassword = function(plainPassword, cb) {
+    bcrypt.compare(plainPassword,this.userPw, (err, isMatch) => {
+        if(err) return cb(err);
+        cb(null, isMatch)
+    })
+}
 // jwt 암호화
+userSchema.methods.generateToken = function(cb) {
+    let user = this;
+
+    //user._id : this는 db에서 조회된 테이블.
+    //dbdml _id를 조회한것.
+    let token = jwt.sign(user._id.toHexString(), 'screatToken');
+
+    user.token = token;
+    user.save(function(err, user) {
+        if(err) return cb(err)
+        cb(null, user);
+    })
+}
 
 
 const User = mongoose.model('User', userSchema)

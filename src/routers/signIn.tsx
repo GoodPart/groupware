@@ -1,8 +1,8 @@
-
+import SigninContainer from '../containers/SigninContainer';
 
 function signIn() {
     return (
-        <>signIn</>
+       <SigninContainer />
     )
 }
 

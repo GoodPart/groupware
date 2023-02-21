@@ -1,31 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 
-import CounterContainer from './containers/CounterContainer';
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
+
+import Header from './routers/Header';
+import RouteArea from './routers/RouteArea'
 
 //start redux 
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './modules';
-import SigninContainer from './containers/SigninContainer';
 
+//redux middleware
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk'
 const store = createStore(rootReducer, applyMiddleware(promiseMiddleware,ReduxThunk));
-
-// const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore)
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <Provider store={store}>
-    {/* <App /> */}
-    {/* <CounterContainer />; */}
-    <SigninContainer />
+    <BrowserRouter>
+      <Header />
+      <RouteArea />
+    </BrowserRouter>
   </Provider>
 );
 

@@ -7,11 +7,11 @@ import axios from "axios";
 
 function Signup() {
     useEffect(()=> {
-        console.log("useEffect!")
+        // console.log("useEffect!")
         const getUsers = axios.get("http://localhost:9999/users")
         
         getUsers.then((res)=> {
-            console.log(res)
+            // console.log(res)
             setUsers(res.data.result)
         })
     },[])
