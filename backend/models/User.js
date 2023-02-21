@@ -58,6 +58,12 @@ const userSchema = mongoose.Schema({
     gender : {
         type : String
     },
+    token : {
+        type: String
+    },
+    tokenExp : {
+        type : Number
+    }
 })
 
 
@@ -84,10 +90,18 @@ userSchema.pre('save',function(next) {
 // 비밀번호 복호화
 userSchema.methods.comparePassword = function(plainPassword, cb) {
     bcrypt.compare(plainPassword,this.userPw, (err, isMatch) => {
-        if(err) return cb(err);
+        console.log('복호화 성공 여부 - ',isMatch)
+        if(err) return cb(err)
         cb(null, isMatch)
     })
 }
+
+/*
+모델 메소드는 statics와 methods로 나눈다.
+서로 가르키는건 this인데, statics는 모델 자체 methods는 인스턴스를 가르킨다.
+
+*/
+
 // jwt 암호화
 userSchema.methods.generateToken = function(cb) {
     let user = this;
@@ -103,6 +117,24 @@ userSchema.methods.generateToken = function(cb) {
     })
 }
 
+//jwt 복호화
+userSchema.statics.findByToken = function(token, cb) {
+    var user = this;
+    // 토큰 디코드
+    jwt.verify(token,'screatToken',function(err, decoded) {
+        // 유저 아이디 이용해 유저 찾고
+        // 클라이언트에서 가져온 토큰과  db에 포함된 토큰이 일치하는치 확인
+
+        //유저를db에서 찾는데, 방법은
+        // _id가 decoded값과 같고, token값이 쿠키에서 가져온 token과 맞는지 조회
+        user.findOne({
+            "_id" : decoded, "token" : token
+        }, function(err, user) {
+            if(err) return cb(err)
+            cb(null, user)
+        })
+    })
+}
 
 const User = mongoose.model('User', userSchema)
 module.exports = {User}

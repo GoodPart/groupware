@@ -1,56 +1,39 @@
-import React,{ChangeEventHandler, MouseEventHandler, useState} from 'react'
+import React, {  ChangeEventHandler, FormEventHandler } from 'react';
 
-type SignProps = {
-    onChangeName : ChangeEventHandler,
-    onChangeId: ChangeEventHandler,
-    onChangePw: ChangeEventHandler,
-    onChangePwCF: ChangeEventHandler,
-    submit: MouseEventHandler,
-    onIdCheck: ()=> void,
-    name:string,
-    userId : string,
-    userPw : string,
-    userPwCF :string,
-    idCheck : boolean,
+type SigninProps = {
+    onChange : ChangeEventHandler,
+    onSubmit : FormEventHandler,
+    form : {
+        userId : string,
+        userPw : string
+    }
 }
 
 
-function SignIn({
-    onChangeName,
-    onChangeId,
-    onChangePw,
-    onChangePwCF,
-    submit,
-    onIdCheck,
-    name,
-    userId ,
-    userPw ,
-    userPwCF,
-    idCheck 
-}:SignProps) {
-
-    return (
+function Signin({
+    onChange,
+    onSubmit,
+    form
+}:SigninProps) {
+    return(
         <div>
-            <form>
-                <label>Name</label>
-                <input type="text" value={name} onChange={onChangeName}/><br />
-                <label style={idCheck ? {color : 'green'} : {color : 'red'}}>Id</label>
-                <input type="text"
-                       value={userId}
-                       onChange={onChangeId}
-                       style={idCheck ? {backgroundColor : 'green'} : {backgroundColor : 'red'}}
-                       />
-                <button type='button' onClick={onIdCheck}>ID 중복체크</button>
+            <form action="submit" onSubmit={onSubmit}>
+                <label htmlFor='userId'>ID</label>
+                <input type="text" id='userId' name='userId' placeholder='ID' 
+                onChange={onChange} 
+                value={form.userId}
+                />
                 <br />
-                <label>pw</label>
-                <input type="text" value={userPw} onChange={onChangePw}/><br />
-                <label>pw cf</label>
-                <input type="text" value={userPwCF} onChange={onChangePwCF}/>
+                <label htmlFor='userPw'>PW</label>
+                <input type="text" id='userPw' name='userPw' placeholder='PW'
+                onChange={onChange}
+                value={form.userPw}
+                />
                 <br />
-                <button onClick={submit}>회원가입</button>
+                <button type='button' onClick={onSubmit}>로그인</button>
             </form>
         </div>
     )
 }
 
-export default SignIn
+export default Signin

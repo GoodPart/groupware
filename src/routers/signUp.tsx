@@ -1,11 +1,9 @@
-import React,{useEffect, useState} from 'react';
-import { RootState } from '../modules';
-import {useSelector, useDispatch}  from 'react-redux';
+import SignupContainer from '../containers/SignupContainer';
 
 
 function Signup() {
     return (
-        <>Signup</>
+        <SignupContainer />
     )
 }
 

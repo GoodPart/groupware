@@ -1,114 +1,67 @@
 import React,{ChangeEvent, FormEvent, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../modules';
-import { registerRequest,duplicationCheck } from '../modules/register';
-import SignIn from "../components/SignIn";
+import { useDispatch } from 'react-redux';
+import {registerREquestLogin} from '../modules/register';
 
 
-function SigninContainer (props:any) {
+import Signin from '../components/Signin';
 
-    console.log('props',props)
-    // const navigate = useNavigate();
+type formType = {
+    name : string,
+    value : string
+}
+
+function SigninContainer() {
     const navigate = useNavigate();
-
-    const data = useSelector((state:RootState)=> state.register);
     const dispatch = useDispatch();
 
-    // console.log('data->',data)
+    const [form, setForm] = useState({
+        userId : '',
+        userPw : ''
+    })
 
-    const [name, setName] = useState('');
-    const [userId, setUserId] = useState('');
-    const [idCheck, setIdCheck] = useState(false);
-    const [userPw, setUserPw] = useState('');
-    const [userPwCF, setUserPwCF] = useState('');
+    // const {name, value}:any = form;
 
-    const onChangeName = (e:ChangeEvent<HTMLInputElement>) => {
-        setName(e.currentTarget.value);
-    }
-    const onChangeId = (e:ChangeEvent<HTMLInputElement>) => {
-        setUserId(e.currentTarget.value);
-    }
-    const onIdCheck = () => {
-        dispatch(duplicationCheck(userId))
-         .then((res:any)=> {
-            console.log(res)
+    const onChange = (e:ChangeEvent<HTMLInputElement>):any => {
+        const {name, value} = e.target; 
+        setForm({
+            ...form,
+            [name] : value    
+        })
 
-            if(res.payload.success) {
-                setIdCheck(data.success)
-                alert(`${res.payload.message}`)
-                
-            }else {
-                setIdCheck(data.success)
-                alert(`${res.payload.message}`)
+        console.log(form)
+    };
 
-            }
-
-         })
-    }
-    const onChangePw = (e:ChangeEvent<HTMLInputElement>) => {
-        setUserPw(e.currentTarget.value);
-    }
-    const onChangePwCF = (e:ChangeEvent<HTMLInputElement>) => {
-        setUserPwCF(e.currentTarget.value);
-    }
-
-    const submit = (e:FormEvent) => {
+    const onSubmit = (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if(userPw !== userPwCF) {
-            return alert('입력한 비밀번호가 다르다.')
-        }
+        dispatch(registerREquestLogin(form))
+        .then((res:any)=> {
+            console.log(res)
 
-        if(idCheck) {
-            let infos = {
-                name : name,
-                userId : userId,
-                userPw : userPw,
-                userPwCF: userPwCF
+            const login = res.payload.loginSuccess;
+            const message = res.payload.message;
+
+            if(login) {
+                navigate('/');
+            }else {
+                alert(message)
             }
-    
-            dispatch(registerRequest(infos));
+        })
 
-            setName('');
-            setIdCheck(false);
-            setUserId('');
-            setUserPw('');
-            setUserPwCF('');
-
-            navigate("/users")
-
-        }else {
-            alert(`아이디 중복 체크를 확인하세요.`)
-        }
-
-        
+        //초기화
+        setForm({
+            userId : '',
+            userPw : ''
+        })
     }
 
-    
-
     return (
-        <SignIn
-            onChangeName={onChangeName}
-            onChangeId={onChangeId}
-            onChangePw={onChangePw}
-            onChangePwCF={onChangePwCF}
-            submit={submit}
-            onIdCheck={onIdCheck}
-            name={name}
-            userId={userId}
-            userPw={userPw}
-            userPwCF={userPwCF}
-            idCheck={idCheck}
-            // useStateData={
-            //     {name, userId, userPw, userPwCF, idCheck}
-            // }
-            // userName={userName}
-            // userId={userId}
-            // userPw={userPw}
-            // userPwCF={userPwCF}
-
-         />
+        <Signin 
+            onChange={onChange}
+            onSubmit={onSubmit}
+            form={form}
+        />
     )
 }
-export default SigninContainer;
+export default SigninContainer

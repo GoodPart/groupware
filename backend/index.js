@@ -6,7 +6,10 @@ const app = express();
 const port = 9999;
 
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser');
 const config = require('./config/key');
+
+const {auth} = require('./middleware/auth');
 
 app.use(cors({
     origin : 'http://localhost:3000',
@@ -15,6 +18,7 @@ app.use(cors({
 }));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 
 
@@ -53,6 +57,22 @@ app.get('/users', (req,res)=> {
 })
 
 
+
+//auth req를 req받아 cb하기전 auth를 들린다.
+app.get('/users/auth', auth,(req,res)=> {
+
+    //미들웨어를 통과 =  auth true
+    res.status(200).json({
+        _id: req.user._id,
+        name : req.user.name,
+        userId : req.user.userId,
+        isAuth : true,
+        // isAdmin : req.user.role === 0 ? false : true //관리자
+
+    })
+})
+
+
 //회원가입
 app.post('/signup', (req,res)=> {
     const getUserData = req.body;
@@ -72,15 +92,15 @@ app.post('/signup', (req,res)=> {
     })
 })
 
-//비밀번호 확인
-app.post('/login', (req,res)=> {
+//로그인
+app.post('/api/users/login', (req,res)=> {
     const data = req.body; // {userId : '', userPw : ''}
 
     //아이디 확인
     User.findOne({
         userId : data.userId
     }, (err, user)=> {
-        if(!user || err) {
+        if(!user) {
             return res.json({
                 success : false,
                 message : "해당 아이디는 존재하지 않습니다."
@@ -96,30 +116,34 @@ app.post('/login', (req,res)=> {
             }
             
             //맞다면 로그인 유저 db의 '_id' 값을 jwt를 이용해 쿠키 발급.
-            user.generateToken((err, user) => {
-                if(err) return res.status(400).send(err)
+        user.generateToken((err, user) => {
+            if(err) return res.status(400).send(err)
 
-                res.cookie("x_auth", user.token)
-                    .status(200)
-                    .json({
-                        loginSuccess : true,
-                        userId : user._id
-                    })
-                
-            } )
+            res.cookie("x_auth", user.token)
+                .status(200)
+                .json({
+                    loginSuccess : true,
+                    token : user._id
+                })
             
-            
-            
-            
-        })
-        
+        } )
+        });
+    });
 
-
-    })
-
-
-    //jwt 값 비교
 })
+
+//로그 아웃
+app.get('/api/users/logout', auth , (req,res)=> {
+    User.findOneAndUpdate({
+        _id : req.user._id
+    }, {token : ""}, (err, user)=>{
+        if(err) return res.json({success : false, err})
+        return res.status(200).send({
+            success : true
+        })
+    })
+})
+
 //회원가입 - 중복 아이디 확인
 app.post('/signup/checkid', (req,res)=> {
     const data = req.body; //user id

@@ -13,10 +13,10 @@ function Header() {
         <Link to='/about'>about</Link>
       </li>
       <li>
-        <Link to='/signup'>signup</Link>
+        <Link to='/signup'>가입하기</Link>
       </li>
       <li>
-        <Link to='/signin'>signin</Link>
+        <Link to='/signin'>로그인</Link>
       </li>
       <li>
         <Link to='/users'>users</Link>
