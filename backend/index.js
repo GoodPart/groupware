@@ -75,7 +75,20 @@ app.get('/users/auth', auth,(req,res)=> {
 
 //회원가입
 app.post('/signup', (req,res)=> {
-    const getUserData = req.body;
+    const getUserData = req.body; // 회원 가입 object
+
+    //dbid 테이블에서 empNo조회
+    DbId.findOne({
+        category : "empNo"
+    },(err, dbid)=> {
+        //조회 id값을 사용해 category + id 로 네이밍 지정 단위는 최대100000 -> empNo_000213
+
+        //getUserData dp userNo에 값 update
+
+
+        //회원가입 진행
+    })
+
 
     const user = new User(getUserData);
 
@@ -116,17 +129,17 @@ app.post('/api/users/login', (req,res)=> {
             }
             
             //맞다면 로그인 유저 db의 '_id' 값을 jwt를 이용해 쿠키 발급.
-        user.generateToken((err, user) => {
-            if(err) return res.status(400).send(err)
+            user.generateToken((err, user) => {
+                if(err) return res.status(400).send(err)
 
-            res.cookie("x_auth", user.token)
-                .status(200)
-                .json({
-                    loginSuccess : true,
-                    token : user._id
-                })
-            
-        } )
+                res.cookie("x_auth", user.token)
+                    .status(200)
+                    .json({
+                        loginSuccess : true,
+                        token : user._id
+                    })
+                
+            } )
         });
     });
 

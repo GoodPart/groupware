@@ -35,11 +35,11 @@ function SignupContainer (props:any) {
             console.log(res)
 
             if(res.payload.success) {
-                setIdCheck(data.success)
+                setIdCheck(res.payload.success)
                 alert(`${res.payload.message}`)
                 
             }else {
-                setIdCheck(data.success)
+                setIdCheck(res.payload.success)
                 alert(`${res.payload.message}`)
 
             }
