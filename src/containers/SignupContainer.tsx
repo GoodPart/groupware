@@ -1,4 +1,4 @@
-import React,{ChangeEvent, FormEvent, useState} from 'react';
+import React,{ChangeEvent, FormEvent, useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../modules';
@@ -7,21 +7,24 @@ import SignUp from "../components/Signup";
 
 
 function SignupContainer (props:any) {
-
-    console.log('props',props)
-    // const navigate = useNavigate();
-    const navigate = useNavigate();
-
     const data = useSelector((state:RootState)=> state.register);
-    const dispatch = useDispatch();
-
-    // console.log('data->',data)
 
     const [name, setName] = useState('');
     const [userId, setUserId] = useState('');
-    const [idCheck, setIdCheck] = useState(false);
+    const [idCheck, setIdCheck] = useState(data.idCheck);
     const [userPw, setUserPw] = useState('');
     const [userPwCF, setUserPwCF] = useState('');
+
+    // useSelector와 useState를 사용하면 실행 시점에 문제가 있어 store의 값을 정상적으로 useState가 전달받지 못함.
+    // useState : 컴포넌트가 렌더링 되기전 실행
+    // useSelector : 컴포넌트가 렌더링된 후 실행
+    useEffect(()=> {
+        setIdCheck(data.idCheck);
+    }, [data])
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
 
     const onChangeName = (e:ChangeEvent<HTMLInputElement>) => {
         setName(e.currentTarget.value);
@@ -31,20 +34,7 @@ function SignupContainer (props:any) {
     }
     const onIdCheck = () => {
         dispatch(duplicationCheck(userId))
-         .then((res:any)=> {
-            console.log(res)
-
-            if(res.payload.success) {
-                setIdCheck(res.payload.success)
-                alert(`${res.payload.message}`)
-                
-            }else {
-                setIdCheck(res.payload.success)
-                alert(`${res.payload.message}`)
-
-            }
-
-         })
+        setIdCheck(data.idCheck)
     }
     const onChangePw = (e:ChangeEvent<HTMLInputElement>) => {
         setUserPw(e.currentTarget.value);
@@ -81,8 +71,6 @@ function SignupContainer (props:any) {
         }else {
             alert(`아이디 중복 체크를 확인하세요.`)
         }
-
-        
     }
 
     

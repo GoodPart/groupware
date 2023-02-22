@@ -17,7 +17,7 @@ type registerAction = (
 
 
 type RegisterState = {
-    success : boolean,
+    idCheck : boolean,
     message : string,
     name : string,
     userId : string,
@@ -27,7 +27,7 @@ type RegisterState = {
 }
 //초기상태
 const initState:RegisterState  = {
-    success : false,
+    idCheck : false,
     message : '',
     name : '',
     userId : '',
@@ -38,34 +38,8 @@ const initState:RegisterState  = {
 }
 
 
-// type SignState = {
-//     name : string,
-//     userId : string,
-//     userPw : string,
-//     userPwCF : string
-// }
-// const signInitState:SignState = {
-//     name : '',
-//     userId : '',
-//     userPw : '',
-//     userPwCF : ''
-// }
-
-// 액션 생성 함수
-// export async function signInAction(info:string) {
-//     const data = await request("post", SIGNUP_URL, info).then(res=> {
-//         return res.payload
-//     })
-
-//     // console.log(data)
-//     return {
-//         type : SIGNIN,
-//         payload : data
-//     }
-// }
-
 export function registerRequest(form:object):any {
-    console.log(form)
+    // console.log(form)
     const data = request("post", SIGNUP_URL, form);
 
     return {
@@ -78,16 +52,27 @@ export function registerRequest(form:object):any {
 // request후 받은 payload를 then으로 promise 제거 후, api server에서 받은 값을 alert에 노출
 export function  duplicationCheck (id:string):any {
     const data = request("post", SIGNUP_DUP_CHECK_URL, {userId : id})
- 
-    return {
-        type : IDCHECK,
-        payload : data
-    }
+
+
+    return data.then((res)=> {
+        // const success = res.success;
+        
+        return {
+            type : IDCHECK,
+            payload : res
+        }
+    })
+    
+    // console.log('axios ->',data)
+    // return {
+    //     type : IDCHECK,
+    //     payload : data
+    // }
 }
 
 export function registerREquestLogin(form:object):any {
     const data = request("post", SIGNIN_URL, form);
-    console.log(data)
+    // console.log(data)
     return {
         type : SIGNIN,
         payload : data
@@ -101,15 +86,18 @@ function register(state:RegisterState = initState, action:registerAction):Regist
         case SIGNUP :
             return {
                 ...state,
-                name : action.payload.name,
-                userId : action.payload.userId, 
-                userPw : action.payload.userPw, 
-                userPwCF : action.payload.userPwCF 
+                idCheck : action.payload.success
+                // name : action.payload.name,
+                // userId : action.payload.userId, 
+                // userPw : action.payload.userPw, 
+                // userPwCF : action.payload.userPwCF 
             }
         case IDCHECK : 
+
+            console.log(action)
             return {
                 ...state,
-               success : action.payload.success,
+               idCheck : action.payload.success,
                message : action.payload.message
             }
         case SIGNIN : 
