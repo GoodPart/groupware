@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import counter from './counter';
-import register from './register'
+import register from './register';
+import authCheckReducer from './auth';
 
 const rootReducer = combineReducers({
   counter,
-  register
+  register,
+  authCheckReducer
 });
 
 // 루트 리듀서를 내보내주세요.

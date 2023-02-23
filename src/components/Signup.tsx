@@ -7,11 +7,16 @@ type SignProps = {
     onChangePwCF: ChangeEventHandler,
     submit: MouseEventHandler,
     onIdCheck: ()=> void,
+    // getuserNo : ()=> void,
     name:string,
     userId : string,
     userPw : string,
     userPwCF :string,
     idCheck : boolean,
+    userNo : {
+        id :  number,
+        userNo : string
+    }
 }
 
 
@@ -22,16 +27,22 @@ function SignUp({
     onChangePwCF,
     submit,
     onIdCheck,
+    // getuserNo,
     name,
     userId ,
     userPw ,
     userPwCF,
-    idCheck 
+    idCheck,
+    userNo
 }:SignProps) {
 
     return (
         <div>
             <form>
+                <label >사원코드</label>
+                <input type="text" value={userNo.userNo} readOnly/>
+                {/* <button type='button' onClick={getuserNo}>사원코드 조회</button> */}
+                <br />
                 <label>Name</label>
                 <input type="text" value={name} onChange={onChangeName}/><br />
                 <label style={idCheck ? {color : 'green'} : {color : 'red'}}>Id</label>

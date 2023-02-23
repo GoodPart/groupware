@@ -3,11 +3,13 @@ import request from '../utils/axios';
 const SIGNUP_URL = '/signup'as const;
 const SIGNIN_URL = '/api/users/login' as const;
 const SIGNUP_DUP_CHECK_URL = '/signup/checkid'as const;
+const SIGNUP_PUBLIC_DBID_URL  = '/api/dbid/getdbid' as const;
 
 // 액션 타입 
 const SIGNUP = 'sign/SIGNUP' as const;
 const SIGNIN = 'sign/SIGNIN' as const;
 const IDCHECK = 'sign/IDCHECK' as const;
+const EMPID = 'sign/EMPID' as const;
 // const
 
 type registerAction = (
@@ -17,6 +19,7 @@ type registerAction = (
 
 
 type RegisterState = {
+    empNo : string,
     idCheck : boolean,
     message : string,
     name : string,
@@ -27,6 +30,7 @@ type RegisterState = {
 }
 //초기상태
 const initState:RegisterState  = {
+    empNo : '',
     idCheck : false,
     message : '',
     name : '',
@@ -53,7 +57,6 @@ export function registerRequest(form:object):any {
 export function  duplicationCheck (id:string):any {
     const data = request("post", SIGNUP_DUP_CHECK_URL, {userId : id})
 
-
     return data.then((res)=> {
         // const success = res.success;
         
@@ -62,12 +65,19 @@ export function  duplicationCheck (id:string):any {
             payload : res
         }
     })
+}
+
+export function insertEmployeeId (category : string):any {
+    const data = request("post",SIGNUP_PUBLIC_DBID_URL, {category : category});
+
+    return  data.then(res=> {
+        return {
+            type : EMPID,
+            payload : data
+        }
+    })
+
     
-    // console.log('axios ->',data)
-    // return {
-    //     type : IDCHECK,
-    //     payload : data
-    // }
 }
 
 export function registerREquestLogin(form:object):any {
@@ -106,6 +116,12 @@ function register(state:RegisterState = initState, action:registerAction):Regist
                 userId : action.payload.userId,
                 userPw : action.payload.userPw,
                 token : action.payload.token
+            }
+        case EMPID : 
+            return {
+                ...state,
+                empNo : action.payload.result
+
             }
         default : 
         return state

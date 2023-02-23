@@ -5,13 +5,21 @@ import { RootState } from '../modules';
 import { registerRequest,duplicationCheck } from '../modules/register';
 import SignUp from "../components/Signup";
 
+import request from '../utils/axios';
+
 
 function SignupContainer (props:any) {
     const data = useSelector((state:RootState)=> state.register);
 
+    // console.log(data.empNo)
     const [name, setName] = useState('');
     const [userId, setUserId] = useState('');
     const [idCheck, setIdCheck] = useState(data.idCheck);
+    const [userNo, setUserNo] = useState({
+        id : 0,
+        userNo : '',
+        category : ''
+    });
     const [userPw, setUserPw] = useState('');
     const [userPwCF, setUserPwCF] = useState('');
 
@@ -19,7 +27,18 @@ function SignupContainer (props:any) {
     // useState : 컴포넌트가 렌더링 되기전 실행
     // useSelector : 컴포넌트가 렌더링된 후 실행
     useEffect(()=> {
+        request("post",'/api/dbid/getdbid', {category : 'empNo'})
+        .then(res=> {
+            console.log(res)
+            setUserNo({
+                id : res.result.newId,
+                userNo : res.result.mkdId,
+                category : 'empNo'
+            });
+        })
+
         setIdCheck(data.idCheck);
+        
     }, [data])
 
     const navigate = useNavigate();
@@ -42,6 +61,21 @@ function SignupContainer (props:any) {
     const onChangePwCF = (e:ChangeEvent<HTMLInputElement>) => {
         setUserPwCF(e.currentTarget.value);
     }
+    
+    const updateDbId = ()=> {
+        request("post", '/api/dbid/updatedbid', userNo)
+        .then(res=> {
+            console.log(res.result)
+        })
+    }
+   
+    
+
+    // const getuserNo = () => {
+        // dispatch(insertEmployeeId('empNo'))
+    //     setUserNo(data.empNo)
+    //     console.log(userNo)
+    // }
 
     const submit = (e:FormEvent) => {
         e.preventDefault();
@@ -51,7 +85,9 @@ function SignupContainer (props:any) {
         }
 
         if(idCheck) {
+            // getuserNo();
             let infos = {
+                userNo : userNo.userNo,
                 name : name,
                 userId : userId,
                 userPw : userPw,
@@ -59,6 +95,7 @@ function SignupContainer (props:any) {
             }
     
             dispatch(registerRequest(infos));
+            updateDbId();
 
             setName('');
             setIdCheck(false);
@@ -83,11 +120,13 @@ function SignupContainer (props:any) {
             onChangePwCF={onChangePwCF}
             submit={submit}
             onIdCheck={onIdCheck}
+            // getuserNo={getuserNo}
             name={name}
             userId={userId}
             userPw={userPw}
             userPwCF={userPwCF}
             idCheck={idCheck}
+            userNo={userNo}
          />
     )
 }

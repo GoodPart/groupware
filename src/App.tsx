@@ -6,8 +6,11 @@ import Signup from './routers/signUp';
 import SignIn from './routers/signIn';
 import Users from './routers/Users';
 
+// import Auth from './hoc/Auth';
+
 
 function App() {
+  // const SignInPage = Auth(SignIn, null)
   return (
     <BrowserRouter>
     <ul>

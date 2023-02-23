@@ -2,14 +2,15 @@ import React,{ChangeEvent, FormEvent, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {registerREquestLogin} from '../modules/register';
+import { authCheck } from '../modules/auth';
 
 
 import Signin from '../components/Signin';
 
-type formType = {
-    name : string,
-    value : string
-}
+// type formType = {
+//     name : string,
+//     value : string
+// }
 
 function SigninContainer() {
     const navigate = useNavigate();
@@ -43,6 +44,7 @@ function SigninContainer() {
             const message = res.payload.message;
 
             if(login) {
+                // dispatch(authCheck())
                 navigate('/');
             }else {
                 alert(message)

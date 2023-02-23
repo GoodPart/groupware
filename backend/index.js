@@ -27,6 +27,7 @@ const {User} = require('./models/User');
 
 const mongoose = require('mongoose');
 const { DbId } = require('./models/Db_Id');
+const e = require('express');
 
 //몽고 DB 에러
 mongoose.set('strictQuery', true);
@@ -77,22 +78,9 @@ app.get('/users/auth', auth,(req,res)=> {
 app.post('/signup', (req,res)=> {
     const getUserData = req.body; // 회원 가입 object
 
-    //dbid 테이블에서 empNo조회
-    DbId.findOne({
-        category : "empNo"
-    },(err, dbid)=> {
-        //조회 id값을 사용해 category + id 로 네이밍 지정 단위는 최대100000 -> empNo_000213
-
-        //getUserData dp userNo에 값 update
-
-
-        //회원가입 진행
-    })
-
 
     const user = new User(getUserData);
 
-    console.log(getUserData)
     user.save((err, ele)=> {
         if(err) return res.json({
             success : false,
@@ -182,7 +170,7 @@ app.post('/signup/checkid', (req,res)=> {
 })
 
 // 사용자 제거 - 임시
-app.post('/user/deleteuser', (req,res)=> {
+app.delete('/user/deleteuser', (req,res)=> {
     const data = req.body; //user id
 
     User.findOne({
@@ -214,16 +202,22 @@ app.post('/user/deleteuser', (req,res)=> {
 app.post('/api/dbid/getdbid', (req,res)=> {
     const data = req.body;
 
-    DbId.find({
+    DbId.findOne({
         category : data.category,
     }, (err, ele)=> {
         if(!ele) res.json({
             success : false,
             err
         })
-        return res.status(200).json({
-            success : true,
-            getId : ele
+
+        ele.makeEmployeeNumber(ele, (err, empNumb)=> {
+            return res.status(200).json({
+                success : true,
+                result : empNumb,
+                message : `find '${data.category}' id, id is '${empNumb.mkdId}'`,
+            })
+           
+
         })
     })
 })
@@ -327,7 +321,7 @@ app.post('/api/dbid/updatedbid', (req,res)=> {
             })
         }
 
-        DbId.updateOne({category : data.category}, {$set: {id: findCategory.id + 1}}, (err, ele)=> {
+        DbId.updateOne({category : data.category}, {$set: {id: data.id}}, (err, ele)=> {
             // console.log(ele)
             if(!ele) res.json({
                 success : false,
@@ -336,23 +330,9 @@ app.post('/api/dbid/updatedbid', (req,res)=> {
 
             return res.status(200).json({
                 success : true,
-                result : ele
+                result : `updated '${data.category}', number ${data.id}`
             })
         })
-
-        // DbId.updateOne(
-        //     {category : data.category},{$set: {id : findCategory.id +1}}, (err, next)=> {
-        //         if(!err) res.json({
-        //             success : false,
-        //             message : `오류입니다. ${err}`
-        //         })
-
-        //         return res.status(200).json({
-        //             success : true,
-        //             result : next
-        //         })
-        // })
-        
     })
 })
 

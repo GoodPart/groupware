@@ -21,5 +21,42 @@ const dbIdSchema = mongoose.Schema({
     },
 });
 
+
+dbIdSchema.methods.makeEmployeeNumber = function(ele, cb) {
+    const {category, id} = ele;
+    console.log(id, category)
+
+    const newId = id + 1
+    function mkDbId(category,id) {
+        // const maxNumber = 10000000;
+        // const maxLength = 8;
+        /* 
+            조회된 id값을 받았기 때문에 다음 id값을 부여하기위해 +1
+        */
+        
+        if(id <= 9) {
+            return `00000` + id
+        }else if (id <= 99) {
+            return `0000` + id
+        }else if (id <= 999) {
+            return `000` + id
+        }else if (id <= 9999) {
+            return `00` + id
+        }else if (id <= 99999) {
+            return `0` + id
+        }else if (id <= 99999) {
+            return `` + id
+        }
+    };
+
+    const _result = {
+        newId : newId,
+        mkdId : mkDbId(category, newId)
+    }
+    cb(null, _result)
+    
+    
+}
+
 const DbId = mongoose.model('DBID', dbIdSchema);
 module.exports = {DbId};
