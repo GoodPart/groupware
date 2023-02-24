@@ -27,27 +27,12 @@ function MyPage() {
 
         const backAuth = axios.get('http://localhost:9999/users/auth');
         backAuth.then((res)=> {
-            console.log('backAuth --->',res.data)
             setMyInfo(res.data)
-
-            // setConfirmToken({
-            //     ...confirmToken,
-            //     loginToken : res.data
-            // })
         })
-        // const _getUser = axios.post("http://localhost:9999/user/me", {
-        //     userNo: user
-        // })
-        // _getUser.then((res)=> {
-        //     setMyInfo(res.data.user)
-        // })
 
-        console.log('confirm------------>')
     },[data])
 
     console.log('getUser -->', myInfo)
-
-
     return getStore === user && myInfo ? (
         <>
         <h2>Hello!, {myInfo.name}</h2>
