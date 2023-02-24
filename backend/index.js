@@ -42,6 +42,7 @@ app.get('/', (req,res)=> {
    res.send('hi too')
 })
 
+//모든유저
 app.get('/users', (req,res)=> {
     User.find({}, (err, _user)=> {
         if(!_user) {
@@ -57,6 +58,23 @@ app.get('/users', (req,res)=> {
     })
 })
 
+app.post('/user/me', (req,res)=> {
+    const data = req.body;
+
+    User.findOne({
+        userNo : data.userId
+    }, (err, result)=> {
+        if(err) return res.json({
+            success : false,
+            message : "해당 유저가 없습니다."
+        })
+        return res.status(200).json({
+            success : true,
+            user : result
+        })
+    })
+})
+
 
 
 //auth req를 req받아 cb하기전 auth를 들린다.
@@ -65,9 +83,11 @@ app.get('/users/auth', auth,(req,res)=> {
     //미들웨어를 통과 =  auth true
     res.status(200).json({
         _id: req.user._id,
+        userNo : req.user.userNo,
         name : req.user.name,
         userId : req.user.userId,
         isAuth : true,
+        token : req.user.token
         // isAdmin : req.user.role === 0 ? false : true //관리자
 
     })

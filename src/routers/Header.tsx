@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 // import Auth from '../hoc/Auth';
 import { useDispatch,useSelector } from 'react-redux';
@@ -7,21 +7,46 @@ import { RootState } from '../modules';
 import { authCheck } from '../modules/auth';
 
 import request from '../utils/axios';
+import Auth from '../hoc/Auth';
 
 
 
 function Header() {
-    const data = useSelector((state:RootState)=> state.authCheckReducer);
+    const navigate = useNavigate();
+    // const data = useSelector((state:RootState)=> state.authCheckReducer);
     const dispatch = useDispatch();
+    const [getAuth, setGetAuth] = useState({
+      isAuth : false,
+      name : "",
+      userId :  "",
+      _id : "",
+      userNo : "",
+    });
+    
     useEffect(()=> {
-        console.log(data)
-    },[data])
+      dispatch(authCheck()).then((res:any)=> {
+        const isAuth = res.payload.isAuth;
+        if(!isAuth) {
+          setGetAuth(res.payload)
+        }else {
+          setGetAuth(res.payload)
+        }
+        console.log(res)
+
+      });
+
+
+    },[])
 
     const onLogOut = () => {
         request('get',"/api/users/logout",{})
         .then(res=> {
             console.log(res.success)
         })
+        navigate('/');
+        window.location.reload();
+
+        // dispatch(au)
     }
 
     return (
@@ -37,12 +62,16 @@ function Header() {
       </li>
       <li>
         {
-            data.isAuth ? <button onClick={onLogOut}>로그아웃</button> : <Link to='/signin'>로그인</Link>
+            getAuth.isAuth ? <button onClick={onLogOut}>로그아웃</button> : <Link to='/signin'>로그인</Link>
         }
-        
       </li>
       <li>
         <Link to='/users'>users</Link>
+      </li>
+      <li>
+        {
+            getAuth.isAuth ?<Link to={`/mypage/${getAuth.userId}`}>내정보</Link> : "" 
+        }
       </li>
     </ul>
     )

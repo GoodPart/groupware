@@ -4,8 +4,10 @@ let auth = (req,res, next) => {
     //인증 처리 장소
 
     //클라이언트에서 쿠키 토큰 가져오기
+
+    // 리퀘스트를 넣지 않는다면 req.{여기}로 바로 클라이언트에서 server로 가져올 수 있다.
     let token = req.cookies.x_auth;
-    console.log('token ->', token)
+    // console.log('token ->', token)
     
     //토큰 복호화 후, 유저 찾기
     User.findByToken(token, (err, user)=> {
@@ -14,7 +16,7 @@ let auth = (req,res, next) => {
             isAuth : false,
             error : true
         })
-        console.log('user ->',user)
+        // console.log('user ->',user)
 
         //다음 콜백 req에서 조회시 아래 녀석들을 찾을 수 있다
         req.token = token;

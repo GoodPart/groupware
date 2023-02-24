@@ -13,14 +13,16 @@ type AuthState = {
     isAuth : boolean,
     _id : string,
     name : string,
-    userId : string
+    userId : string,
+    userNo : string
 }
 
 const initState:AuthState =  {
    isAuth : false,
    _id : '',
     name : '',
-    userId : ''
+    userId : '',
+    userNo : ''
 }
 
 export function authCheck ():any {
@@ -45,7 +47,8 @@ function authCheckReducer(state:AuthState = initState, action:authAction) {
                 isAuth : action.payload.isAuth,
                 _id : action.payload._id,
                 name : action.payload.name,
-                userId : action.payload.userId
+                userId : action.payload.userId,
+                userNo : action.payload.userNo
             }
         default : 
         return state

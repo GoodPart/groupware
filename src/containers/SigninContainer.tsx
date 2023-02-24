@@ -34,7 +34,7 @@ function SigninContainer() {
     };
 
     const onSubmit = (e:FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+        // e.preventDefault();
 
         dispatch(registerREquestLogin(form))
         .then((res:any)=> {
@@ -45,7 +45,9 @@ function SigninContainer() {
 
             if(login) {
                 // dispatch(authCheck())
+                // dispatch(authCheck())
                 navigate('/');
+                window.location.reload();
             }else {
                 alert(message)
             }
