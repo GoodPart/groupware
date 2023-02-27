@@ -386,8 +386,8 @@ app.get('/api/chat/getlistbycategory', (req, res)=> {
         })
     })
 })
-
-app.post('/api/chat/createchat', (req,res)=> {
+// 게시글 추가 - auth 필요
+app.post('/api/chat/createchat', auth, (req,res)=> {
     const data = req.body;
 
     const chat = new Chat(data);
@@ -395,6 +395,7 @@ app.post('/api/chat/createchat', (req,res)=> {
     chat.save((err, ele)=> {
         if(err) return res.json({
             success : false,
+            err
         })
         return res.status(200).json({
             success : true,

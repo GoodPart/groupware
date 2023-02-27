@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 /*
-    post_no : 게시글 번호
+    post_no : 게시글 번호 -> dbid에서 관리
     post_title : 제목
     post_desc : 내용
     post_comment_count : 댓글수
