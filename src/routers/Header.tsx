@@ -57,22 +57,31 @@ function Header() {
       <li>
         <Link to='/about'>about</Link>
       </li>
-      <li>
-        <Link to='/signup'>가입하기</Link>
-      </li>
+     
       <li>
         {
-            getAuth.isAuth ? <button onClick={onLogOut}>로그아웃</button> : <Link to='/signin'>로그인</Link>
+            getAuth.isAuth ? (
+              <>
+                <Link to={`/mypage/${getAuth.userId}`}>내정보</Link>
+                <button onClick={onLogOut}>로그아웃</button>
+              </>
+            ) : (
+              <>
+                <Link to='/signup'>가입하기</Link>
+                /
+                <Link to='/signin'>로그인</Link>
+              </>
+            )
         }
       </li>
       <li>
         <Link to='/users'>users</Link>
       </li>
-      <li>
+      {/* <li>
         {
-            getAuth.isAuth ?<Link to={`/mypage/${getAuth.userId}`}>내정보</Link> : "" 
+            getAuth.isAuth ? <Link to={`/mypage/${getAuth.userId}`}>내정보</Link> : "" 
         }
-      </li>
+      </li> */}
     </ul>
     )
 }

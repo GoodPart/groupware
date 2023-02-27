@@ -19,10 +19,10 @@ function MyPage() {
         localToken : '',
     })
 
-    const [getStore, setGetStore] = useState('');
+    // const [getStore, setGetStore] = useState('');
 
     useEffect(()=> {
-        setGetStore(data.userId) // 스토어에서 조회
+        // setGetStore(data.userId) // 스토어에서 조회
         
 
         const backAuth = axios.get('http://localhost:9999/users/auth');
@@ -33,7 +33,7 @@ function MyPage() {
     },[data])
 
     console.log('getUser -->', myInfo)
-    return getStore === user && myInfo ? (
+    return user && myInfo ? (
         <>
         <h2>Hello!, {myInfo.name}</h2>
         

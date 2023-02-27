@@ -18,6 +18,9 @@ gender : 성별
 */
 
 const userSchema = mongoose.Schema({
+    isAdmin : {
+        type : Boolean,
+    },
     userNo : {
         type : String,
     },

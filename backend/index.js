@@ -23,11 +23,19 @@ app.use(cookieParser());
 
 
 //스키마 불러오기.
-const {User} = require('./models/User');
-
 const mongoose = require('mongoose');
+//유저 스키마
+const { User } = require('./models/User');
+//dbid 스키마
 const { DbId } = require('./models/Db_Id');
-const e = require('express');
+// 게시판 스키마
+const {Chat} = require('./models/Chat');
+// 게시판 코멘트(댓글) 스키마 
+const {ChatComment}  = require('./models/Chat_comment');
+// 게시판 카테고리 스키마
+const {ChatCategory}  = require('./models/Chat_category');
+
+
 
 //몽고 DB 에러
 mongoose.set('strictQuery', true);
@@ -57,7 +65,7 @@ app.get('/users', (req,res)=> {
         })
     })
 })
-
+// 내정보
 app.post('/user/me', (req,res)=> {
     const data = req.body;
 
@@ -87,11 +95,11 @@ app.get('/users/auth', auth,(req,res)=> {
         name : req.user.name,
         userId : req.user.userId,
         isAuth : true,
-        token : req.user.token
-        // isAdmin : req.user.role === 0 ? false : true //관리자
+        token : req.user.token,
+        isAdmin : req.user.role === 0 ? false : true //관리자
 
     })
-})
+});
 
 
 //회원가입
@@ -356,30 +364,45 @@ app.post('/api/dbid/updatedbid', (req,res)=> {
     })
 })
 
-app.post('/sum', (req,res)=> {
+
+// chat endpoint
+
+// 카테고리별 게시판 조회
+app.get('/api/chat/getlistbycategory', (req, res)=> {
     const data = req.body;
     
-    function sum(data) {
-        const _a = data.a;
-        const _b = data.b;
-
-        const calc = _a+_b;
-        return calc
-    }
-
-
-    if(!data) {
-        return res.status(400).json({
-            message : "error"
+    Chat.find({
+        class_no : data.class_no,
+    },(err, category)=> {
+        if(err) res.json({
+            success : false,
+            message : '해당 카테고리는 존재하지 않습니다.'
         })
-    }else {
+
         return res.status(200).json({
-            message : "success",
-            result : sum(data)
+            success : true,
+            message : `카테고리에 맞는 게시글을 찾았습니다. ${category.category_name}`,
+            payload : category
         })
-    }
-    
-});
+    })
+})
+
+app.post('/api/chat/createchat', (req,res)=> {
+    const data = req.body;
+
+    const chat = new Chat(data);
+
+    chat.save((err, ele)=> {
+        if(err) return res.json({
+            success : false,
+        })
+        return res.status(200).json({
+            success : true,
+            message : `정상적으로 등록되었습니다.`,
+            payload : ele
+        })
+    })
+})
 
 app.listen(port, ()=> {
     console.log(`backend server listening on port ${port}`)
