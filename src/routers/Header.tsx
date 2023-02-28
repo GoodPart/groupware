@@ -32,7 +32,6 @@ function Header() {
           setGetAuth(res.payload)
         }
         console.log(res)
-
       });
 
 
@@ -57,7 +56,6 @@ function Header() {
       <li>
         <Link to='/about'>about</Link>
       </li>
-     
       <li>
         {
             getAuth.isAuth ? (
@@ -77,11 +75,13 @@ function Header() {
       <li>
         <Link to='/users'>users</Link>
       </li>
-      {/* <li>
+      <li>
+      <Link to='/chat'>채팅광장</Link>
+        
         {
-            getAuth.isAuth ? <Link to={`/mypage/${getAuth.userId}`}>내정보</Link> : "" 
+            // getAuth.isAuth ? <Link to={`/chat/${getAuth.userId}`}>내정보</Link> : "" 
         }
-      </li> */}
+      </li>
     </ul>
     )
 }

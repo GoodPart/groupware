@@ -24,10 +24,9 @@ const dbIdSchema = mongoose.Schema({
 
 dbIdSchema.methods.makeEmployeeNumber = function(ele, cb) {
     const {category, id} = ele;
-    console.log(id, category)
 
     const newId = id + 1
-    function mkDbId(category,id) {
+    function mkDbId(id) {
         // const maxNumber = 10000000;
         // const maxLength = 8;
         /* 

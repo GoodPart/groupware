@@ -6,6 +6,10 @@ import Signup from './signUp';
 import SignIn from './signIn';
 import Users from './Users';
 import MyPage from './MyPage';
+import RouteChat from './RouteChat';
+import ChatPlazaContainer from './RouteChatPlaza'
+
+// import Chat from './'
 
 import Auth from '../hoc/Auth';
 
@@ -21,6 +25,8 @@ function RouteArea () {
             <Route path='/signin' element={ <LoginPage />} />
             <Route path='/users' element={ <UsersPage /> } />
             <Route path='/mypage/:user' element={ <_MyPage /> } />
+            <Route path='/chat' element={ <ChatPlazaContainer /> } />
+            <Route path='/chat/:chatcategory' element={ <RouteChat /> } />
         </Routes>
     )
 }

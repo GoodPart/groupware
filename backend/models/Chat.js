@@ -10,12 +10,12 @@ const mongoose = require('mongoose');
     post_edite_date : 수정일
     userId : 유저 아이디
     favorit_count : 좋아요
-    class_no : 카테고리 분류코드
+    class_no : 카테고리 분류코드 // 10단위로
 */
 
 const chatSchema = mongoose.Schema({
     post_no : {
-        type : String,
+        type : Number,
     },
     post_title : {
         type : String,
@@ -45,6 +45,9 @@ const chatSchema = mongoose.Schema({
     }
 })
 
+chatSchema.pre('save', function(next) {
+    var chat = this;
+})
 
 const Chat = mongoose.model('Chat', chatSchema)
 module.exports = {Chat};

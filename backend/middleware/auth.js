@@ -2,7 +2,6 @@ const {User} = require("../models/User");
 
 let auth = (req,res, next) => {
     //인증 처리 장소
-
     //클라이언트에서 쿠키 토큰 가져오기
 
     // 리퀘스트를 넣지 않는다면 req.{여기}로 바로 클라이언트에서 server로 가져올 수 있다.
@@ -28,7 +27,6 @@ let auth = (req,res, next) => {
 
 
     //유저 있으면 인증
-
     //유저가 없으면 인증x
 }
 

@@ -368,12 +368,12 @@ app.post('/api/dbid/updatedbid', (req,res)=> {
 // chat endpoint
 
 // 카테고리별 게시판 조회
-app.get('/api/chat/getlistbycategory', (req, res)=> {
+app.post('/api/chat/getlistbycategory', (req, res)=> {
     const data = req.body;
     
     Chat.find({
         class_no : data.class_no,
-    },(err, category)=> {
+    },(err, chatprops)=> {
         if(err) res.json({
             success : false,
             message : '해당 카테고리는 존재하지 않습니다.'
@@ -381,8 +381,8 @@ app.get('/api/chat/getlistbycategory', (req, res)=> {
 
         return res.status(200).json({
             success : true,
-            message : `카테고리에 맞는 게시글을 찾았습니다. ${category.category_name}`,
-            payload : category
+            message : `카테고리에 맞는 게시글을 찾았습니다.`,
+            chatprops
         })
     })
 })
@@ -403,6 +403,70 @@ app.post('/api/chat/createchat', auth, (req,res)=> {
             payload : ele
         })
     })
+})
+
+//모든 카테고리 검색
+app.get('/api/chat/get/categoryall', (req,res)=> {
+    const data = req.body;
+    
+    ChatCategory.find({},(err, getData) => {
+     
+        return res.status(200).json({
+            success : true,
+            message : "카테고리를 찾았습니다.",
+            getData
+        })
+    })
+})
+
+// 카테고리 검색
+app.post('/api/chat/get/category', (req,res)=> {
+    const data = req.body;
+    
+    ChatCategory.findOne({
+        class_no : data.class_no
+    },(err, getData) => {
+        if(err) return res.json({
+            success : false,
+            message : "찾는 카테고리가 없습니다."
+        })
+        return res.status(200).json({
+            success : true,
+            message : "카테고리를 찾았습니다.",
+            getData
+        })
+    })
+})
+
+// 채팅 카테고리 추가하기
+app.post('/api/chat/create/category', (req,res)=> {
+    const data = req.body;
+
+    const cahtCategory = new ChatCategory(data);
+
+
+    cahtCategory.save((err, ele)=> {
+        if(err) return res.json({
+            success : false
+        })
+
+        return res.status(200).json({
+            success : true,
+            message : "카테고리가 정상 등록 되었습니다."
+        })
+    })
+
+    // ChatCategory
+})
+
+//카테고리 업데이트
+app.post('/api/chat/update/category', (req,res)=> {
+
+})
+
+//카테고리 제거
+app.delete('/api/chat/delete/category', (req,res)=> {
+    
 })
 
 app.listen(port, ()=> {
