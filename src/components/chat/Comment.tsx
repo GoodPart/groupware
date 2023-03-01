@@ -10,7 +10,7 @@ function Comment({props}:any) {
                 props.map((comment:any, index:number)=> {
                     return (
                         <li key={index}>
-                            {comment.post_comment_desc}
+                           <span>{comment.post_comment_desc}</span> - <span>{comment.post_comment_create_date}</span>
                         </li>
                     )
                 })

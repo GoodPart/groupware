@@ -442,7 +442,14 @@ app.post('/api/chat/get/category', (req,res)=> {
 app.post('/api/chat/create/category', (req,res)=> {
     const data = req.body;
 
+    
+
+    
+
+    
     const cahtCategory = new ChatCategory(data);
+
+    
 
 
     cahtCategory.save((err, ele)=> {
@@ -491,17 +498,12 @@ app.post('/api/chat/get/comment', (req,res)=> {
 
     
 })
-app.post('/api/chat/get/chat_id', auth, (req,res)=> {
-    const data = req.body;
-    Chat.findOne({_id : data._id}, (err, chat)=> {
-        console.log(chat)
-    })
-})
 // 댓글 추가
 app.post('/api/chat/create/comment', auth,(req,res)=> {
-    const data = req.body;
+    let data = req.body;
     
-    console.log(data)
+    data.post_comment_create_date = new Date(new Date() * 1 + 3600000 * 9).toISOString().replace("T", " ").replace(/\..*/, ""); 
+
     const chatComment = new ChatComment(data);
     
     chatComment.save((err, result)=> {
@@ -516,6 +518,33 @@ app.post('/api/chat/create/comment', auth,(req,res)=> {
         })
     })
 })
+// 댓글 업데이트
+app.post('/api/chat/update/comment', auth, (req,res)=> {
+    let data = req.body;
+
+    ChatComment.updateOne(
+        {
+            post_comment_code : data.post_comment_code,
+            userId : data.userId,
+            _id : data._id
+        },{$set : {
+                post_comment_desc : data.post_comment_desc,
+                post_comment_update_date : new Date(new Date() * 1 + 3600000 * 9).toISOString().replace("T", " ").replace(/\..*/, "")
+            }}, (err, updatedComment)=> {
+            if(err) res.json({
+                success : false,
+                err
+            })
+            return res.status(200).json({
+                success : true,
+                updatedComment
+            })
+        }
+    )
+
+})
+
+
 
 // 댓글 삭제
 app.delete('/api/chat/delete/comment', (req,res)=> {
