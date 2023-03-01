@@ -6,7 +6,7 @@ let auth = (req,res, next) => {
 
     // 리퀘스트를 넣지 않는다면 req.{여기}로 바로 클라이언트에서 server로 가져올 수 있다.
     let token = req.cookies.x_auth;
-    // console.log('token ->', token)
+    console.log('token ->', token)
     
     //토큰 복호화 후, 유저 찾기
     User.findByToken(token, (err, user)=> {

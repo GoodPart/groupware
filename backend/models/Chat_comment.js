@@ -10,10 +10,7 @@ const mongoose = require('mongoose');
 
 const chatCommentSchema = mongoose.Schema({
     post_comment_code : {
-        type : Number
-    },
-    post_sort_no : {
-        type : Number
+        type : String // _id
     },
     post_comment_desc : {
         type : String,

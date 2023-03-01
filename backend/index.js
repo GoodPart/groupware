@@ -459,6 +459,8 @@ app.post('/api/chat/create/category', (req,res)=> {
     // ChatCategory
 })
 
+
+
 //카테고리 업데이트
 app.post('/api/chat/update/category', (req,res)=> {
 
@@ -469,6 +471,60 @@ app.delete('/api/chat/delete/category', (req,res)=> {
     
 })
 
+
+//댓글 조회
+app.post('/api/chat/get/comment', (req,res)=> {
+    const data = req.body;
+
+    ChatComment.find({
+        post_comment_code : data._id
+    }, (err, finds)=> {
+        if(err) res.json({
+            success : false
+        })
+        return res.status(200).json({
+            success : true,
+            finds
+        })
+    })
+    // Chat.find
+
+    
+})
+app.post('/api/chat/get/chat_id', auth, (req,res)=> {
+    const data = req.body;
+    Chat.findOne({_id : data._id}, (err, chat)=> {
+        console.log(chat)
+    })
+})
+// 댓글 추가
+app.post('/api/chat/create/comment', auth,(req,res)=> {
+    const data = req.body;
+    
+    console.log(data)
+    const chatComment = new ChatComment(data);
+    
+    chatComment.save((err, result)=> {
+        if(err) res.json({
+            success : false,
+            message : "댓글을 등록하지 못했습니다."
+        })
+        return res.status(200).json({
+            success : true,
+            message : "댓글 등록 완료",
+            result
+        })
+    })
+})
+
+// 댓글 삭제
+app.delete('/api/chat/delete/comment', (req,res)=> {
+    const data = req.body;
+})
+
+
+
+// ---------------------
 app.listen(port, ()=> {
     console.log(`backend server listening on port ${port}`)
 })

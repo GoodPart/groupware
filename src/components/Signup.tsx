@@ -36,11 +36,21 @@ function SignUp({
     userNo
 }:SignProps) {
 
+    console.log(userNo)
+
     return (
         <div>
             <form>
                 <label >사원코드</label>
-                <input type="text" value={userNo.userNo} readOnly/>
+                {
+                    userNo ? (
+                        <input type="text" value={userNo.userNo} readOnly/>
+                    ) : 
+                    (
+                        <></>
+                    )
+                }
+                
                 {/* <button type='button' onClick={getuserNo}>사원코드 조회</button> */}
                 <br />
                 <label>Name</label>

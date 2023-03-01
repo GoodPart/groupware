@@ -5,7 +5,7 @@ import {registerREquestLogin} from '../modules/register';
 import { authCheck } from '../modules/auth';
 
 
-import Signin from '../components/Signin';
+import Signin from '../components/SignIn';
 
 // type formType = {
 //     name : string,

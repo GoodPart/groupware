@@ -1,11 +1,11 @@
 import React from 'react';
 import request from '../../utils/axios';
 
+import CommentContainer from '../../containers/chat/CommentContainer';
+
 
 function Chat({chatProps, chatCategory, title}:any) {
     const chatCategoryName = chatCategory;
-
-    console.log(title)
     
     return (
         <>
@@ -16,12 +16,16 @@ function Chat({chatProps, chatCategory, title}:any) {
                         console.log(ele)
                         return (
                             <li key={`asd_${index}`}>
-                                <p>
-                                포스트 넘버 : {ele.post_no}
-                                </p>
+                                <p>포스트 넘버 : {ele.post_no}</p>
                                 <p>포스트 제목 : {ele.post_title}</p>
                                 <p>포스트 내용 :  {ele.post_desc}</p>
+                                <hr />
+
+                                <CommentContainer
+                                    chatProps={ele}
+                                 />
                             </li>
+                            
                         )
                     })
                 }

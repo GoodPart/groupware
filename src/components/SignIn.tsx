@@ -25,7 +25,7 @@ function Signin({
                 />
                 <br />
                 <label htmlFor='userPw'>PW</label>
-                <input type="text" id='userPw' name='userPw' placeholder='PW'
+                <input type="password" id='userPw' name='userPw' placeholder='PW'
                 onChange={onChange}
                 value={form.userPw}
                 />

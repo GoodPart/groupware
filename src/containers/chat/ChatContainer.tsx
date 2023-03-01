@@ -28,15 +28,16 @@ function ChatContainer() {
         .then((res:any)=> {
             setTitle(res.getData.category_name)
         })
+
     },[])
 
     return getChatProps  ? 
     (
-        <Chat 
-            chatCategory = {chatcategory}
-            chatProps={getChatProps}
-            title={title}
-        />
+            <Chat 
+                chatCategory = {chatcategory}
+                chatProps={getChatProps}
+                title={title}
+            />
     ) : (<>loading...</>)
     
 }

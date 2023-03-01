@@ -15,13 +15,13 @@ function SignupContainer (props:any) {
     const [name, setName] = useState('');
     const [userId, setUserId] = useState('');
     const [idCheck, setIdCheck] = useState(data.idCheck);
+    const [userPw, setUserPw] = useState('');
+    const [userPwCF, setUserPwCF] = useState('');
     const [userNo, setUserNo] = useState({
         id : 0,
         userNo : '',
         category : ''
     });
-    const [userPw, setUserPw] = useState('');
-    const [userPwCF, setUserPwCF] = useState('');
 
     // useSelector와 useState를 사용하면 실행 시점에 문제가 있어 store의 값을 정상적으로 useState가 전달받지 못함.
     // useState : 컴포넌트가 렌더링 되기전 실행
@@ -38,7 +38,6 @@ function SignupContainer (props:any) {
         })
 
         setIdCheck(data.idCheck);
-        
     }, [data])
 
     const navigate = useNavigate();

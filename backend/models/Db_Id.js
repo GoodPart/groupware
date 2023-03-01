@@ -50,7 +50,7 @@ dbIdSchema.methods.makeEmployeeNumber = function(ele, cb) {
 
     const _result = {
         newId : newId,
-        mkdId : mkDbId(category, newId)
+        mkdId : mkDbId(newId)
     }
     cb(null, _result)
     
