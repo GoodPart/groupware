@@ -478,13 +478,13 @@ app.post('/api/chat/get/comment', (req,res)=> {
 
     ChatComment.find({
         post_comment_code : data._id
-    }, (err, finds)=> {
+    }, (err, find)=> {
         if(err) res.json({
             success : false
         })
         return res.status(200).json({
             success : true,
-            finds
+            find
         })
     })
     // Chat.find
