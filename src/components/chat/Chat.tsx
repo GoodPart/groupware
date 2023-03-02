@@ -20,10 +20,11 @@ function Chat({chatProps, chatCategory, title}:any) {
                                 <p>포스트 제목 : {ele.post_title}</p>
                                 <p>포스트 내용 :  {ele.post_desc}</p>
                                 <hr />
-
                                 <CommentContainer
                                     chatProps={ele}
                                  />
+                                <hr />
+
                             </li>
                             
                         )
