@@ -502,7 +502,7 @@ app.post('/api/chat/get/comment', (req,res)=> {
 app.post('/api/chat/create/comment', auth,(req,res)=> {
     let data = req.body;
     
-    data.post_comment_create_date = new Date(new Date() * 1 + 3600000 * 9).toISOString().replace("T", " ").replace(/\..*/, ""); 
+    data.post_comment_create_date = new Date();
 
     const chatComment = new ChatComment(data);
     
@@ -529,7 +529,7 @@ app.post('/api/chat/update/comment', auth, (req,res)=> {
             _id : data._id
         },{$set : {
                 post_comment_desc : data.post_comment_desc,
-                post_comment_update_date : new Date(new Date() * 1 + 3600000 * 9).toISOString().replace("T", " ").replace(/\..*/, "")
+                post_comment_update_date : new Date()
             }}, (err, updatedComment)=> {
             if(err) res.json({
                 success : false,
