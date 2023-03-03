@@ -5,6 +5,8 @@ import request from "../../utils/axios";
 import Comment from "../../components/chat/Comment";
 
 function CommentContainer({chatProps}:any) {
+    console.log(chatProps)
+    const _id = chatProps._id;
     const [getComment, setGetComment] = useState('');
     const [sortState,setSortState] = useState('ASC'); // 0 ASC
 
@@ -44,6 +46,7 @@ function CommentContainer({chatProps}:any) {
             props={getComment}
             sortState={sortState}
             toggleChange={toggleChange}
+            _id={_id}
          />
     ) : ( <>loading...</>)
 }

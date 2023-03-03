@@ -11,6 +11,7 @@ function Chat({chatProps, chatCategory, title}:any) {
     return (
         <>
             <h2>chat category name = {title}</h2>
+            <hr />
             <ChatEditContainer
                 category_no={chatCategory}
                 chatProps={chatProps}

@@ -12,8 +12,8 @@ type EventType = {
 
 function ChatEdit({onChange,onChangeValueTitle, handleSetTab, textValue,onSubmit,titleValue}:EventType) {
     return (
-        <>
-            <div>글쓰기</div>
+        <div style={{border : '1px solid #333', borderRadius : '3px'}}>
+            <h3>글쓰기</h3>
             <div>
                 <span>제목</span>
                 <input
@@ -35,7 +35,7 @@ function ChatEdit({onChange,onChangeValueTitle, handleSetTab, textValue,onSubmit
                  ></textarea>
                  <button type="button" onClick={onSubmit}>저장</button>
             </div>
-        </>
+        </div>
     )
 }
 

@@ -1,5 +1,6 @@
 import React,{useState} from "react";
 import sortProcess from "../../utils/sort";
+import CommentEditContainer from "../../containers/chat/CommentEditContainer";
 
 function CommentArea({props}:any) {
     console.log('--->', props)
@@ -34,21 +35,24 @@ type CommentProps = {
     toggleChange : ()=> void,
     props : any,
     sortState : string,
+    _id : string
 }
 
-function Comment({props, sortState, toggleChange}:CommentProps) {
+function Comment({props, sortState, toggleChange, _id}:CommentProps) {
 
     return (
-        <>
-        <h3>댓글 영역 입니다. - {props.length} </h3>
-        <div><button type="button" onClick={toggleChange} >정렬{sortState}</button></div>
-        <ul>
-            {
-                <CommentArea 
-                props={props} />
-            }
-        </ul>
-        </>
+        <div style={{backgroundColor: '#555'}}>
+            <h3>댓글 ({props.length}) <button type="button" onClick={toggleChange} >정렬{sortState}</button></h3>
+            <CommentEditContainer 
+                _id={_id}
+            />
+            <ul>
+                {
+                    <CommentArea 
+                    props={props} />
+                }
+            </ul>
+        </div>
     )
 }
 
