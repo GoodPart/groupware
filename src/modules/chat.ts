@@ -43,7 +43,7 @@ const initState:ChatState = {
 
 export function getListByCategory(categoryName : number):any {
 
-    console.log(categoryName)
+    // console.log(categoryName)
     const data = request("post", GETCHATLISTBYCATEGORY_URL, {class_no : categoryName});
 
     return data.then(res=> {

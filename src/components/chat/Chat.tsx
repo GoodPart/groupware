@@ -2,18 +2,22 @@ import React from 'react';
 import request from '../../utils/axios';
 
 import CommentContainer from '../../containers/chat/CommentContainer';
-
+import ChatEditContainer from '../../containers/chat/ChatEditContainer';
 
 function Chat({chatProps, chatCategory, title}:any) {
-    const chatCategoryName = chatCategory;
+    console.log(chatProps)
+    // console.log(chatCategory) //카테고리 넘버
     
     return (
         <>
             <h2>chat category name = {title}</h2>
+            <ChatEditContainer
+                category_no={chatCategory}
+                chatProps={chatProps}
+             />
             <ul>
                 {
                     chatProps.map((ele:any, index:any)=> {
-                        console.log(ele)
                         return (
                             <li key={`asd_${index}`}>
                                 <p>포스트 넘버 : {ele.post_no}</p>

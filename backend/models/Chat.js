@@ -42,12 +42,15 @@ const chatSchema = mongoose.Schema({
     },
     class_no : {
         type : Number
+    },
+    userId : {
+        type : String
     }
 })
 
-chatSchema.pre('save', function(next) {
-    var chat = this;
-})
+// chatSchema.pre('save', function(next) {
+//     var chat = this;
+// })
 
 const Chat = mongoose.model('Chat', chatSchema)
 module.exports = {Chat};
