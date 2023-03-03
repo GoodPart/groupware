@@ -4,8 +4,8 @@ import request from '../../utils/axios';
 import CommentContainer from '../../containers/chat/CommentContainer';
 import ChatEditContainer from '../../containers/chat/ChatEditContainer';
 
-function Chat({chatProps, chatCategory, title}:any) {
-    console.log(chatProps)
+function Chat({chatProps, chatCategory, title, post_no}:any) {
+    console.log(post_no)
     // console.log(chatCategory) //카테고리 넘버
     
     return (
@@ -15,6 +15,7 @@ function Chat({chatProps, chatCategory, title}:any) {
             <ChatEditContainer
                 category_no={chatCategory}
                 chatProps={chatProps}
+                post_no={post_no}
              />
             <ul>
                 {

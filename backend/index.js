@@ -430,27 +430,23 @@ app.post('/api/chat/get/category', (req,res)=> {
             success : false,
             message : "찾는 카테고리가 없습니다."
         })
-        return res.status(200).json({
-            success : true,
-            message : "카테고리를 찾았습니다.",
-            getData
+
+        getData.makePostNumber(getData, (err, result)=> {
+            return res.status(200).json({
+                success : true,
+                message : "카테고리를 찾았습니다.",
+                result
+            })
         })
+
+        
     })
 })
 
 // 채팅 카테고리 추가하기
 app.post('/api/chat/create/category', (req,res)=> {
     const data = req.body;
-
-    
-
-    
-
-    
     const cahtCategory = new ChatCategory(data);
-
-    
-
 
     cahtCategory.save((err, ele)=> {
         if(err) return res.json({
@@ -470,7 +466,23 @@ app.post('/api/chat/create/category', (req,res)=> {
 
 //카테고리 업데이트
 app.post('/api/chat/update/category', (req,res)=> {
-
+    const data = req.body;
+    ChatCategory.updateOne(
+        {
+            class_no : data.class_no
+        },{$set : {
+                post_no : data.post_no,
+            }}, (err, updatedComment)=> {
+            if(err) res.json({
+                success : false,
+                err
+            })
+            return res.status(200).json({
+                success : true,
+                updatedComment
+            })
+        }
+    )
 })
 
 //카테고리 제거

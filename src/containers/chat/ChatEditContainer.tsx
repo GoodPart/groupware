@@ -9,25 +9,16 @@ import { RootState } from '../../modules';
 import { authCheck } from '../../modules/auth';
 
 
-function ChatEditContainer({category_no}:any) {
+function ChatEditContainer({category_no, post_no}:any) {
     const navigate = useNavigate();
 
     const data = useSelector((state:RootState)=> state.authCheckReducer);
 
     const [textValue , setTextValue] = useState("");
     const [titleValue, setTitleValue] = useState("");
-    const [form, setForm] = useState({
-        post_title:"",
-        post_desc : "",
-        post_comment_count : "",
-        post_comment_code : "",
-        post_create_data : "",
-        post_edite_date : "",
-        favorit_count : 0,
-        class_no : category_no,
-    })
+   
     useEffect(()=> {
-    //    console.log(data)
+       console.log(post_no)
     }, [])
 
     const onChangeValue = (e:ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +47,7 @@ function ChatEditContainer({category_no}:any) {
         // e.preventDefault();
 
         let _form = {
-            post_no : 3,
+            post_no : post_no,
             class_no : category_no,
             post_desc : textValue,
             post_title:titleValue,
@@ -70,7 +61,7 @@ function ChatEditContainer({category_no}:any) {
 
         request("post", "/api/chat/createchat", _form)
         .then((res:any)=> {
-            console.log(res.payload)
+            console.log(res)
         })
         
         navigate(`/chat/${category_no}`)

@@ -84,7 +84,6 @@ function SignupContainer (props:any) {
         }
 
         if(idCheck) {
-            // getuserNo();
             let infos = {
                 userNo : userNo.userNo,
                 name : name,
