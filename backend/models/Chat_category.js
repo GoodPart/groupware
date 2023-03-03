@@ -20,10 +20,10 @@ const chatCategorySchema = mongoose.Schema({
 chatCategorySchema.methods.makePostNumber = function(ele, cb) {
     const {post_no,category_name, class_no} = ele;
 
-    const newId = post_no + 1
+    const new_no = post_no + 1
 
     const _result = {
-        post_no : newId,
+        post_no : new_no,
         category_name : category_name,
         class_no : class_no
     }

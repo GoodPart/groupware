@@ -27,11 +27,6 @@ const chatCommentSchema = mongoose.Schema({
     }
 });
 
-chatCommentSchema.methods.setDate = function(cb) {
-    let comment = this;
-
-    console.log(comment);
-}
 
 const ChatComment = mongoose.model('ChatComment', chatCommentSchema)
 module.exports = {ChatComment}

@@ -31,7 +31,7 @@ const chatSchema = mongoose.Schema({
     post_comment_code : {
         type : Number
     },
-    post_create_data : {
+    post_create_date : {
         type : Date,
     },
     post_edite_date : {
@@ -48,9 +48,6 @@ const chatSchema = mongoose.Schema({
     }
 })
 
-// chatSchema.pre('save', function(next) {
-//     var chat = this;
-// })
 
 const Chat = mongoose.model('Chat', chatSchema)
 module.exports = {Chat};

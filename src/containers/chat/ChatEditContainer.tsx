@@ -63,6 +63,11 @@ function ChatEditContainer({category_no, post_no}:any) {
         .then((res:any)=> {
             console.log(res)
         })
+
+        request("post", "/api/chat/update/category", {class_no : category_no, post_no : post_no })
+        .then(res=> {
+            console.log(res)
+        })
         
         navigate(`/chat/${category_no}`)
         window.location.reload()

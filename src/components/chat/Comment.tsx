@@ -3,7 +3,7 @@ import sortProcess from "../../utils/sort";
 import CommentEditContainer from "../../containers/chat/CommentEditContainer";
 
 function CommentArea({props}:any) {
-    console.log('--->', props)
+    // console.log('--->', props)
     return (
         props.map((comment:any, index:number)=> {
 
