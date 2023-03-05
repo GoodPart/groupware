@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { RootState } from '../modules';
+// import { RootState } from '../modules';
 import {authCheck} from '../modules/auth';
 export default function (SpacificComponent:any, option:any, adminRoute=null) {
     //null    =>  아무나 출입이 가능한 페이지
@@ -43,4 +43,4 @@ export default function (SpacificComponent:any, option:any, adminRoute=null) {
         )
     }
     return AuthenticationCheck
-}
+};

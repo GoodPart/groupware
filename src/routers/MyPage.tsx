@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import axios from "axios";
+import request from '../utils/axios';
 
 function MyPage() {
     let {user} = useParams();
@@ -14,10 +15,7 @@ function MyPage() {
         userNo:''
     });
 
-    const [confirmToken, setConfirmToken] = useState({
-        loginToken : '',
-        localToken : '',
-    })
+    const [chatInfo, setChatInfo] = useState();
 
     // const [getStore, setGetStore] = useState('');
 
@@ -28,12 +26,19 @@ function MyPage() {
         const backAuth = axios.get('http://localhost:9999/users/auth');
         backAuth.then((res)=> {
             setMyInfo(res.data)
+        });
+
+        request("post", "/api/chat/get/chatall", {userId : user})
+        .then(res=> {
+            setChatInfo(res.chatprops)
         })
+
+
 
     },[data])
 
-    console.log('getUser -->', myInfo)
-    return user && myInfo ? (
+    // console.log('getUser -->', myInfo)
+    return user && myInfo && chatInfo ? (
         <>
         <h2>Hello!, {myInfo.name}</h2>
         
@@ -52,9 +57,33 @@ function MyPage() {
                     
                 })
             }
-            <li>
-                name : {myInfo.name}
-            </li>
+        </ul>
+        <hr />
+        <h2>작성한 게시글</h2>
+        <ul>
+            {
+                Object.values(chatInfo).map((list:any, index)=> {
+                    console.log(list)
+                    return (
+                        <li key={index}>
+                            <div>시간 : {list.post_create_date}</div>
+                            <div>게시판 : {list.class_no}</div>
+                            <div>제목 : {list.post_title}</div>
+                            <div>내용 : {list.post_desc}</div>
+                            <hr />
+                        </li>
+                    )
+                    // return false
+                    // if(ele[0] === 'userPw' || ele[0] === '_id' ) {
+                    //     return false
+                    // }else {
+                    //     return (
+                    //         <li key={index}>{ele[0]} : {ele[1]}</li>
+                    //     )
+                    // }
+                    
+                })
+            }
         </ul>
         </>
     ) : (

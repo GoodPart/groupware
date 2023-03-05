@@ -1,11 +1,10 @@
 import React from 'react';
-import request from '../../utils/axios';
 
 import CommentContainer from '../../containers/chat/CommentContainer';
 import ChatEditContainer from '../../containers/chat/ChatEditContainer';
 
 function Chat({chatProps, chatCategory, title, post_no}:any) {
-    console.log(chatProps)
+    // console.log(chatProps)
     // console.log(chatCategory) //카테고리 넘버
     
     return (

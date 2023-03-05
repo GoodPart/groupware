@@ -366,6 +366,25 @@ app.post('/api/dbid/updatedbid', (req,res)=> {
 
 
 // chat endpoint
+// 모든 게시글 조회
+app.post('/api/chat/get/chatall', (req, res)=> {
+    const data = req.body;
+    
+    Chat.find({
+        userId : data.userId,
+    },(err, chatprops)=> {
+        if(err) res.json({
+            success : false,
+            message : '게시글이 존재하지 않습니다.'
+        })
+
+        return res.status(200).json({
+            success : true,
+            message : `게시글을 찾았습니다.`,
+            chatprops
+        })
+    })
+})
 
 // 카테고리별 게시판 조회
 app.post('/api/chat/getlistbycategory', (req, res)=> {

@@ -16,7 +16,7 @@ function CommentEditContainer({_id}:any) {
 
     const [textValue , setTextValue] = useState("");
     useEffect(()=> {
-       console.log(_id)
+    //    console.log(_id)
     }, [])
 
     const onChangeValue = (e:ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +67,7 @@ function CommentEditContainer({_id}:any) {
         onChange={onChangeValue}
         textValue={textValue}
         onSubmit={onSubmit}
+        auth={data.isAuth}
         />
     )
 }

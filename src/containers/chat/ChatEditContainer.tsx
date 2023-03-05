@@ -18,7 +18,7 @@ function ChatEditContainer({category_no, post_no}:any) {
     const [titleValue, setTitleValue] = useState("");
    
     useEffect(()=> {
-       console.log(post_no)
+       console.log('---->',data)
     }, [])
 
     const onChangeValue = (e:ChangeEvent<HTMLInputElement>) => {
@@ -86,6 +86,7 @@ function ChatEditContainer({category_no, post_no}:any) {
         textValue={textValue}
         titleValue={titleValue}
         onSubmit={onSubmit}
+        auth={data.isAuth}
             // onChange={onChangeValue}
         />
     )
