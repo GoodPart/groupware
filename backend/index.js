@@ -653,6 +653,27 @@ app.post('/api/notification/update/checked', (req, res)=> {
     })
 
 })
+// 알림 제거 기능
+app.post('/api/notification/delete', (req, res)=> {
+    const data = req.body;
+
+    Notification.findOneAndDelete({
+        user_id : data.user_id,
+        _id : data._id
+    }, (err, find)=> {
+        if(err) res.json({
+            success : false,
+            err
+        })
+        return res.status(200).json({
+            success : true,
+            message : "알림을 제거 했습니다.",
+            find
+        })
+    })
+})
+
+// 모두 제거 기능 작업 전
 
 
 
