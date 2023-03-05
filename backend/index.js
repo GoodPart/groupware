@@ -34,6 +34,8 @@ const {Chat} = require('./models/Chat');
 const {ChatComment}  = require('./models/Chat_comment');
 // 게시판 카테고리 스키마
 const {ChatCategory}  = require('./models/Chat_category');
+// 알림 스키마
+const {Notification} = require('./models/Notification');
 
 
 
@@ -584,6 +586,74 @@ app.post('/api/chat/update/comment', auth, (req,res)=> {
 app.delete('/api/chat/delete/comment', (req,res)=> {
     const data = req.body;
 })
+
+
+
+// 알림 기능 Notification
+
+
+// 유저별 알림 조회
+app.post('/api/notification/get/user', (req, res)=> {
+    const data = req.body;
+
+    Notification.find({
+        user_id : data.user_id
+    }, (err, find)=> {
+        if(err) res.json({
+            success : false,
+            err
+        })
+        return res.status(200).json({
+            success : true,
+            message : "알림을 조회 했습니다.",
+            find
+        })
+    })
+
+})
+
+// 알림 발생시키기
+app.post('/api/notification/create/user', auth,(req, res)=> {
+    const data = req.body;
+
+    data.create_at = new Date();
+
+    const notification = new Notification(data);
+    
+    notification.save((err, result)=> {
+        if(err) res.json({
+            success : false,
+            err
+        })
+        return res.status(200).json({
+            success : true,
+            message : "알림이 정상적으로 발생했습니다,",
+            result
+        })
+    })
+})
+
+// 알림 체크 기능
+app.post('/api/notification/update/checked', (req, res)=> {
+    const data = req.body;
+
+    Notification.findOneAndUpdate({
+        user_id : data.user_id,
+        _id : data._id
+    },{$set : {is_checked : true}}, (err, find)=> {
+        if(err) res.json({
+            success : false,
+            err
+        })
+        return res.status(200).json({
+            success : true,
+            message : "알림을 확인했습니다.",
+            find
+        })
+    })
+
+})
+
 
 
 
