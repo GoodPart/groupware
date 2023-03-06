@@ -10,7 +10,10 @@ import request from '../utils/axios';
 import Auth from '../hoc/Auth';
 
 
-import NotificationViewContainer from '../containers/notification/NotificationViewContainer';
+// import NotificationViewContainer from '../containers/notification/NotificationViewContainer';
+import NotificationBadgeContainer from '../containers/notification/NotificationBadgeContainer';
+import NotificationContainer from '../containers/notification/NotificationContainer';
+import SizingIcons from '../modules/icon/SizingIcons';
 
 
 
@@ -70,11 +73,12 @@ function Header() {
             getAuth.isAuth ? (
               <>
                 <div>
-                  {/* notification */}
-                  (Noti!)
-                  <NotificationViewContainer
+                  <NotificationContainer 
                     getAuth={getAuth}
-                   />
+                  />
+                  {/* <NotificationViewContainer
+                    getAuth={getAuth}
+                   /> */}
                 </div>
                 <div>
                   <span className='thumbnail'>썸네일 - </span>
