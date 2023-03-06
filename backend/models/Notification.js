@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 /*
     (MongoDb inner value)_id : 게시글 id 
-    user_id : 알람 받을 유저
+    receiver_id : 알람 받을 유저
     writer_id : 발생시킨 유저
     noti_desc :  알림 내용
     noti_type : 알림 종류 ['comment', 'reply'] 일단 게시글에 대한 댓글만 사용 대댓은 없고 '@User'로 사용할 예정
@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 */
 
 const notificationSchema = mongoose.Schema({
-    user_id : {
+    receiver_id : {
         type : String
     },
     writer_id : {

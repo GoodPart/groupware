@@ -597,7 +597,7 @@ app.post('/api/notification/get/user', (req, res)=> {
     const data = req.body;
 
     Notification.find({
-        user_id : data.user_id
+        receiver_id : data.receiver_id
     }, (err, find)=> {
         if(err) res.json({
             success : false,

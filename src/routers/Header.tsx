@@ -10,6 +10,9 @@ import request from '../utils/axios';
 import Auth from '../hoc/Auth';
 
 
+import NotificationViewContainer from '../containers/notification/NotificationViewContainer';
+
+
 
 function Header() {
     const navigate = useNavigate();
@@ -31,7 +34,7 @@ function Header() {
         }else {
           setGetAuth(res.payload)
         }
-        console.log(res)
+        // console.log(res)
       });
 
 
@@ -57,11 +60,28 @@ function Header() {
         <Link to='/about'>about</Link>
       </li>
       <li>
+        <Link to='/users'>users</Link>
+      </li>
+      <li>
+        <Link to='/chat'>채팅광장</Link>
+      </li>
+      <li>
         {
             getAuth.isAuth ? (
               <>
-                <Link to={`/mypage/${getAuth.userId}`}>내정보</Link>
-                <button onClick={onLogOut}>로그아웃</button>
+                <div>
+                  {/* notification */}
+                  (Noti!)
+                  <NotificationViewContainer
+                    getAuth={getAuth}
+                   />
+                </div>
+                <div>
+                  <span className='thumbnail'>썸네일 - </span>
+                  <span style={{fontWeight : "bold"}}>{getAuth.name} / </span>
+                  <Link to={`/mypage/${getAuth.userId}`}>내정보</Link>
+                  <button onClick={onLogOut}>로그아웃</button>
+                </div>
               </>
             ) : (
               <>
@@ -70,16 +90,6 @@ function Header() {
                 <Link to='/signin'>로그인</Link>
               </>
             )
-        }
-      </li>
-      <li>
-        <Link to='/users'>users</Link>
-      </li>
-      <li>
-      <Link to='/chat'>채팅광장</Link>
-        
-        {
-            // getAuth.isAuth ? <Link to={`/chat/${getAuth.userId}`}>내정보</Link> : "" 
         }
       </li>
     </ul>

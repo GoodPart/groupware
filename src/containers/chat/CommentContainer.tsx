@@ -7,6 +7,7 @@ import Comment from "../../components/chat/Comment";
 function CommentContainer({chatProps}:any) {
     console.log(chatProps)
     const _id = chatProps._id;
+    const writer_id = chatProps.userId;
     const [getComment, setGetComment] = useState('');
     const [sortState,setSortState] = useState('ASC'); // 0 ASC
 
@@ -47,6 +48,7 @@ function CommentContainer({chatProps}:any) {
             sortState={sortState}
             toggleChange={toggleChange}
             _id={_id}
+            writer_id={writer_id}
          />
     ) : ( <>loading...</>)
 }

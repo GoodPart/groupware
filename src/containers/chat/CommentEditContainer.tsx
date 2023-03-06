@@ -6,10 +6,9 @@ import request from '../../utils/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../modules';
-import { authCheck } from '../../modules/auth';
 
 
-function CommentEditContainer({_id}:any) {
+function CommentEditContainer({_id, writer_id}:any) {
     const navigate = useNavigate();
 
     const data = useSelector((state:RootState)=> state.authCheckReducer);
@@ -36,6 +35,23 @@ function CommentEditContainer({_id}:any) {
         }
     }
 
+    const onCreateNotification = () => {
+        let form = {
+            receiver_id : writer_id, // 해당 글 작성자
+            writer_id : data.userId, // 이 코멘트를 쓰는 사람 - 코멘터
+            noti_desc : textValue,
+            noti_type : "comment",
+            create_at : "",
+            is_checked : false
+
+        };
+
+        request('post', '/api/notification/create/user', form)
+        .then(res=> {
+            console.log(res)
+        })
+    }
+
 
     const onSubmit = (e:FormEvent<HTMLFormElement>)=> {
         // e.preventDefault();
@@ -51,14 +67,15 @@ function CommentEditContainer({_id}:any) {
         request("post", "/api/chat/create/comment", _form)
         .then((res:any)=> {
             console.log(res.payload)
+
+            if(res.success) {
+                onCreateNotification()
+                window.location.reload()
+            }else {
+                alert('error')
+            }
         })
         
-        window.location.reload()
-       
-
-
-
-
     }
 
     return (

@@ -36,6 +36,7 @@ function Chat({chatProps, chatCategory, title, post_no}:any) {
 
                         return (
                             <li key={`asd_${index}`}>
+                                <p>작성자 : {ele.userId}</p>
                                 <p>포스팅 시간 : {getTimeSet(ele.post_create_date)}</p>
                                 <p>포스트 넘버 : {ele.post_no}</p>
                                 <p>포스트 제목 : {ele.post_title}</p>

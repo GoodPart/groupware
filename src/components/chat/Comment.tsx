@@ -3,7 +3,7 @@ import sortProcess from "../../utils/sort";
 import CommentEditContainer from "../../containers/chat/CommentEditContainer";
 
 function CommentArea({props}:any) {
-    // console.log('--->', props)
+    console.log('--->', props)
     return (
         props.map((comment:any, index:number)=> {
 
@@ -35,16 +35,18 @@ type CommentProps = {
     toggleChange : ()=> void,
     props : any,
     sortState : string,
-    _id : string
+    _id : string,
+    writer_id : string
 }
 
-function Comment({props, sortState, toggleChange, _id}:CommentProps) {
+function Comment({props, sortState, toggleChange, _id,writer_id}:CommentProps) {
 
     return (
         <div style={{backgroundColor: '#555'}}>
             <h3>댓글 ({props.length}) <button type="button" onClick={toggleChange} >정렬{sortState}</button></h3>
             <CommentEditContainer 
                 _id={_id}
+                writer_id={writer_id}
             />
             <ul>
                 {
