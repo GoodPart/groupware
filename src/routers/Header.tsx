@@ -6,6 +6,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import { authCheck } from '../modules/auth';
 
+
 import request from '../utils/axios';
 import Auth from '../hoc/Auth';
 
@@ -29,7 +30,9 @@ function Header() {
       userNo : "",
     });
     
+    console.log("요기")
     useEffect(()=> {
+      console.log("useEffect")
       dispatch(authCheck()).then((res:any)=> {
         const isAuth = res.payload.isAuth;
         if(!isAuth) {
@@ -41,7 +44,7 @@ function Header() {
       });
 
 
-    },[])
+    },[dispatch])
 
     const onLogOut = () => {
         request('get',"/api/users/logout",{})
@@ -75,6 +78,7 @@ function Header() {
                 <div>
                   <NotificationContainer 
                     getAuth={getAuth}
+                    badge={{bgColor: "coral",txtColor : "#fff" }}
                   />
                   {/* <NotificationViewContainer
                     getAuth={getAuth}

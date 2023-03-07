@@ -657,8 +657,9 @@ app.post('/api/notification/update/checked', (req, res)=> {
 app.post('/api/notification/delete', (req, res)=> {
     const data = req.body;
 
+    console.log('get data ->', data)
     Notification.findOneAndDelete({
-        user_id : data.user_id,
+        receiver_id : data.receiver_id,
         _id : data._id
     }, (err, find)=> {
         if(err) res.json({

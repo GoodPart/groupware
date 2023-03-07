@@ -1,14 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import request from '../../utils/axios';
 
+import { useDispatch } from 'react-redux';
+import { deleteRequest } from '../../modules/notification';
+
 import Notification from '../../components/notification/Notification';
 import NotificationView from '../../components/notification/NotificationView';
 import NotificationBadge from '../../components/notification/NotificationBadge';
 import NotificationBadgeContainer from './NotificationBadgeContainer';
 
 
-function NotificationContainer({getAuth}:any) {
+
+function NotificationContainer({getAuth, badge}:any) {
     const [notiData, setNotiData] = useState('');
+    const dispatch = useDispatch();
     useEffect(()=> {
         onReadNotificationList()
     }, [])
@@ -24,15 +29,8 @@ function NotificationContainer({getAuth}:any) {
         console.log(e)
     }
     const onDeleteHandle = (e:any,_id:string) => {
-        // console.log('delete',_id)
-        console.log(e.target.closest(".list"))
-        request('post', '/api/notification/delete', {receiver_id : getAuth.userId, _id : _id})
-        .then(res=> {
-            console.log(res)
-            if(res.success) {
-                e.target.closest(".list").remove()
-            }
-        })
+      
+        dispatch(deleteRequest(e,'.list',getAuth.userId, _id))
     }
 
 
@@ -41,6 +39,7 @@ function NotificationContainer({getAuth}:any) {
             {/* notification 아이콘 영역 */}
             <NotificationBadgeContainer
                 notiData={notiData}
+                badge={badge}
             />
             {/* notification 뷰어 영역 */}
             <NotificationView 
