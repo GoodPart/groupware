@@ -12,11 +12,12 @@ import RouteArea from './routers/RouteArea'
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './modules';
+import { composeWithDevTools } from '@redux-devtools/extension'; // 리덕스 개발자 도구
 
 //redux middleware
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk'
-const store = createStore(rootReducer, applyMiddleware(promiseMiddleware,ReduxThunk));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(promiseMiddleware,ReduxThunk)));
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

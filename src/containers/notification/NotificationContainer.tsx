@@ -3,6 +3,7 @@ import request from '../../utils/axios';
 
 import { useDispatch } from 'react-redux';
 import { deleteRequest } from '../../modules/notification';
+import { notiIsChecked } from '../../modules/notification';
 
 import Notification from '../../components/notification/Notification';
 import NotificationView from '../../components/notification/NotificationView';
@@ -14,25 +15,40 @@ import NotificationBadgeContainer from './NotificationBadgeContainer';
 function NotificationContainer({getAuth, badge}:any) {
     const [notiData, setNotiData] = useState('');
     const dispatch = useDispatch();
+    
     useEffect(()=> {
         onReadNotificationList()
+
+        // dispatch(notiIsChecked(notiData))
+        // console.log(notiData)
     }, [])
 
     const onReadNotificationList = () => {
         request('post', '/api/notification/get/user', {receiver_id : getAuth.userId})
         .then(res=> {
-            setNotiData(res.find)
+            return setNotiData(res.find)
+            // return setNotiData(res.find)
         })
     }
+
+    // const trueFalse = () => {
+    //     
+    //     .then((res:any)=> {
+    //         console.log(res.payload)
+    //     })
+    // }
 
     const onCheckHandle = (e:any) => {
         console.log(e)
     }
     const onDeleteHandle = (e:any,_id:string) => {
-      
         dispatch(deleteRequest(e,'.list',getAuth.userId, _id))
     }
-
+    const getTrueFalse = ()=> {
+        // console.log(notiData)
+        dispatch(notiIsChecked(notiData))
+    }
+    getTrueFalse()
 
     return notiData ? (
         <>
@@ -40,6 +56,7 @@ function NotificationContainer({getAuth, badge}:any) {
             <NotificationBadgeContainer
                 notiData={notiData}
                 badge={badge}
+                // getTrueFalse={getTrueFalse}
             />
             {/* notification 뷰어 영역 */}
             <NotificationView 

@@ -17,14 +17,23 @@ type notificationActionType = (
 )
 
 type NotificationType = {
-    notiShow : boolean,
-    is_checked : boolean
+    notiView : boolean,
+    not_checked : {
+        length : number,
+        find : boolean
+    },
+    noti_length : number,
 
 }
 
 const initState : NotificationType = {
-    notiShow : false,
-    is_checked : false
+    notiView : false,
+    not_checked : {
+        length : 0,
+        find : false
+    },
+    noti_length : 0,
+
 }
 
 
@@ -47,25 +56,25 @@ export function deleteRequest(e:any, rootName:string, reciver_id:string, comment
 }
 
 
-export function notiIsChecked(notiData:any) {
-    // let _loop = notiData.map((ele:any, index:number)=> {
-    //     if(!ele.is_checked) {
-    //         return false
-    //     }else {
-    //         return true
-    //     }
-    // });
-    // const discriminated = _loop.some((bool:boolean)=> {
-    //     return bool == true
-    // })
-
-    // return {
-    //     type: NOTI_CHECKED,
-    //     payload :discriminated
-    // }
+export function notiIsChecked(notiData:any):any {
+    console.log(notiData.length)
+    let count = 0;
+    let _loop = Object.values(notiData).map((ele:any, index:number)=> {
+        // console.log(index)
+        if(!ele.is_checked) {
+            return false
+        }else {
+            count = count+1
+            return true
+        }
+    });
+    let t = {
+        length : count,
+        find : _loop.includes(true) ? true : false
+    }
     return {
-        type : NOTI_CHECKED,
-        payload : true
+        type: NOTI_CHECKED,
+        payload :t
     }
 };
 
@@ -76,7 +85,10 @@ function notificationReducer(state:NotificationType = initState, action:notifica
         case NOTI_CHECKED :
             return {
                 ...state,
-                is_checked : action.payload
+                not_checked : {
+                    length : action.payload.length,
+                    find : action.payload.find
+                }
             }
 
         default : 

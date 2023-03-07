@@ -6,22 +6,15 @@ import { RootState } from '../../modules';
 import { useDispatch, useSelector } from 'react-redux';
 import { notiIsChecked } from '../../modules/notification';
 
-// import {}
-
 
 function NotificationBadgeContainer({notiData, badge}:any) {
-    const {is_checked} = useSelector((state:RootState)=> state.notificationReducer);
-    const [test, setTest] = useState(false);
+    const data = useSelector((state:RootState)=> state.notificationReducer);
 
-    
-    // console.log(notiData, badge)
+    console.log('badge ->',data)
+    // const [view,]
 
     const dispatch = useDispatch();
-    
-    // useEffect(()=> {
-    //     dispatch(notiIsChecked(notiData))
-    //     setTest(is_checked)
-    // },[is_checked])
+
 
 
     
@@ -29,6 +22,7 @@ function NotificationBadgeContainer({notiData, badge}:any) {
     return (
         <NotificationBadge 
             badge={badge}
+            not_checked={data.not_checked}
         />
     )
 }
