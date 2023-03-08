@@ -4,20 +4,10 @@ import request from '../../utils/axios';
 
 import { RootState } from '../../modules';
 import { useDispatch, useSelector } from 'react-redux';
-import { notiIsChecked } from '../../modules/notification';
 
 
-function NotificationBadgeContainer({notiData, badge}:any) {
+function NotificationBadgeContainer({badge}:any) {
     const data = useSelector((state:RootState)=> state.notificationReducer);
-
-    console.log('badge ->',data)
-    // const [view,]
-
-    const dispatch = useDispatch();
-
-
-
-    
 
     return (
         <NotificationBadge 

@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import { authCheck } from '../modules/auth';
-import {notiIsChecked} from '../modules/notification'
+import { getNotiList } from '../modules/notification';
 
 
 import request from '../utils/axios';
@@ -35,7 +35,10 @@ function Header() {
       dispatch(authCheck()).then((res:any)=> {
         // console.log(res.payload)
         setGetAuth(res.payload)
+        dispatch(getNotiList(res.payload.userId))
+
       })
+
     }, [])
     
     // console.log("요기", data)

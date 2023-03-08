@@ -3,7 +3,7 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 function Badge({data, notCheckLength}:any) {
     return (
-        <div style={{backgroundColor:data.bgColor, color : data.txtColor, width: '16px', height:'16px'}}>
+        <div style={{backgroundColor:data.bgColor, color : data.txtColor, width: '16px', height:'16px', borderRadius : '16px', textAlign : 'center', fontWeight : '700'}}>
             {notCheckLength}
         </div>
     )

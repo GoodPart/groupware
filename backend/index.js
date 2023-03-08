@@ -638,7 +638,7 @@ app.post('/api/notification/update/checked', (req, res)=> {
     const data = req.body;
 
     Notification.findOneAndUpdate({
-        user_id : data.user_id,
+        receiver_id : data.receiver_id,
         _id : data._id
     },{$set : {is_checked : true}}, (err, find)=> {
         if(err) res.json({
