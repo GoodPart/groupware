@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // import Auth from '../hoc/Auth';
@@ -32,31 +32,19 @@ function Header() {
     });
 
     useEffect(()=> {
-      dispatch(authCheck()).then((res:any)=> {
-        // console.log(res.payload)
-        setGetAuth(res.payload)
-        dispatch(getNotiList(res.payload.userId))
-
-      })
+      requestAuto()
 
     }, [])
-    
-    // console.log("요기", data)
 
-    // useEffect(()=> {
-    //   console.log("useEffect")
-    //   dispatch(authCheck()).then((res:any)=> {
-    //     const isAuth = res.payload.isAuth;
-    //     if(!isAuth) {
-    //       setGetAuth(res.payload)
-    //     }else {
-    //       setGetAuth(res.payload)
-    //     }
-    //     // console.log(res)
-    //   });
+    const requestAuto = () => {
+      dispatch(authCheck()).then((res:any)=> {
+        console.log(res.payload)
+        setGetAuth(res.payload)
+        dispatch(getNotiList(res.payload.userId))
+        return console.log("checked...")
+      })
+    }
 
-
-    // },[])
     const onLogOut = () => {
         request('get',"/api/users/logout",{})
         .then(res=> {

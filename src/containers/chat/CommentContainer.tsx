@@ -5,7 +5,7 @@ import request from "../../utils/axios";
 import Comment from "../../components/chat/Comment";
 
 function CommentContainer({chatProps}:any) {
-    console.log(chatProps)
+    // console.log(chatProps)
     const _id = chatProps._id;
     const writer_id = chatProps.userId;
     const [getComment, setGetComment] = useState('');
