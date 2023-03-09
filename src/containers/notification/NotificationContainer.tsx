@@ -4,6 +4,7 @@ import request from '../../utils/axios';
 import { RootState } from '../../modules';
 import { useDispatch, useSelector } from 'react-redux';
 import { notiBadgeInfo,deleteRequest, updateCheckedRequest, getNotiList } from '../../modules/notification';
+import {viewPost} from '../../modules/chat'
 
 import Notification from '../../components/notification/Notification';
 import NotificationView from '../../components/notification/NotificationView';
@@ -40,6 +41,13 @@ function NotificationContainer({getAuth, badge}:any) {
     const onDeleteHandle = useCallback((e:any,_id:string)=> {
         dispatch(deleteRequest(getAuth.userId, _id))
     }, [dispatch]) 
+    const onViewPostHandle = useCallback((e:any, _id:string)=> {
+        console.log('onView')
+        dispatch(viewPost(_id))
+        .then((res:any)=> {
+            console.log(res.payload)
+        })
+    }, [dispatch])
 
     /*
         상태가 갱신되면 아래 container 컴포넌트에서 useSelector로 필요한 값을 조회 후 사용한다.
@@ -59,6 +67,7 @@ function NotificationContainer({getAuth, badge}:any) {
             <NotificationView 
                 onCheckHandle={onCheckHandle}
                 onDeleteHandle={onDeleteHandle}
+                onViewPostHandle={onViewPostHandle}
             />
         </>
     ) 

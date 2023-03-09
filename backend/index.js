@@ -407,6 +407,24 @@ app.post('/api/chat/getlistbycategory', (req, res)=> {
         })
     })
 })
+app.post('/api/chat/get/chatlistby_id', (req,res)=> {
+    const data = req.body;
+    
+    Chat.findOne({
+        _id : data._id
+    }, (err, result) => {
+        if(err) res.json({
+            success : false,
+            message : '게시글은 존재하지 않습니다.'
+        })
+
+        return res.status(200).json({
+            success : true,
+            message : `게시글을 찾았습니다.`,
+            result
+        })
+    })
+})
 // 게시글 추가 - auth 필요
 app.post('/api/chat/createchat', auth, (req,res)=> {
     const data = req.body;
@@ -606,7 +624,7 @@ app.post('/api/notification/get/user', (req, res)=> {
         return res.status(200).json({
             success : true,
             message : "알림을 조회 했습니다.",
-            find
+            find : find.sort((a, b)=> b.create_at - a.create_at)
         })
     })
 

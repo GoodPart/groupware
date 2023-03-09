@@ -8,9 +8,12 @@ const GETCATEGORY_URL = '/api/chat/get/category';
 const CHATLIST = 'chat/CHATLIST' as const;
 const GATEGORYLIST = 'chat/GATEGORYLIST' as const;
 
+const VIEWPOST = 'chat/VIEWPOST' as const;
+
 
 type chatAction = (
     | ReturnType <typeof getListByCategory>
+    | ReturnType <typeof viewPost>
 )
 
 
@@ -52,6 +55,17 @@ export function getListByCategory(categoryName : number):any {
             payload : res 
         }
     })
+};
+
+export function viewPost(post_id: string):any {
+    const data = request("post", "/api/chat/get/chatlistby_id", {_id : post_id})
+
+    return data.then(res=> {
+        return {
+            type : VIEWPOST,
+            payload : res.result
+        }
+    })
 }
 
 
@@ -64,6 +78,15 @@ function chatReducer(state = initState, action:chatAction):any {
                 success :action.payload.success,
                 result : action.payload
             }
+        case VIEWPOST :
+            return {
+                ...state,
+                success : action.payload.success,
+                result : action.payload
+            }
+
+        default : 
+            return state
     }
 }
 

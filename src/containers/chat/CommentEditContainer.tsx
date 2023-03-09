@@ -9,13 +9,12 @@ import { RootState } from '../../modules';
 
 
 function CommentEditContainer({_id, writer_id}:any) {
-    const navigate = useNavigate();
 
     const data = useSelector((state:RootState)=> state.authCheckReducer);
 
     const [textValue , setTextValue] = useState("");
     useEffect(()=> {
-    //    console.log(_id)
+       console.log(_id)
     }, [])
 
     const onChangeValue = (e:ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +38,7 @@ function CommentEditContainer({_id, writer_id}:any) {
         let form = {
             receiver_id : writer_id, // 해당 글 작성자
             writer_id : data.userId, // 이 코멘트를 쓰는 사람 - 코멘터
+            post_id : _id, //포스트 id
             noti_desc : textValue,
             noti_type : "comment",
             create_at : "",

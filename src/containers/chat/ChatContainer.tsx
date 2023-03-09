@@ -19,15 +19,15 @@ function ChatContainer() {
     useEffect(()=> {
         dispatch(getListByCategory(Number(chatcategory)))
         .then((res:any)=> {
-            // console.log(res)
-            setGetChatProps(res.payload.chatprops)
+            setGetChatProps(
+                res.payload.chatprops.sort((a:any, b:any) => b.post_no - a.post_no)
+                )
         });
 
 
         //게시판 이름 요청
         request("post","/api/chat/get/category", {class_no : chatcategory})
         .then((res:any)=> {
-            console.log('chat container -->',res.result)
             setTitle(res.result.category_name)
             setPost_no(res.result.post_no)
         })
