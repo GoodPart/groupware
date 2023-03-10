@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../modules';
-import { increase, decrease, increaseBy } from '../modules/counter';
+import { increase, decrease, increaseBy, increaseAsync, decreaseAsync } from '../modules/counter';
 import Counter from '../components/Counter';
 
 function CounterContainer () {
@@ -11,11 +11,11 @@ function CounterContainer () {
 
   // 각 액션들을 디스패치하는 함수들을 만들어줍니다
   const onIncrease = () => {
-    dispatch(increase());
+    dispatch(increaseAsync());
   };
 
   const onDecrease = () => {
-    dispatch(decrease());
+    dispatch(decreaseAsync());
   };
 
   const onIncreaseBy = (diff: number) => {

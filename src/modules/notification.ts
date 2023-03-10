@@ -120,7 +120,7 @@ export function updateCheckedRequest(receiver_id:string, comment_id : string):an
 
 
 export function notiBadgeInfo(notiData:any):any {
-    console.log(notiData)
+    // console.log(notiData)
     let count = 0;
     let _loop = Object.values(notiData).map((ele:any, index:number)=> {
         if(!ele.is_checked) {

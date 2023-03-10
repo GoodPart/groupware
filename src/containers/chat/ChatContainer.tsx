@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import request from '../../utils/axios';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../modules';
-import {getListByCategory} from '../../modules/chat';
+import {getListByCategory, getListByCategoryLimiteData,getLimitedData} from '../../modules/chat';
 
 import Chat from '../../components/chat/Chat';
 
@@ -15,8 +15,11 @@ function ChatContainer() {
     const [post_no, setPost_no] = useState(0);
 
     const dispatch = useDispatch();
+    const data = useSelector((state:RootState)=> state.chatReducer);
+
 
     useEffect(()=> {
+        // getList()
         dispatch(getListByCategory(Number(chatcategory)))
         .then((res:any)=> {
             setGetChatProps(
@@ -33,6 +36,11 @@ function ChatContainer() {
         })
 
     },[])
+
+    const getList = useCallback(()=> {
+        dispatch(getListByCategoryLimiteData(Number(chatcategory), data.post_limite, 3))
+    }, [dispatch])
+
 
     return getChatProps  ? 
     (

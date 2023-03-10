@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
-function Badge({data, notCheckLength}:any) {
+function Badge({fontColor, bgColor, badgeContent}:any) {
     return (
-        <div style={{backgroundColor:data.bgColor, color : data.txtColor, width: '16px', height:'16px', borderRadius : '16px', textAlign : 'center', fontWeight : '700'}}>
-            {notCheckLength}
+        <div style={{backgroundColor:bgColor, color : fontColor, width: '16px', height:'16px', borderRadius : '16px', textAlign : 'center', fontWeight : '700'}}>
+            {badgeContent}
         </div>
     )
 }
@@ -21,8 +21,9 @@ function NotificationBadge({badge, not_checked}:any) {
             {
                 not_checked.find ? 
                 <Badge 
-                    data={badge}
-                    notCheckLength={not_checked.length}
+                    fontColor={badge.txtColor}
+                    bgColor={badge.bgColor}
+                    badgeContent={not_checked.length}
                 />
                 :
                 false

@@ -1,15 +1,25 @@
 import { combineReducers } from 'redux';
-import counter from './counter';
+import counter, {counterSaga} from './counter';
 import register from './register';
 import authCheckReducer from './auth';
 import notificationReducer from './notification';
+import chatReducer from './chat';
+
+
+//saga
+import {all} from 'redux-saga/effects';
 
 const rootReducer = combineReducers({
   counter,
   register,
   authCheckReducer,
-  notificationReducer
+  notificationReducer,
+  chatReducer
 });
+
+export function* rootSaga() {
+  yield all([counterSaga()])
+}
 
 // 루트 리듀서를 내보내주세요.
 export default rootReducer;
