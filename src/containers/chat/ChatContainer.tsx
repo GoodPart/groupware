@@ -3,7 +3,7 @@ import request from '../../utils/axios';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../modules';
-import {getListByCategory, getListByCategoryLimiteData,getLimitedData} from '../../modules/chat';
+import {getListByCategory, getListByCategoryLimiteData,getLimitedData, getLimitedDataThunk} from '../../modules/chat';
 
 import Chat from '../../components/chat/Chat';
 
@@ -19,13 +19,7 @@ function ChatContainer() {
 
 
     useEffect(()=> {
-        // getList()
-        dispatch(getListByCategory(Number(chatcategory)))
-        .then((res:any)=> {
-            setGetChatProps(
-                res.payload.chatprops.sort((a:any, b:any) => b.post_no - a.post_no)
-                )
-        });
+        getListByLimit(data.meta.nextId)
 
 
         //게시판 이름 요청
@@ -35,21 +29,46 @@ function ChatContainer() {
             setPost_no(res.result.post_no)
         })
 
+
     },[])
 
-    const getList = useCallback(()=> {
-        dispatch(getListByCategoryLimiteData(Number(chatcategory), data.post_limite, 3))
+    const getListByLimit = useCallback((nextId:any)=> {
+
+        if(nextId === null) {
+            alert('마지막입니다.')
+        }else {
+            dispatch(getLimitedDataThunk(Number(chatcategory),nextId, 2))
+            .then((res:any)=> {
+                setGetChatProps(
+                    res.payload.data.sort((a:any, b:any) => b.post_no - a.post_no)
+                    // getChatProps.push() 
+                )
+            })
+
+        }
     }, [dispatch])
+
+    // const morePost = useCallback((nextId:number)=> {
+    //     console.log(nextId)
+    //     // getListByLimit(data.meta.nextId)
+    // }, [dispatch])
+
+
+    
 
 
     return getChatProps  ? 
     (
-            <Chat 
+        <>
+        <button onClick={()=>getListByLimit(data.meta.nextId)}> more</button>
+        <Chat 
                 chatCategory = {chatcategory}
                 chatProps={getChatProps}
                 title={title}
                 post_no={post_no}
             />
+        </>
+            
     ) : (<>loading...</>)
     
 }

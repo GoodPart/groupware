@@ -1,4 +1,3 @@
-import { ChangeEvent, ChangeEventHandler } from "react"
 
 type EventType = {
     onChange:any,

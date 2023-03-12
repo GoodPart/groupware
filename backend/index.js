@@ -392,9 +392,12 @@ app.post('/api/chat/get/chatall', (req, res)=> {
 app.post('/api/chat/getlistbycategory', (req, res)=> {
     const data = req.body;
     
+    console.log('getData->',data)
     Chat.find({
         class_no : data.class_no,
     },(err, chatprops)=> {
+    console.log('result chatprops->',chatprops)
+
         if(err) res.json({
             success : false,
             message : '해당 카테고리는 존재하지 않습니다.'

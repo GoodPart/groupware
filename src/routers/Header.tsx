@@ -13,9 +13,7 @@ import Auth from '../hoc/Auth';
 
 
 // import NotificationViewContainer from '../containers/notification/NotificationViewContainer';
-import NotificationBadgeContainer from '../containers/notification/NotificationBadgeContainer';
 import NotificationContainer from '../containers/notification/NotificationContainer';
-import SizingIcons from '../modules/icon/SizingIcons';
 
 
 

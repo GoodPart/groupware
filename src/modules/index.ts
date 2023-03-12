@@ -3,7 +3,7 @@ import counter, {counterSaga} from './counter';
 import register from './register';
 import authCheckReducer from './auth';
 import notificationReducer from './notification';
-import chatReducer from './chat';
+import chatReducer, {chatSaga} from './chat';
 
 
 //saga
@@ -18,7 +18,8 @@ const rootReducer = combineReducers({
 });
 
 export function* rootSaga() {
-  yield all([counterSaga()])
+  // yield all([counterSaga()])
+  yield all([chatSaga()])
 }
 
 // 루트 리듀서를 내보내주세요.
