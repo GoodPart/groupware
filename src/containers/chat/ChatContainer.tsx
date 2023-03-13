@@ -3,7 +3,7 @@ import request from '../../utils/axios';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../modules';
-import {getListByCategory, getListByCategoryLimiteData,getLimitedData, getLimitedDataThunk} from '../../modules/chat';
+import {getListByCategory, getListByCategoryLimiteData,getLimitedData, getLimitedDataThunk, resetDataList} from '../../modules/chat';
 
 import Chat from '../../components/chat/Chat';
 
@@ -32,6 +32,11 @@ function ChatContainer() {
 
     },[])
 
+    useEffect(() => ()=> {
+        dispatch(resetDataList())
+        console.log(data.meta.nextId)
+    }, [dispatch])
+
     const getListByLimit = useCallback((nextId:any)=> {
 
         if(nextId === null) {
@@ -48,10 +53,10 @@ function ChatContainer() {
         }
     }, [dispatch])
 
-    // const morePost = useCallback((nextId:number)=> {
-    //     console.log(nextId)
-    //     // getListByLimit(data.meta.nextId)
-    // }, [dispatch])
+    const morePost = useCallback(()=> {
+        // console.log(nextId)
+        getListByLimit(data.meta.nextId)
+    }, [data.meta.nextId, data.post_list])
 
 
     

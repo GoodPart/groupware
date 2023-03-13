@@ -16,6 +16,8 @@ const GATEGORYLIST = 'chat/GATEGORYLIST' as const;
 const LIMITECOUNT = 'chat/LIMITECOUNT' as const;
 const VIEWPOST = 'chat/VIEWPOST' as const;
 
+const RESETLIST = 'chat/RESETLIST' as const;
+
 
 // saga type
 const GETLISTLIMITE_ASYNC = 'chat/GETLIST_ASYNC' as const;
@@ -29,6 +31,7 @@ type chatAction = (
     | ReturnType <typeof viewPost>
     | ReturnType <typeof getLimitedData>
     | ReturnType <typeof getLimitedDataThunk>
+    | ReturnType <typeof resetDataList>
     // | ReturnType <typeof getListByCategoryLimiteData>
 )
 
@@ -129,6 +132,13 @@ export function getLimitedDataThunk(class_no:any, start:number, count : number):
         }
     }
 }
+
+export function resetDataList():any {
+    console.log('resetData')
+    return {
+        type : RESETLIST,
+    }
+}
  
 
 
@@ -139,7 +149,7 @@ export function getLimitedData(data:any, start:number = 0, count:number):any {
         data : data.slice(0, end),
         nextId : data.length < end ? null : end
     };
-    console.log(start, count, end)
+    console.log('start:',start,'count', count,'end:', end)
     return {
         type : LIMITECOUNT,
         payload : form
@@ -221,9 +231,17 @@ function chatReducer(state = initState, action:chatAction):any {
                 meta :{
                     nextId :  action.payload.nextId
 
-                }
-                
+                }    
             }
+        case RESETLIST : 
+            return {
+                ...state,
+                post_list : '',
+                meta : {
+                    nextId : 0
+                }
+            }
+
         default : 
             return state
     }
