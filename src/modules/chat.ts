@@ -18,12 +18,77 @@ const VIEWPOST = 'chat/VIEWPOST' as const;
 
 const RESETLIST = 'chat/RESETLIST' as const;
 
+const GET_LIST_SUCCESS = 'chat/GET_LIST_SUCCESS' as const;
 
 // saga type
 const GETLISTLIMITE_ASYNC = 'chat/GETLIST_ASYNC' as const;
 const GETLISTLIMITE_ASYNC2 = 'chat/GETLIST_ASYNC2' as const;
 
 
+
+
+
+// 상태 여부 액션 타입
+const GET_CHATS = 'GET_CHATS' as const;
+const GET_CHATS_SUCCESS = 'GET_CHATS_SUCCESS' as const;
+const GET_CHATS_ERROR = 'GET_CHATS_ERROR' as const; 
+
+
+export function getChats (form:any):any {
+    function _getLimitedData(data:any, start:number = 0, count:number):any {
+        const end = start + count;
+        let form = {
+            data : data.slice(start, end),
+            nextId : data.length < end ? null : end
+        };
+        return form
+    }
+
+    
+
+    return async(dispatch:any, getState:any) => {
+        console.log(getState)
+        dispatch({
+            type : GET_CHATS
+        })
+        try {
+            const chats = await request("post", GETCHATLISTBYCATEGORY_URL, {class_no : form.chatName});
+            const limitedData = _getLimitedData(chats.chatprops, form.nextId, form.count);
+            // const history =
+            // console.log(form)
+            // historyMerge(limitedData, form.history)
+            // console.log(limitedData)
+            dispatch({
+                type : GET_CHATS_SUCCESS, limitedData
+            })
+
+
+        } catch(err) {
+            dispatch({
+                type : GET_CHATS_ERROR, err
+            })
+        }
+        
+    }
+}
+
+function historyMerge (reqData:any, storeData:any) {
+    console.log('초기 sotreData ->',storeData)
+    const post_no = reqData.reduce((prev:any, next:any) => {
+        
+        // const post_no = next.post_no;
+        if(!prev) prev = [];
+        console.log('if !prev ->',prev)
+        
+        prev = prev.concat(next)
+        console.log('합치기',prev)
+
+        return prev
+        
+    }, storeData)
+
+    return post_no
+}
 
 
 type chatAction = (
@@ -51,6 +116,12 @@ type ChatState = {
     meta: {
         nextId : number,
     }
+    chats : {
+        loading : boolean,
+        data : any,
+        error : any,
+        history:any
+    }
 }
 
 const initState:ChatState = {
@@ -67,44 +138,38 @@ const initState:ChatState = {
     post_list : null,
     meta: {
         nextId : 0,
+    },
+    chats : {
+        loading : false,
+        data : null,
+        error : null,
+        history : {}
     }
 }
 
 
 //saga
-export const getListLimiteAsync = (categoryName:any, start:number, end : number):any => ({
+export const getListLimiteAsync = (payload:any):any => ({
     type : GETLISTLIMITE_ASYNC,
-    payload : categoryName,
-    start : start,
-    end : end,
-    meta : categoryName
+    // payload : {
+    //     categoryName : payload.categoryName,
+    //     start : payload.start,
+    //     count : payload.count,
+    // },
+    // meta : payload.categoryName
 })
 
+export const getListSuccess = (getData:any) => {
+    return {
+        type :GET_LIST_SUCCESS,
+        payload : getData
+    }
+}
 
 //제너레이터
 function* getListLimiteSaga(action:any):any {
-    console.log('generater inbound->', action)
     try{
-        let result = yield call(getListByCategory(action.payload));
-        // console.log('result ->',result)
-        // yield put({
-        //     type : CHATLIST,
-        //     payload : result.payload // chatList
-        // })
-
-        yield put({
-            type : LIMITECOUNT,
-            data : result.payload,
-            start : result.start,
-            count : result.end
-        })
-        // let result2 = yield put(getLimitedData(result.payload, 0, 3))
-
-        
-        // let start = yield;
-        // let count = yield;
-        // yield put(getLimitedData(result.payload.chatprops, start, count));
-
+        // const res = yield call(getListByCategory2(action.payload.categoryName));
     }catch(err) {
         return err
     }
@@ -113,15 +178,16 @@ function* getListLimiteSaga(action:any):any {
 //chat 사가
 export function* chatSaga() {
     yield takeEvery(GETLISTLIMITE_ASYNC, getListLimiteSaga)
+    yield takeEvery(GET_LIST_SUCCESS, getListSuccess)
     // yield takeEvery(GETLISTLIMITE_ASYNC2, getListLimiteSaga)
     
 }
 
 export function getLimitedDataThunk(class_no:any, start:number, count : number):any {
     return async (dispatch:any) => {
-        const getList = dispatch(getListByCategory(class_no))
-
+        
         try {
+            const getList = dispatch(getListByCategory(class_no))
             return getList.then((res:any)=> {
                 const chatData = res.payload.chatprops;
                 return dispatch(getLimitedData(chatData, start, count))
@@ -143,17 +209,15 @@ export function resetDataList():any {
 
 
 // 작업이 필요함.
-export function getLimitedData(data:any, start:number = 0, count:number):any {
+function getLimitedData(data:any, start:number = 0, count:number):any {
     const end = start + count;
     let form = {
         data : data.slice(0, end),
         nextId : data.length < end ? null : end
     };
-    console.log('start:',start,'count', count,'end:', end)
-    return {
-        type : LIMITECOUNT,
-        payload : form
-    }
+    console.log(form)
+    return form
+
 }
 
 
@@ -165,10 +229,11 @@ export function getListByCategory(categoryName : number):any {
     return data.then(res=> {
         return {
             type : CHATLIST,
-            payload : res 
+            payload : res
         }
     })
 };
+
 
 export function getListByCategoryLimiteData(categoryName : number, nextId:any, count:number):any {
     return async (dispatch:any) => {
@@ -239,6 +304,39 @@ function chatReducer(state = initState, action:chatAction):any {
                 post_list : '',
                 meta : {
                     nextId : 0
+                }
+            }
+
+
+        case GET_CHATS : 
+            return {
+                ...state,
+                chats : {
+                    loading : true,
+                    data : null,
+                    error : null
+                }
+            }
+        case GET_CHATS_SUCCESS : 
+            return {
+                ...state,
+                chats : {
+                    loading : false,
+                    data : action.limitedData.data,
+                    error : null,
+                    history : historyMerge(action.limitedData.data, state.chats.history)
+                },
+                meta:{
+                    nextId : action.limitedData.nextId
+                }
+            }
+        case GET_CHATS_ERROR : 
+            return {
+                ...state,
+                chats : {
+                    loading : false,
+                    data : null,
+                    error : action.err
                 }
             }
 

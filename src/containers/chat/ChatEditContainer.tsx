@@ -18,7 +18,7 @@ function ChatEditContainer({category_no, post_no}:any) {
     const [titleValue, setTitleValue] = useState("");
    
     useEffect(()=> {
-       console.log('---->',data)
+    //    console.log('---->',data)
     }, [])
 
     const onChangeValue = (e:ChangeEvent<HTMLInputElement>) => {
@@ -61,12 +61,12 @@ function ChatEditContainer({category_no, post_no}:any) {
 
         request("post", "/api/chat/createchat", _form)
         .then((res:any)=> {
-            console.log(res)
+            // console.log(res)
         })
 
         request("post", "/api/chat/update/category", {class_no : category_no, post_no : post_no })
         .then(res=> {
-            console.log(res)
+            // console.log(res)
         })
         
         navigate(`/chat/${category_no}`)
