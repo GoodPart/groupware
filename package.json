@@ -65,6 +65,7 @@
     "@types/redux-saga": "^0.10.5",
     "@types/redux-thunk": "^2.1.0",
     "concurrently": "^7.6.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "redux-logger": "^3.0.6"
   }
 }

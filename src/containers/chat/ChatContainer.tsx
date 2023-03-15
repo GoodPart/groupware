@@ -27,7 +27,7 @@ function ChatContainer() {
         request("post","/api/chat/get/category", {class_no : chatcategory, start : data.meta.nextId})
         .then((res:any)=> {
             setTitle(res.result.category_name)
-            setPost_no(res.result.post_no)
+            setPost_no(res.result.post_no) 
         })
 
 
@@ -38,21 +38,21 @@ function ChatContainer() {
         // console.log(data.meta.nextId)
     }, [dispatch])
 
-    const getListByLimit = useCallback((nextId:any)=> {
+    // const getListByLimit = useCallback((nextId:any)=> {
 
-        if(nextId === null) {
-            alert('마지막입니다.')
-        }else {
-            dispatch(getLimitedDataThunk(Number(chatcategory),nextId, 2))
-            .then((res:any)=> {
-                setGetChatProps(
-                    res.payload.data.sort((a:any, b:any) => b.post_no - a.post_no)
-                    // getChatProps.push() 
-                )
-            })
+    //     if(nextId === null) {
+    //         alert('마지막입니다.')
+    //     }else {
+    //         dispatch(getLimitedDataThunk(Number(chatcategory),nextId, 2))
+    //         .then((res:any)=> {
+    //             setGetChatProps(
+    //                 res.payload.data.sort((a:any, b:any) => b.post_no - a.post_no)
+    //                 // getChatProps.push() 
+    //             )
+    //         })
 
-        }
-    }, [dispatch])
+    //     }
+    // }, [dispatch])
 
     const _getChats = useCallback(()=> {
         let form = {
@@ -62,9 +62,13 @@ function ChatContainer() {
             history : ''
         }
 
+        if(data.meta.nextId === null) {
+            alert("모든 데이터를 조회했습니다.")
+        }else {
+            dispatch(getChats(form))
+        }
      
-        dispatch(getChats(form))
-    }, [dispatch, data ])
+    }, [dispatch, data])
 
 
     

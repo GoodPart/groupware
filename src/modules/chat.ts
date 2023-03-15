@@ -35,6 +35,7 @@ const GET_CHATS_ERROR = 'GET_CHATS_ERROR' as const;
 
 
 export function getChats (form:any):any {
+
     function _getLimitedData(data:any, start:number = 0, count:number):any {
         const end = start + count;
         let form = {
@@ -44,25 +45,41 @@ export function getChats (form:any):any {
         return form
     }
 
+    function historyMerge (reqData:any, storeData:any) {
+        const post_no = reqData.reduce((prev:any, next:any) => {
+            if(!prev) prev = [];
+            prev = prev.concat(next)
+            return prev
+            
+        }, storeData)
     
+        return post_no
+    }
 
     return async(dispatch:any, getState:any) => {
-        console.log(getState)
+        const chats = await request("post", GETCHATLISTBYCATEGORY_URL, {class_no : form.chatName});
+        const limitedData = _getLimitedData(chats.chatprops, form.nextId, form.count);
+        
+        const data = getState().chatReducer;
+
+
         dispatch({
-            type : GET_CHATS
+            type : GET_CHATS,
+            payload : {
+                limitedData : limitedData,
+                history : data.chats.data
+            },
+
         })
         try {
-            const chats = await request("post", GETCHATLISTBYCATEGORY_URL, {class_no : form.chatName});
-            const limitedData = _getLimitedData(chats.chatprops, form.nextId, form.count);
-            // const history =
-            // console.log(form)
-            // historyMerge(limitedData, form.history)
-            // console.log(limitedData)
+            const data = getState().chatReducer;
+            // console.log('상태 체크 ->',data.chats)
+            const mergeData = historyMerge(data.chats.data, data.chats.history);
+
             dispatch({
-                type : GET_CHATS_SUCCESS, limitedData
+                type : GET_CHATS_SUCCESS,
+                mergeData
             })
-
-
         } catch(err) {
             dispatch({
                 type : GET_CHATS_ERROR, err
@@ -71,25 +88,6 @@ export function getChats (form:any):any {
         
     }
 }
-
-function historyMerge (reqData:any, storeData:any) {
-    console.log('초기 sotreData ->',storeData)
-    const post_no = reqData.reduce((prev:any, next:any) => {
-        
-        // const post_no = next.post_no;
-        if(!prev) prev = [];
-        console.log('if !prev ->',prev)
-        
-        prev = prev.concat(next)
-        console.log('합치기',prev)
-
-        return prev
-        
-    }, storeData)
-
-    return post_no
-}
-
 
 type chatAction = (
     | ReturnType <typeof getListByCategory>
@@ -215,7 +213,6 @@ function getLimitedData(data:any, start:number = 0, count:number):any {
         data : data.slice(0, end),
         nextId : data.length < end ? null : end
     };
-    console.log(form)
     return form
 
 }
@@ -243,13 +240,6 @@ export function getListByCategoryLimiteData(categoryName : number, nextId:any, c
             .then(res=> {
                 dispatch(getLimitedData(res.chatprops, nextId, count))
             })
-            // dispatch(getListByCategory(categoryName))
-            // .then((res:any)=> {
-            //     const chats = res.payload.chatprops;
-               
-            //     dispatch(getLimitedData(chats, nextId, count))
-
-            // })
 
            
         } catch(err) {
@@ -301,7 +291,12 @@ function chatReducer(state = initState, action:chatAction):any {
         case RESETLIST : 
             return {
                 ...state,
-                post_list : '',
+                chats : {
+                    loading : false,
+                    data : null,
+                    error : null,
+                    history : {}
+                },
                 meta : {
                     nextId : 0
                 }
@@ -313,8 +308,12 @@ function chatReducer(state = initState, action:chatAction):any {
                 ...state,
                 chats : {
                     loading : true,
-                    data : null,
-                    error : null
+                    data : action.payload.limitedData.data,
+                    error : null,
+                    history : action.payload.history
+                },
+                meta : {
+                    nextId : action.payload.limitedData.nextId
                 }
             }
         case GET_CHATS_SUCCESS : 
@@ -322,13 +321,13 @@ function chatReducer(state = initState, action:chatAction):any {
                 ...state,
                 chats : {
                     loading : false,
-                    data : action.limitedData.data,
+                    data : action.mergeData,
                     error : null,
-                    history : historyMerge(action.limitedData.data, state.chats.history)
+                    history : action.mergeData
                 },
-                meta:{
-                    nextId : action.limitedData.nextId
-                }
+                // meta:{
+                //     nextId : action.limitedData.nextId
+                // }
             }
         case GET_CHATS_ERROR : 
             return {
