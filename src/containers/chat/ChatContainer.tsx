@@ -81,13 +81,14 @@ function ChatContainer() {
 
     return  (
         <>
-        <button onClick={()=>_getChats()}> more</button>
         <Chat 
-                chatCategory = {chatcategory}
-                chatProps={data.chats.data.sort((a:any, b:any) => b.post_no - a.post_no)}
-                title={title}
-                post_no={post_no}
-            />
+            chatCategory = {chatcategory}
+            chatProps={data.chats.data.sort((a:any, b:any) => b.post_no - a.post_no)}
+            title={title}
+            post_no={post_no}
+        />
+        <button onClick={()=>_getChats()}> more</button>
+
         </>
             
     ) 
