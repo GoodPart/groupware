@@ -14,7 +14,7 @@ function CommentEditContainer({_id, writer_id}:any) {
 
     const [textValue , setTextValue] = useState("");
     useEffect(()=> {
-       console.log(_id)
+    //    console.log(_id)
     }, [])
 
     const onChangeValue = (e:ChangeEvent<HTMLInputElement>) => {

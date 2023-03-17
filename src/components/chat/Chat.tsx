@@ -5,6 +5,10 @@ import ChatEditContainer from '../../containers/chat/ChatEditContainer';
 
 import useDateHook from '../../hooks/useDateHook';
 
+
+import FavoritContainer from '../../containers/favorit/FavoritContainer';
+
+
 function Chat({chatProps, chatCategory, title, post_no}:any) {
     function SetDate (timestamp:any)  {
         return useDateHook(timestamp);
@@ -21,31 +25,24 @@ function Chat({chatProps, chatCategory, title, post_no}:any) {
             <ul>
                 {
                     chatProps.map((ele:any, index:any)=> {
-                        // const _date = useDateHook(ele.post_create_date)
-                        // function getTimeSet(timestamp:any) {
-                        //     const _timeStamp = new Date(timestamp);
-            
-                        //     let getDate = {
-                        //         year : _timeStamp.getFullYear(),
-                        //         month : _timeStamp.getMonth()+1 < 10 ? '0'+ (_timeStamp.getMonth()+1) : _timeStamp.getMonth()+1,
-                        //         day : _timeStamp.getDate() < 10 ? '0' + _timeStamp.getDate() : _timeStamp.getDate(),
-                        //         hour : _timeStamp.getHours() < 10 ? '0' + _timeStamp.getHours() : _timeStamp.getHours(),
-                        //         min : _timeStamp.getMinutes() < 10 ? '0' + _timeStamp.getMinutes() : _timeStamp.getMinutes()
-                        //     }
-                        //     return (
-                        //         <span>{getDate.year}-{getDate.month}-{getDate.day} {getDate.hour}:{getDate.min}</span>
-                        //     )
-                        // }
-
-                        
 
                         return (
                             <li key={`asd_${index}`}>
+                                <div>(임시) _id : {ele._id}</div>
                                 <p>작성자 : {ele.userId}</p>
                                 <p>포스팅 시간 : {SetDate(ele.post_create_date)}</p>
                                 <p>포스트 넘버 : {ele.post_no}</p>
                                 <p>포스트 제목 : {ele.post_title}</p>
                                 <p>포스트 내용 :  {ele.post_desc}</p>
+                                {/*
+                                    좋아요 상태
+                                    1. auth x, 좋아요 x,o = 좋아요 버튼(체크 전), 카운트 노출
+                                    2. auth o, 좋아요 x = 좋아요 버튼(체크 전), 카운트 노출
+                                    3. auth o, 좋아요 o = 좋아요 버튼(체크) 카운트 증가
+                                */}
+                                <FavoritContainer 
+                                    post_id={ele._id}
+                                />
                                 <hr />
                                 <CommentContainer
                                     chatProps={ele}

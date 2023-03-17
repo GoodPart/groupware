@@ -13,7 +13,6 @@ const CHATLIST = 'chat/CHATLIST' as const;
 const GATEGORYLIST = 'chat/GATEGORYLIST' as const;
 
 
-const LIMITECOUNT = 'chat/LIMITECOUNT' as const;
 const VIEWPOST = 'chat/VIEWPOST' as const;
 
 const RESETLIST = 'chat/RESETLIST' as const;
@@ -73,7 +72,6 @@ export function getChats (form:any):any {
         })
         try {
             const data = getState().chatReducer;
-            // console.log('상태 체크 ->',data.chats)
             const mergeData = historyMerge(data.chats.data, data.chats.history);
 
             dispatch({
@@ -110,7 +108,6 @@ type ChatState = {
     post_edite_date: string,
     favorit_count: number,
     class_no: number,
-    post_list : any,
     meta: {
         nextId : number,
     }
@@ -133,7 +130,6 @@ const initState:ChatState = {
     post_edite_date: '',
     favorit_count: 0,
     class_no: 0,
-    post_list : null,
     meta: {
         nextId : 0,
     },
@@ -277,16 +273,6 @@ function chatReducer(state = initState, action:chatAction):any {
                 ...state,
                 success : action.payload.success,
                 result : action.payload
-            }
-        case LIMITECOUNT : 
-            return {
-                ...state,
-                success : true,
-                post_list : action.payload.data,
-                meta :{
-                    nextId :  action.payload.nextId
-
-                }    
             }
         case RESETLIST : 
             return {

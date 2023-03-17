@@ -4,6 +4,7 @@ import register from './register';
 import authCheckReducer from './auth';
 import notificationReducer from './notification';
 import chatReducer, {chatSaga} from './chat';
+import favoritRecuder from './favorit';
 
 
 //saga
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   register,
   authCheckReducer,
   notificationReducer,
-  chatReducer
+  chatReducer,
+  favoritRecuder
 });
 
 export function* rootSaga() {

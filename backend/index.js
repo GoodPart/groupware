@@ -37,6 +37,8 @@ const {ChatCategory}  = require('./models/Chat_category');
 // 알림 스키마
 const {Notification} = require('./models/Notification');
 
+const {Favorit} = require('./models/Favorit');
+
 
 
 //몽고 DB 에러
@@ -257,7 +259,7 @@ app.post('/api/dbid/getdbid', (req,res)=> {
 app.post('/api/dbid/publishid', (req,res)=> {
     const data = req.body;
 
-    console.log(data)
+    // console.log(data)
     function mkDbId(category,id) {
         // const maxNumber = 10000000;
         // const maxLength = 8;
@@ -343,7 +345,7 @@ app.post('/api/dbid/updatedbid', (req,res)=> {
     DbId.findOne({
         category : data.category
     }, (err, findCategory) => {
-        console.log(findCategory)
+        // console.log(findCategory)
         if(!findCategory) {
             return res.json({
                 success : false,
@@ -402,7 +404,7 @@ app.post('/api/chat/getlistbycategory', (req, res)=> {
 
         return 0
     })
-    console.log(chatprops)
+    // console.log(chatprops)
         if(err) res.json({
             success : false,
             message : '해당 카테고리는 존재하지 않습니다.'
@@ -480,7 +482,7 @@ app.post('/api/chat/get/category', (req,res)=> {
         })
 
         getData.makePostNumber(getData, (err, result)=> {
-            console.log(result)
+            // console.log(result)
             return res.status(200).json({
                 success : true,
                 message : "카테고리를 찾았습니다.",
@@ -516,7 +518,7 @@ app.post('/api/chat/create/category', (req,res)=> {
 //카테고리 업데이트
 app.post('/api/chat/update/category', (req,res)=> {
     const data = req.body;
-    console.log('update input ->',data)
+    // console.log('update input ->',data)
     ChatCategory.updateOne(
         {
             class_no : data.class_no
@@ -683,7 +685,7 @@ app.post('/api/notification/update/checked', (req, res)=> {
 app.post('/api/notification/delete', (req, res)=> {
     const data = req.body;
 
-    console.log('get data ->', data)
+    // console.log('get data ->', data)
     Notification.findOneAndDelete({
         receiver_id : data.receiver_id,
         _id : data._id
@@ -700,7 +702,90 @@ app.post('/api/notification/delete', (req, res)=> {
     })
 })
 
-// 모두 제거 기능 작업 전
+
+
+
+// 좋아요 관련
+
+// 포스트 id로 좋아요 테이블 조회
+app.post("/api/favorit/get/favoritbypostid", (req,res)=> {
+    const data = req.body;
+
+    Favorit.find({
+        post_id : data.post_id,
+    }, (err, find) => {
+        console.log(find.length)
+        if(err) {
+            res.json({
+                success : false,
+                err
+            })            
+        }else {
+            return res.status(200).json({
+                success : true,
+                message : "좋아요 상태를 조회 했습니다.",
+                find : find.length 
+            })
+        }
+    })
+})
+// 유저 id로 조회
+app.post("/api/favorit/get/favoritbyuserid", (req,res)=> {
+    const data = req.body;
+
+    Favorit.find({
+        user_id : data.user_id,
+    }, (err, find) => {
+        if(err) res.json({
+            success : false,
+            err
+        })
+        return res.status(200).json({
+            success : true,
+            message : "좋아요 상태를 조회 했습니다.",
+            find
+        })
+    })
+})
+
+// 포스트 좋아요 호출
+app.post("/api/favorit/create/favorit", (req,res)=> {
+    const data = req.body;
+
+    const favorit = new Favorit(data);
+    favorit.save((err, result) => {
+        if(err) res.json({
+            success : false,
+            err
+        })
+        return res.status(200).json({
+            success : true,
+            message : "좋아요 해따!",
+            result
+        })
+    })
+})
+
+// 좋아요 제거
+app.post("/api/favorit/delete/favorit", (req,res)=> {
+    const data = req.body;
+
+    Favorit.findOneAndDelete({
+        post_id : data.post_id,
+        user_id : data.user_id
+    }, (err, result) =>{
+        if(err) return res.json({
+            success : false,
+            message : err
+        })
+        res.status(200).json({
+            success : true,
+            message : "좋아요를 해제 했습니다.",
+            result
+        })
+    })
+
+})
 
 
 

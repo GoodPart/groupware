@@ -3,7 +3,8 @@ import request from '../../utils/axios';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../modules';
-import {getListByCategory, getListByCategoryLimiteData,getListLimiteAsync, getLimitedDataThunk, resetDataList, getChats} from '../../modules/chat';
+import {resetDataList, getChats} from '../../modules/chat';
+
 
 import Chat from '../../components/chat/Chat';
 
@@ -15,11 +16,13 @@ function ChatContainer() {
     const [post_no, setPost_no] = useState(0);
 
     const data = useSelector((state:RootState)=> state.chatReducer);
+    const favorit_store = useSelector
     const dispatch = useDispatch();
 
 
     useEffect(()=> {
         _getChats()
+        // getFavoritByPost_id()
         // getListByLimit(data.meta.nextId)
         // dispatch(getListLimiteAsync({categoryName : Number(chatcategory),start : data.meta.nextId, count:7}))
 
@@ -35,24 +38,9 @@ function ChatContainer() {
 
     useEffect(() => ()=> {
         dispatch(resetDataList())
-        // console.log(data.meta.nextId)
     }, [dispatch])
 
-    // const getListByLimit = useCallback((nextId:any)=> {
-
-    //     if(nextId === null) {
-    //         alert('마지막입니다.')
-    //     }else {
-    //         dispatch(getLimitedDataThunk(Number(chatcategory),nextId, 2))
-    //         .then((res:any)=> {
-    //             setGetChatProps(
-    //                 res.payload.data.sort((a:any, b:any) => b.post_no - a.post_no)
-    //                 // getChatProps.push() 
-    //             )
-    //         })
-
-    //     }
-    // }, [dispatch])
+  
 
     const _getChats = useCallback(()=> {
         let form = {
@@ -71,6 +59,7 @@ function ChatContainer() {
     }, [dispatch, data])
 
 
+    
     
 
 
