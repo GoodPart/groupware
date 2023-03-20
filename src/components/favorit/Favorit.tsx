@@ -1,15 +1,13 @@
-function Favorit({auth, FavProps, favLength}:any) {
+function Favorit({input_id,checkFavorit,favoritCount,onChange}:any) {
     // const count = FavProps.length
    
-    console.log(auth)
-
     return (
     <>
       
         <p>
-            <input id='like' type="checkbox" disabled={auth ? false : true} onChange={(e)=> {console.log('좋아요 토글', e.currentTarget.checked)}}/>
-            <label htmlFor='like'>
-                좋아요 - {favLength}
+            <input id={input_id} type="checkbox" onChange={(e)=> onChange(e)}  checked={checkFavorit}/>
+            <label htmlFor={input_id}>
+                좋아요 - ({favoritCount}) - ({JSON.stringify(checkFavorit)})
             </label>
         </p>
     </>

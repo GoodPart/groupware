@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../modules';
 import {resetDataList, getChats} from '../../modules/chat';
+import { requestFavorit } from '../../modules/favorit';
 
 
 import Chat from '../../components/chat/Chat';
@@ -54,6 +55,8 @@ function ChatContainer() {
             alert("모든 데이터를 조회했습니다.")
         }else {
             dispatch(getChats(form))
+            
+            // console.log(data)
         }
      
     }, [dispatch, data])

@@ -25,7 +25,7 @@ function Chat({chatProps, chatCategory, title, post_no}:any) {
             <ul>
                 {
                     chatProps.map((ele:any, index:any)=> {
-
+                        // console.log(ele)
                         return (
                             <li key={`asd_${index}`}>
                                 <div>(임시) _id : {ele._id}</div>
@@ -34,6 +34,7 @@ function Chat({chatProps, chatCategory, title, post_no}:any) {
                                 <p>포스트 넘버 : {ele.post_no}</p>
                                 <p>포스트 제목 : {ele.post_title}</p>
                                 <p>포스트 내용 :  {ele.post_desc}</p>
+                                {/* <p>좋아요 : {ele.favorit_count}</p> */}
                                 {/*
                                     좋아요 상태
                                     1. auth x, 좋아요 x,o = 좋아요 버튼(체크 전), 카운트 노출
@@ -41,7 +42,9 @@ function Chat({chatProps, chatCategory, title, post_no}:any) {
                                     3. auth o, 좋아요 o = 좋아요 버튼(체크) 카운트 증가
                                 */}
                                 <FavoritContainer 
+                                    // favorit_count={ele.favorit_count}
                                     post_id={ele._id}
+                                    
                                 />
                                 <hr />
                                 <CommentContainer

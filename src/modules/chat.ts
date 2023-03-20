@@ -57,18 +57,22 @@ export function getChats (form:any):any {
 
     return async(dispatch:any, getState:any) => {
         const chats = await request("post", GETCHATLISTBYCATEGORY_URL, {class_no : form.chatName});
-        const limitedData = _getLimitedData(chats.chatprops, form.nextId, form.count);
+        let limitedData = _getLimitedData(chats.chatprops, form.nextId, form.count);
+        
+        // Object.values(limitedData.data).map(async (ele:any, index:number) => {
+        //     const getFavData = await request("post","/api/favorit/get/favoritbypostid", {post_id : ele._id})
+
+        //     limitedData.data[index].favorit_count = getFavData.find;
+        //     // return getFavData.find
+        // })
         
         const data = getState().chatReducer;
-
-
         dispatch({
             type : GET_CHATS,
             payload : {
                 limitedData : limitedData,
-                history : data.chats.data
+                history : data.chats.data,
             },
-
         })
         try {
             const data = getState().chatReducer;

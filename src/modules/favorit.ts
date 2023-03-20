@@ -3,35 +3,131 @@ import request from "../utils/axios";
 
 const GET_FAVORIT_BY_POST_ID_URL = "/api/favorit/get/favoritbypostid";
 const GET_FAVORIT_BY_USER_ID_URL = "/api/favorit/get/favoritbyuserid";
-const CREATE_FAVORIT_URL = "/api/favorit/create/favorit";
-const DELETE_FAVORIT_URL = "/api/favorit/delete/favorit";
+const INCREASE_FAVORIT_URL = "/api/favorit/create/favorit";
+const DECREASE_VAORIT_URL = "/api/favorit/delete/favorit";
+const GET_FAVORIT_AUTH_URL = "/api/favorit/get/favoritauth";
 
 
 //액션타입
 const GET_FAVORIT_BY_POST_ID = "favorit/GET_FAVORIT_BY_POST_ID";
 const GET_FAVORIT_BY_USER_ID = "favorit/GET_FAVORIT_BY_USER_ID";
 
-const CREATE_FAVORIT = "favorit/CREATE_FAVORIT";
-const DELETE_FAVORIT = "favorit/DELETE_FAVORIT";
+const INCREASE_FAVORIT = "favorit/INCREASE_FAVORIT";
+const DECREASE_VAORIT = "favorit/DECREASE_VAORIT";
+
+const GET_FAVORIT_AUTH = "favorit/GET_FAVORIT_AUTH";
+
+
+
+//Thunk 액션 타입
+const SUCCESS = "favorit/SUCCESS";
 
 type FavoritAction = (
     | ReturnType <typeof getDataByPostId >
     | ReturnType <typeof getDataByUserId>
-    | ReturnType <typeof pushFavorit>
-    | ReturnType <typeof popFavorit>
+    | ReturnType <typeof inCreaseFavorit>
+    | ReturnType <typeof deCreaseFavorit>
+    | ReturnType <typeof checkAuth>
 )
 
 
+// thunk 함수
+export function updateFavCountOfChat(post_id:string, user_id : string, type:string):any {
+    return async (dispatch:any, getState:any) => {
+        
+
+        if(type === 'increase') {
+            await dispatch(inCreaseFavorit(post_id, user_id))
+            console.log('increase')
+
+        }else {
+            await dispatch(deCreaseFavorit(post_id, user_id))
+            console.log('decrease')
+        }
+        // favoerit db 푸시
+        try {
+
+            
+
+
+        } catch(err) {
+
+        }
+    }
+}
+
+export function requestFavorit(_object:any):any {
+    console.log(_object)
+    
+    function mergeData (reqData:any, storeData:any) {
+
+        console.log(reqData, storeData)
+        const post_no = [reqData].reduce((prev:any, next:any) => {
+            
+            if(!prev) prev = [];
+            prev = prev.concat(next)
+            return prev
+            
+        }, storeData)
+    
+        return post_no
+    }
+
+    return async (dispatch:any, getState:any) => {
+        // const fav_store = getState().favoritRecuder;
+        // const reqFavCount = await request("post", GET_FAVORIT_BY_POST_ID_URL, {post_id : post_id});
+        
+        // dispatch({
+        //     type : GET_FAVORIT_BY_POST_ID,
+        //     data : {
+        //         post_id : post_id,
+        //         favorit_count : reqFavCount.find,
+        //     },
+        //     history : fav_store.data
+        // })
+        // try {
+        //     const fav_store = getState().favoritRecuder;
+        //     const _mergeData = mergeData(fav_store.data, fav_store.history)
+
+        //     dispatch({
+        //         type : SUCCESS,
+        //         _mergeData
+        //     })
+
+        // }catch(err) {
+        //     console.log(err)
+        // }
+    }
+}
+
+export function checkAuth (post_id:string, user_id:string):any {
+        let form ={
+            post_id : post_id,
+            user_id : user_id
+        }
+        const data = request("post", GET_FAVORIT_AUTH_URL, form);
+        return {
+            type : GET_FAVORIT_AUTH,
+            payload : data
+        }
+    
+
+
+}
+
 //액션 함수
-export  function getDataByPostId (postId:string):any {
+export  async function getDataByPostId (postId:string) {
     let form = {
         post_id : postId,
     }
 
-    const data = request("post", GET_FAVORIT_BY_POST_ID_URL, form);
+    const data = await request("post", GET_FAVORIT_BY_POST_ID_URL, form);
     return {
         type : GET_FAVORIT_BY_POST_ID,
-        payload : data
+        payload : {
+            post_id : postId,
+            count : data.find
+        }
     }
 };
 export function getDataByUserId (userId:string) {
@@ -45,25 +141,26 @@ export function getDataByUserId (userId:string) {
     }
 };
 
-export function pushFavorit (postId:string, userId:string) {
+export function inCreaseFavorit (post_id:string, user_id:string):any {
     let form = {
-        post_id : postId,
-        user_id : userId
+        post_id : post_id,
+        user_id : user_id
     }
-    const data = request("post", CREATE_FAVORIT_URL, form);
+    console.log(form)
+    const data = request("post", INCREASE_FAVORIT_URL, form);
     return {
-        type : CREATE_FAVORIT,
+        type : INCREASE_FAVORIT,
         payload : data
     }
 }
-export function popFavorit (postId:string, userId:string) {
+export function deCreaseFavorit (post_id:string, user_id:string) {
     let form = {
-        post_id : postId,
-        user_id : userId
+        post_id : post_id,
+        user_id : user_id
     }
-    const data = request("post", DELETE_FAVORIT_URL, form);
+    const data = request("post", DECREASE_VAORIT_URL, form);
     return {
-        type : DELETE_FAVORIT,
+        type : DECREASE_VAORIT,
         payload : data
     }
 }
@@ -78,7 +175,8 @@ export function popFavorit (postId:string, userId:string) {
 const initState = {
     loading: false,
     error : null,
-    data : ''
+    data : [],
+    history : []
 }
 
 
@@ -90,17 +188,25 @@ function favoritRecuder(state = initState, action:any):any {
             return {
                 ...state,
                 loading : false,
-                data : action.payload
+                data : action.payload,
+                history : action.history
+            }
+        case SUCCESS : 
+            return {
+                ...state,
+                loading : false,
+                data : action._mergeData,
+                history : action._mergeData
             }
         case GET_FAVORIT_BY_USER_ID :
             return {
                 result : action.payload
             }
-        case CREATE_FAVORIT :
+        case INCREASE_FAVORIT :
             return {
                 result : action.payload
             }
-        case DELETE_FAVORIT :
+        case DECREASE_VAORIT :
             return {
                 result : action.payload
             }

@@ -748,10 +748,33 @@ app.post("/api/favorit/get/favoritbyuserid", (req,res)=> {
     })
 })
 
+// auth true 일때
+app.post("/api/favorit/get/favoritauth", (req,res)=> {
+    const data = req.body;
+
+    Favorit.findOne({
+        post_id : data.post_id,
+        user_id : data.user_id,
+    }, (err, find) => {
+        if(!find) return res.status(200).json({
+            success : true,
+            message : "좋아요를 누르지 않았습니다.",
+            find : false
+        })
+        return res.status(200).json({
+            success : true,
+            message : "좋아요를 눌렀습니다.",
+            find : true
+        })
+        
+    })
+})
+
 // 포스트 좋아요 호출
 app.post("/api/favorit/create/favorit", (req,res)=> {
     const data = req.body;
 
+    console.log(data)
     const favorit = new Favorit(data);
     favorit.save((err, result) => {
         if(err) res.json({
