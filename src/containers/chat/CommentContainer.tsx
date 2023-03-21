@@ -6,7 +6,7 @@ import request from "../../utils/axios";
 
 import Comment from "../../components/chat/Comment";
 
-function CommentContainer({chatProps}:any) {
+function CommentContainer({chatProps, commentToggle}:any) {
     // console.log(chatProps)
     const _id = chatProps._id;
     const writer_id = chatProps.userId;
@@ -51,6 +51,7 @@ function CommentContainer({chatProps}:any) {
             toggleChange={toggleChange}
             _id={_id}
             writer_id={writer_id}
+            commentToggle={commentToggle}
          />
     ) : ( <>loading...</>)
 }

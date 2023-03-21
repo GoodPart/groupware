@@ -16,6 +16,8 @@ function ChatContainer() {
     const [title, setTitle] = useState('');
     const [post_no, setPost_no] = useState(0);
 
+    const [commentToggle, setCommentToggle] = useState(false);
+
     const data = useSelector((state:RootState)=> state.chatReducer);
     const favorit_store = useSelector
     const dispatch = useDispatch();
@@ -62,6 +64,14 @@ function ChatContainer() {
     }, [dispatch, data])
 
 
+    const onCommentToggle = useCallback((e:any)=> {
+        console.log(e.target.checked)
+        // if(!e.currentTarget.checked) {
+            // setCommentToggle(e.currentTarget.checked)
+        // }else {
+            setCommentToggle(e.currentTarget.checked)
+        // }
+    }, [commentToggle]) 
     
     
 
@@ -78,6 +88,8 @@ function ChatContainer() {
             chatProps={data.chats.data.sort((a:any, b:any) => b.post_no - a.post_no)}
             title={title}
             post_no={post_no}
+            onCommentToggle={onCommentToggle}
+            commentToggle={commentToggle}
         />
         <button onClick={()=>_getChats()}> more</button>
 

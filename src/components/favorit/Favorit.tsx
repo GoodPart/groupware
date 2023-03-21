@@ -5,7 +5,7 @@ import { faHeart as regularFaHeart } from "@fortawesome/free-regular-svg-icons";
 
 function Favorit({checkAuth,input_id,checkFavorit,favoritCount,onChange}:any) {
     return (
-    <p style={{margin: "12px 0 0"}}>
+    <p>
         <input id={input_id} type="checkbox" onChange={(e)=> onChange(e)}  checked={checkFavorit} disabled={!checkAuth} style={{display : "none"}}  />
         <label htmlFor={input_id} style={{cursor:"pointer"}}>
         <FontAwesomeIcon 

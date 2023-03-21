@@ -37,12 +37,13 @@ type CommentProps = {
     sortState : string,
     _id : string,
     writer_id : string
+    commentToggle:boolean
 }
 
-function Comment({props, sortState, toggleChange, _id,writer_id}:CommentProps) {
+function Comment({props, sortState, toggleChange, _id,writer_id, commentToggle}:CommentProps) {
 
     return (
-        <div style={{backgroundColor: '#555', overflow:"hidden",height:"0"}}>
+        <div id={`comment_${_id}`} style={commentToggle ?  {backgroundColor: '#555', overflow:"hidden", height:"auto"} :{backgroundColor: '#555', overflow:"hidden", height: "0"} }>
             <h3>댓글 ({props.length}) <button type="button" onClick={toggleChange} >정렬{sortState}</button></h3>
             <CommentEditContainer 
                 _id={_id}

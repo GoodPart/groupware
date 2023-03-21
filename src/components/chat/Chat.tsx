@@ -1,8 +1,5 @@
 import React, { useEffect } from 'react';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComment as solidfaComment } from "@fortawesome/free-solid-svg-icons";
-import { faComment as regularfaComment } from "@fortawesome/free-regular-svg-icons";
 
 import CommentContainer from '../../containers/chat/CommentContainer';
 import ChatEditContainer from '../../containers/chat/ChatEditContainer';
@@ -11,33 +8,9 @@ import useDateHook from '../../hooks/useDateHook';
 
 
 import FavoritContainer from '../../containers/favorit/FavoritContainer';
-import request from '../../utils/axios';
+import CommentBadgeContainer from '../../containers/comment/CommentBadgeContainer';
 
-function CommentCount({_id}:any) {
-    
-    useEffect(()=> {
-        request("post", "/api/chat/get/comment", _id)
-        .then((res)=> {
-            console.log(res.find.length)
-        })
-    
-    }, [])
-
-    return (
-        <>
-            {/* <input id={_id}/> */}
-            {/* <label htmlFor={_id}> */}
-                <FontAwesomeIcon
-                    icon={regularfaComment}
-                    style={{color: "#888"}} 
-                />
-            {/* </label> */}
-        </>
-        
-    )
-}
-
-function Chat({chatProps, chatCategory, title, post_no}:any) {
+function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, commentToggle}:any) {
     function SetDate (timestamp:any) {
         return useDateHook(timestamp);
     }
@@ -53,7 +26,6 @@ function Chat({chatProps, chatCategory, title, post_no}:any) {
             <ul style={{backgroundColor : "#f1f1f1", padding : "16px"}}>
                 {
                     chatProps.map((ele:any, index:any)=> {
-                        // console.log(ele)
                         return (
                             <li key={`asd_${index}`} style={{backgroundColor:"#fff", borderRadius:"10px", listStyle: "none", padding : "32px", marginBottom : "16px", boxShadow: "4px 4px 10px 0px rgba(0,0,0,0.1)"}}>
                                 <div className='chat-item'>
@@ -77,16 +49,21 @@ function Chat({chatProps, chatCategory, title, post_no}:any) {
                                     <div className="chat-item__emotions"></div>
                                 </div>
                              
-                                <FavoritContainer 
-                                    post_id={ele._id}
-                                />
-                                <CommentCount />
-                                    
+                                <div style={{display : "flex", margin: "12px 0 0"}}>
+                                    <FavoritContainer 
+                                        post_id={ele._id}
+                                    />
+                                    <CommentBadgeContainer
+                                        post_id={ele._id}
+                                        onCommentToggle={onCommentToggle}
+                                        commentToggle={commentToggle}
+
+                                    />
+                                </div>
                                 
-                                
-                                {/* <hr /> */}
                                 <CommentContainer
                                     chatProps={ele}
+                                    commentToggle={commentToggle}
                                  />
 
                             </li>
