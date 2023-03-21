@@ -36,7 +36,6 @@ function Header() {
 
     const requestAuto = () => {
       dispatch(authCheck()).then((res:any)=> {
-        console.log(res.payload)
         setGetAuth(res.payload)
         dispatch(getNotiList(res.payload.userId))
         return console.log("checked...")

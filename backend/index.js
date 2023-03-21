@@ -774,7 +774,6 @@ app.post("/api/favorit/get/favoritauth", (req,res)=> {
 app.post("/api/favorit/create/favorit", (req,res)=> {
     const data = req.body;
 
-    console.log(data)
     const favorit = new Favorit(data);
     favorit.save((err, result) => {
         if(err) res.json({

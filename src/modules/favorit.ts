@@ -15,6 +15,8 @@ const GET_FAVORIT_BY_USER_ID = "favorit/GET_FAVORIT_BY_USER_ID";
 const INCREASE_FAVORIT = "favorit/INCREASE_FAVORIT";
 const DECREASE_VAORIT = "favorit/DECREASE_VAORIT";
 
+const INCREASE_FAVORIT_FAIL = "favorit/INCREASE_FAVORIT_FAIL";
+
 const GET_FAVORIT_AUTH = "favorit/GET_FAVORIT_AUTH";
 
 
@@ -142,16 +144,24 @@ export function getDataByUserId (userId:string) {
 };
 
 export function inCreaseFavorit (post_id:string, user_id:string):any {
-    let form = {
-        post_id : post_id,
-        user_id : user_id
+    console.log(post_id, user_id)
+    if(post_id === undefined || user_id === undefined) {
+        alert("안돼 돌아가")
+        return {
+            type : INCREASE_FAVORIT_FAIL,
+        }
+    }else {
+        let form = {
+            post_id : post_id,
+            user_id : user_id
+        }
+        const data = request("post", INCREASE_FAVORIT_URL, form);
+        return {
+            type : INCREASE_FAVORIT,
+            payload : data
+        }
     }
-    console.log(form)
-    const data = request("post", INCREASE_FAVORIT_URL, form);
-    return {
-        type : INCREASE_FAVORIT,
-        payload : data
-    }
+    
 }
 export function deCreaseFavorit (post_id:string, user_id:string) {
     let form = {
@@ -210,6 +220,9 @@ function favoritRecuder(state = initState, action:any):any {
             return {
                 result : action.payload
             }
+        case INCREASE_FAVORIT_FAIL : 
+            return state
+            
 
         default: return state
     }

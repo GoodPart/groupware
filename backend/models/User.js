@@ -14,6 +14,8 @@ empDate : 입사일
 dptDate : 퇴사일
 stateMent : 재직상태
 gender : 성별
+team_name: 팀 이름
+job : 직업
 
 */
 
@@ -66,6 +68,12 @@ const userSchema = mongoose.Schema({
     },
     tokenExp : {
         type : Number
+    },
+    team_name:{
+        type : String
+    },
+    job : {
+        type : String
     }
 })
 

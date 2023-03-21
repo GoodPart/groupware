@@ -10,7 +10,7 @@ type PropsState = {
 function NotificationView({onCheckHandle, onDeleteHandle, onViewPostHandle}:PropsState) {
     let data = useSelector((state:RootState)=> state.notificationReducer.noti_list);
     return (
-        <div style={{overflow : "scroll", position : "absolute", top : '0', right : '50px', backgroundColor : "gray", width : '450px', height : '400px'}}>
+        <div style={{display:"none", overflow : "scroll", position : "absolute", top : '0', right : '50px', backgroundColor : "gray", width : '450px', height : '400px'}}>
             <ul>
                 {
                     Object.values(data).map((ele:any, index:number)=> {
