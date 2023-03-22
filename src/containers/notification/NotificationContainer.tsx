@@ -14,7 +14,7 @@ import NotificationBadgeContainer from './NotificationBadgeContainer';
 
 
 function NotificationContainer({getAuth, badge}:any) {
-    const [notifivationToggle, setNotifivationToggle] = useState(false);
+    const [notifivationToggle, setNotifivationToggle] = useState(true);
     const dispatch = useDispatch();
     
     useEffect(()=> {
@@ -43,11 +43,7 @@ function NotificationContainer({getAuth, badge}:any) {
         dispatch(deleteRequest(getAuth.userId, _id))
     }, [dispatch]) 
     const onViewPostHandle = useCallback((e:any, _id:string)=> {
-        console.log('onView')
         dispatch(viewPost(_id))
-        .then((res:any)=> {
-            console.log(res.payload)
-        })
     }, [dispatch])
 
     const notificationOnToggle = useCallback((e:any)=> {

@@ -7,22 +7,22 @@ function useDateHook(timestamp:any) {
     const diff = (+today - +thisDay) / 1000;
 
     const times = [
-        { name: '년', milliSeconds: 60 * 60 * 24 * 365 },
-        { name: '개월', milliSeconds: 60 * 60 * 24 * 30 },
-        { name: '일', milliSeconds: 60 * 60 * 24 },
-        { name: '시간', milliSeconds: 60 * 60 },
-        { name: '분', milliSeconds: 60 },
+        { name: 'years', milliSeconds: 60 * 60 * 24 * 365 },
+        { name: 'monthes', milliSeconds: 60 * 60 * 24 * 30 },
+        { name: 'days', milliSeconds: 60 * 60 * 24 },
+        { name: 'hours', milliSeconds: 60 * 60 },
+        { name: 'minutes', milliSeconds: 60 },
     ];
     
     for (const value of times) {
         const betweenTime = Math.floor(diff / value.milliSeconds);
 
         if (betweenTime > 0)  {
-            return `${betweenTime}${value.name} 전`;
+            return `${betweenTime} ${value.name} ago`;
         }
     }
 
-    return '방금 전';
+    return 'Now';
 }
 
 export default useDateHook;

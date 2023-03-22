@@ -80,9 +80,6 @@ function Header() {
                       getAuth={getAuth}
                       badge={{bgColor: "coral",txtColor : "#fff" }}
                     />
-                    {/* <NotificationViewContainer
-                      getAuth={getAuth}
-                    /> */}
                   </div>
                   <div>
                     <span className='thumbnail'>썸네일 - </span>
