@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
 
 
 import CommentContainer from '../../containers/chat/CommentContainer';
@@ -9,6 +10,20 @@ import useDateHook from '../../hooks/useDateHook';
 
 import FavoritContainer from '../../containers/favorit/FavoritContainer';
 import CommentBadgeContainer from '../../containers/comment/CommentBadgeContainer';
+
+
+const ListWrap = styled.ul`
+    background-color: #f1f1f1;
+    padding: 16px;
+    li {
+        background-color: #fff;
+        list-style: none;
+        padding: 32px;
+        margin-bottom: 16px;
+        box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.1);
+        border-radius: 10px;
+    }
+`
 
 function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, commentToggle}:any) {
     function SetDate (timestamp:any) {
@@ -23,11 +38,11 @@ function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, comment
                 chatProps={chatProps}
                 post_no={post_no}
              />
-            <ul style={{backgroundColor : "#f1f1f1", padding : "16px"}}>
+            <ListWrap>
                 {
                     chatProps.map((ele:any, index:any)=> {
                         return (
-                            <li key={`asd_${index}`} style={{backgroundColor:"#fff", borderRadius:"10px", listStyle: "none", padding : "32px", marginBottom : "16px", boxShadow: "4px 4px 10px 0px rgba(0,0,0,0.1)"}}>
+                            <li key={`chat_${index}`}>
                                 <div className='chat-item'>
                                     <div className="chat-item__header" style={{display : 'flex', alignItems : 'center'}}>
                                         <div className="header__thumbnail"
@@ -71,7 +86,7 @@ function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, comment
                         )
                     })
                 }
-            </ul>
+            </ListWrap>
         </>
     )
 }

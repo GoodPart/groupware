@@ -16,7 +16,10 @@ function ChatContainer() {
     const [title, setTitle] = useState('');
     const [post_no, setPost_no] = useState(0);
 
-    const [commentToggle, setCommentToggle] = useState(false);
+    const [commentToggle, setCommentToggle] = useState({
+        state : false,
+        _id : ''
+    });
 
     const data = useSelector((state:RootState)=> state.chatReducer);
     const favorit_store = useSelector
@@ -64,13 +67,13 @@ function ChatContainer() {
     }, [dispatch, data])
 
 
-    const onCommentToggle = useCallback((e:any)=> {
-        console.log(e.target.checked)
-        // if(!e.currentTarget.checked) {
-            // setCommentToggle(e.currentTarget.checked)
-        // }else {
-            setCommentToggle(e.currentTarget.checked)
-        // }
+    const onCommentToggle = useCallback((e:any, _id:string)=> {
+            setCommentToggle({
+                state : e.currentTarget.checked,
+                _id : _id
+            })
+      console.log(commentToggle);
+        
     }, [commentToggle]) 
     
     

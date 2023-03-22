@@ -6,13 +6,14 @@ import { RootState } from '../../modules';
 import { useDispatch, useSelector } from 'react-redux';
 
 
-function NotificationBadgeContainer({badge}:any) {
+function NotificationBadgeContainer({badge, notificationOnToggle}:any) {
     const data = useSelector((state:RootState)=> state.notificationReducer);
 
     return (
         <NotificationBadge 
             badge={badge}
             not_checked={data.not_checked}
+            notificationOnToggle={notificationOnToggle}
         />
     )
 }

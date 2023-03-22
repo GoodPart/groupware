@@ -1,10 +1,26 @@
 import React, {useState, useEffect} from 'react'
+import styled from 'styled-components'
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment as solidfaComment } from "@fortawesome/free-solid-svg-icons";
 import { faComment as regularfaComment } from "@fortawesome/free-regular-svg-icons";
 
 import request from '../../utils/axios';
+
+const CommentWrap = styled.div`
+    input {
+        display : none;
+    };
+    input + label {
+        cursor : pointer
+    };
+    input + label span {
+        font-size : 16px;
+        font-weight : normal;
+        color : #777;
+        margin : 0 8px;
+    };
+`;
 
 
 export default function CommentBadgeContainer({post_id, onCommentToggle, commentToggle}:any) {
@@ -17,21 +33,17 @@ export default function CommentBadgeContainer({post_id, onCommentToggle, comment
     
     }, [])
 
-
-    // if(!commentProps.success)
-
-
     return (
-        <p>
-            <input id={`comment_${post_id}`} type="checkbox" onChange={(e)=> onCommentToggle(e)} checked={commentToggle} style={{display:"none"}}/>
-            <label htmlFor={`comment_${post_id}`} style={{cursor:"pointer"}}>
+        <CommentWrap>
+            <input id={`comment_${post_id}`} type="checkbox" onChange={(e)=> onCommentToggle(e, `comment_${post_id}`)} checked={commentToggle.state}/>
+            <label htmlFor={`comment_${post_id}`}>
                 <FontAwesomeIcon
-                    icon={regularfaComment}
-                    style={{color: "#888"}} 
+                    icon={commentToggle._id === `comment_${post_id}` && commentToggle.state ? solidfaComment : regularfaComment}
+                    style={{color: "#666"}} 
                 />
-                <span style={{fontSize : "16px", fontWeight:"normal", color:"#777", margin:"0 8px"}}>{commentProps}</span>
+                <span>{commentProps}</span>
             </label>
-        </p>
+        </CommentWrap>
         
     )
 }

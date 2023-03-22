@@ -14,6 +14,7 @@ import NotificationBadgeContainer from './NotificationBadgeContainer';
 
 
 function NotificationContainer({getAuth, badge}:any) {
+    const [notifivationToggle, setNotifivationToggle] = useState(false);
     const dispatch = useDispatch();
     
     useEffect(()=> {
@@ -49,6 +50,11 @@ function NotificationContainer({getAuth, badge}:any) {
         })
     }, [dispatch])
 
+    const notificationOnToggle = useCallback((e:any)=> {
+        let checked = e.currentTarget.checked;
+        setNotifivationToggle(checked)
+    }, [notifivationToggle])
+
     /*
         상태가 갱신되면 아래 container 컴포넌트에서 useSelector로 필요한 값을 조회 후 사용한다.
         비동기로 바로바로 값이 변경되는걸 볼 수 있다.
@@ -62,12 +68,14 @@ function NotificationContainer({getAuth, badge}:any) {
             {/* notification 아이콘 영역 */}
             <NotificationBadgeContainer
                 badge={badge}
+                notificationOnToggle={notificationOnToggle}
             />
             {/* notification 뷰어 영역 */}
             <NotificationView 
                 onCheckHandle={onCheckHandle}
                 onDeleteHandle={onDeleteHandle}
                 onViewPostHandle={onViewPostHandle}
+                notifivationToggle={notifivationToggle}
             />
         </>
     ) 
