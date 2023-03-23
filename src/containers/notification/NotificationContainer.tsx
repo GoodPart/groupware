@@ -2,6 +2,7 @@ import React, {useEffect, useState, useCallback} from 'react';
 import request from '../../utils/axios';
 
 import { RootState } from '../../modules';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { notiBadgeInfo,deleteRequest, updateCheckedRequest, getNotiList } from '../../modules/notification';
 import {viewPost} from '../../modules/chat'
@@ -16,7 +17,7 @@ import NotificationBadgeContainer from './NotificationBadgeContainer';
 function NotificationContainer({getAuth, badge}:any) {
     const [notifivationToggle, setNotifivationToggle] = useState(true);
     const dispatch = useDispatch();
-    
+    const navigate = useNavigate();
     useEffect(()=> {
         onReadNotificationList()
     }, [])
@@ -43,11 +44,13 @@ function NotificationContainer({getAuth, badge}:any) {
         dispatch(deleteRequest(getAuth.userId, _id))
     }, [dispatch]) 
     const onViewPostHandle = useCallback((e:any, _id:string)=> {
-        dispatch(viewPost(_id))
+        // navigate(`/chat/`)
+        // dispatch(viewPost(_id, true))
     }, [dispatch])
 
     const notificationOnToggle = useCallback((e:any)=> {
         let checked = e.currentTarget.checked;
+
         setNotifivationToggle(checked)
     }, [notifivationToggle])
 

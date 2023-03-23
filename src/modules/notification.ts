@@ -11,6 +11,8 @@ const READ = 'notification/READ' as const;
 const NOTI_CHECKED = 'notification/NOTI_CHECKED' as const;
 const UPDATE_CHECKED = 'notification/UPDATE_CHECKED' as const;
 
+const JUMP_POST = 'notification/JUMP_POST' as const;
+
 
 // 액션 함수 타입
 type notificationActionType = (

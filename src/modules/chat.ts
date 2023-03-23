@@ -253,6 +253,7 @@ export function viewPost(post_id: string):any {
     const data = request("post", "/api/chat/get/chatlistby_id", {_id : post_id})
 
     return data.then(res=> {
+        console.log(res)
         return {
             type : VIEWPOST,
             payload : res.result
@@ -275,8 +276,8 @@ function chatReducer(state = initState, action:chatAction):any {
         case VIEWPOST :
             return {
                 ...state,
-                success : action.payload.success,
-                result : action.payload
+                success : action.payload,
+                result : action
             }
         case RESETLIST : 
             return {

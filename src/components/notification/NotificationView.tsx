@@ -94,6 +94,10 @@ const InfoType = styled.div`
     font-size : 12px;
     font-weight: 600;
     color : #7c7272;
+
+    span.heigh-light {
+        color : #ff505c
+    }
 `
 const InfoActionAt = styled.div`
     font-size : 10px;
@@ -131,7 +135,7 @@ function NotificationView({onCheckHandle, onDeleteHandle, onViewPostHandle, noti
                 {
                     Object.values(data).map((ele:any, index:number)=> {
                         return (
-                            <NotificationListItem key={index} checked={ele.is_checked} onClick={(e)=> onCheckHandle(e,ele._id)}>
+                            <NotificationListItem key={index} checked={ele.is_checked} onClick={(e)=> onViewPostHandle(e,ele.post_id)}>
                                 <NotificationListItemWrap>
                                     <NotificationListItemThumbNail>
                                         <span style={{position:"absolute", top:"50%", left:"50%", transform:"translate(-50%, -50%)", textTransform:"uppercase", fontSize:"24px", fontWeight:"bolder"}}>{ele.writer_id.slice(0,1)}</span>
@@ -142,10 +146,13 @@ function NotificationView({onCheckHandle, onDeleteHandle, onViewPostHandle, noti
                                             {ele.writer_id}
                                         </InfoName>
                                         <InfoType>
-                                            {ele.noti_desc}
+                                            <span className='heigh-light'>Commented</span> on your post
+                                            {/* {ele.noti_desc} */}
                                         </InfoType>
                                         <InfoActionAt>
                                             {SetDate(ele.create_at)}
+                                            <input type="button"  value='확인' onClick={(e)=> onCheckHandle(e,ele._id)} />
+                                            <input type="button"  value='제거' onClick={(e)=> onDeleteHandle(e,ele._id)} />
                                         </InfoActionAt>
 
                                     </NotificationListItemInfo>

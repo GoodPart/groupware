@@ -7,8 +7,9 @@ import SignIn from './signIn';
 import Users from './Users';
 import MyPage from './MyPage';
 import RouteChat from './RouteChat';
-import ChatPlazaContainer from './RouteChatPlaza'
+import ChatPlazaContainer from './RouteChatPlaza';
 
+import PostViewContainer from '../containers/chat/postViewContainer';
 
 // import { RootState } from '../modules';
 // import { authCheck } from '../modules/auth';
@@ -29,6 +30,8 @@ function RouteArea () {
     const ChatCategoryPage:React.FunctionComponent = Auth(RouteChat, null);
     const MyPage_:React.FunctionComponent = Auth(MyPage, true)
 
+    const PostViewPage:React.FunctionComponent = Auth(PostViewContainer, null);
+
     return (
         <Routes>
             <Route path='/' element={<HomePage />} />
@@ -39,6 +42,7 @@ function RouteArea () {
             <Route path='/mypage/:user' element={ <MyPage_ /> } />
             <Route path='/chat' element={ <ChatPlazaPage /> } />
             <Route path='/chat/:chatcategory' element={ <ChatCategoryPage /> } />
+            <Route path='/chat/:category/:post_id/post-view' element={ <PostViewPage />}  />
         </Routes>
     )
 }

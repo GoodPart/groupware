@@ -1,6 +1,14 @@
 import React,{useState} from "react";
 import sortProcess from "../../utils/sort";
 import CommentEditContainer from "../../containers/chat/CommentEditContainer";
+import styled from "styled-components";
+
+
+const CommentWrap = styled.div<{matched:boolean,state:boolean}>`
+    background-color: #555;
+    overflow : hidden;
+    height: ${props=> props.matched && props.state ? "auto" : 0};
+`
 
 function CommentArea({props}:any) {
     // console.log('--->', props)
@@ -41,8 +49,11 @@ type CommentProps = {
 }
 
 function Comment({props, sortState, toggleChange, _id,writer_id, commentToggle}:CommentProps) {
+    console.log(commentToggle._id === _id && commentToggle.state)
     return (
-        <div id={`comment_${_id}`} style={commentToggle._id === `comment_${_id}` && commentToggle.state ?  {backgroundColor: '#555', overflow:"hidden", height:"auto"} :{backgroundColor: '#555', overflow:"hidden", height: "0"} }>
+        // commentToggle._id === `comment_${_id}`
+        // commentToggle.state
+        <CommentWrap id={`comment_${_id}`} matched={commentToggle._id} state={commentToggle.state} >
             <h3>댓글 ({props.length}) <button type="button" onClick={toggleChange} >정렬{sortState}</button></h3>
             <CommentEditContainer 
                 _id={_id}
@@ -54,7 +65,7 @@ function Comment({props, sortState, toggleChange, _id,writer_id, commentToggle}:
                     props={props} />
                 }
             </ul>
-        </div>
+        </CommentWrap>
     )
 }
 
