@@ -14,6 +14,9 @@ const GATEGORYLIST = 'chat/GATEGORYLIST' as const;
 
 
 const VIEWPOST = 'chat/VIEWPOST' as const;
+const VIEWPOST_GET_POST_DATA = 'chat/VIEWPOST_GET_POST_DATA' as const;
+const VIEWPOST_GET_COMMENT_DATA = 'chat/VIEWPOST_GET_COMMENT_DATA' as const;
+const VIEWPOST_GET_SUCCESS = 'chat/VIEWPOST_GET_SUCCESS' as const;
 
 const RESETLIST = 'chat/RESETLIST' as const;
 
@@ -114,12 +117,18 @@ type ChatState = {
     class_no: number,
     meta: {
         nextId : number,
-    }
+    },
     chats : {
         loading : boolean,
         data : any,
         error : any,
         history:any
+    },
+    post_view : {
+        loading : boolean,
+        post_data : any,
+        comment_data : any,
+        err : any
     }
 }
 
@@ -142,6 +151,12 @@ const initState:ChatState = {
         data : null,
         error : null,
         history : {}
+    },
+    post_view : {
+        loading : false,
+        post_data : '',
+        comment_data : '',
+        err : ''
     }
 }
 
@@ -250,15 +265,39 @@ export function getListByCategoryLimiteData(categoryName : number, nextId:any, c
 }
 
 export function viewPost(post_id: string):any {
-    const data = request("post", "/api/chat/get/chatlistby_id", {_id : post_id})
 
-    return data.then(res=> {
-        console.log(res)
-        return {
-            type : VIEWPOST,
-            payload : res.result
+    return async (dispatch:any, getState:any) => {
+
+        const data = await request("post", "/api/chat/get/chatlistby_id", {_id : post_id})
+
+        dispatch({
+            type : VIEWPOST_GET_POST_DATA,
+            payload : data.result
+        });
+        try {
+            const getStore = getState().chatReducer;
+            const commentData = await request("post", "/api/chat/get/comment",{_id : post_id});
+
+            dispatch({
+                type : VIEWPOST_GET_COMMENT_DATA,
+                post_data : getStore.post_view.post_data,
+                comment_data : commentData.find[0]
+            })
+
+        }catch(err) {
+
         }
-    })
+
+        // return data.then(res=> {
+        //     console.log(res)
+        //     return {
+        //         type : VIEWPOST,
+        //         payload : res.result
+        //     }
+        // })
+    }
+
+    
 }
 
 
@@ -272,6 +311,26 @@ function chatReducer(state = initState, action:chatAction):any {
                 ...state,
                 success :action.payload.success,
                 result : action.payload
+            }
+        case VIEWPOST_GET_POST_DATA : 
+            return {
+                ...state,
+                post_view : {
+                    loading : true,
+                    post_data : action.payload,
+                    comment_data : '',
+                    err : false
+                }
+            }
+        case VIEWPOST_GET_COMMENT_DATA :
+            return {
+                ...state,
+                post_view : {
+                    loading : false,
+                    post_data : action.post_data,
+                    comment_data : action.comment_data,
+                    err : false
+                }
             }
         case VIEWPOST :
             return {

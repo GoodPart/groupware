@@ -1,26 +1,38 @@
 import React,{useEffect, useCallback, useState} from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { viewPost } from '../../modules/chat';
+
+import { RootState } from '../../modules';
 
 import PostView from '../../components/chat/PostView';
 
 export default function PostViewContainer() {
-    let {category, post_id} = useParams();
+    let {post_id, comment_id} = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const [post, setPost] = useState()
+    const data = useSelector((state:RootState)=> state.chatReducer);
 
+    
     useEffect(()=> {
         dispatch(viewPost(String(post_id)))
-        .then((res:any)=>{
-            setPost(res.payload)
-        })
-    }, [])
+        
+        // .then((res:any)=>{
+        //     console.log(res)
+        //     setPost(res)
 
-    if(!post) return <>loading...</>;
-    
+        //     // res.success ? navigate(`/chat/${}/${}/post-view`) : navigate()
+        // })
+    }, [dispatch])
+
+    if(data.post_view.loading) return <>loading...</>;
+    if(!data.post_view.comment_data) return <>loading...</>;
+
     return (
-        <PostView post={post} />
+        <PostView 
+        post={data.post_view.post_data} 
+        comment_id={comment_id}
+        />
     )
 }

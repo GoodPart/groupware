@@ -49,7 +49,7 @@ type CommentProps = {
 }
 
 function Comment({props, sortState, toggleChange, _id,writer_id, commentToggle}:CommentProps) {
-    console.log(commentToggle._id === _id && commentToggle.state)
+    // console.log(commentToggle._id === _id && commentToggle.state)
     return (
         // commentToggle._id === `comment_${_id}`
         // commentToggle.state

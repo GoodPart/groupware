@@ -42,7 +42,7 @@ function RouteArea () {
             <Route path='/mypage/:user' element={ <MyPage_ /> } />
             <Route path='/chat' element={ <ChatPlazaPage /> } />
             <Route path='/chat/:chatcategory' element={ <ChatCategoryPage /> } />
-            <Route path='/chat/:category/:post_id/post-view' element={ <PostViewPage />}  />
+            <Route path='/chat/:post_id/:comment_id/post-view' element={ <PostViewPage />}  />
         </Routes>
     )
 }

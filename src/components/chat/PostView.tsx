@@ -23,6 +23,8 @@ export default function PostView({post}:any) {
     function SetDate (timestamp:any) {
         return useDateHook(timestamp);
     }
+    const thumb = post.userId.slice(0,1)
+    // console.log(post)
     return (
         <ListWrap>
             <div className='chat-item'>
@@ -30,7 +32,7 @@ export default function PostView({post}:any) {
                 <div className="chat-item__header" style={{display : 'flex', alignItems : 'center'}}>
                     <div className="header__thumbnail"
                         style={{position : "relative",width : '40px', height : '40px', borderRadius : "25px", backgroundColor : "coral" , marginRight : "8px"}}
-                    ><span style={{position:"absolute", top:"50%", left:"50%", transform:"translate(-50%, -50%)", textTransform:"uppercase", fontSize:"24px", fontWeight:"bolder"}}>{post.userId.slice(0,1)}</span></div>
+                    ><span style={{position:"absolute", top:"50%", left:"50%", transform:"translate(-50%, -50%)", textTransform:"uppercase", fontSize:"24px", fontWeight:"bolder"}}>{thumb}</span></div>
 
                     <div className="header__info" style={{display : "flex", flexDirection :"column", justifyContent: "space-between"}}>
                         <div className="info__user-name" style={{fontSize : "14px",fontWeight : "bold"}}>{post.userId}</div>
