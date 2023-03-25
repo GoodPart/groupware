@@ -67,6 +67,7 @@ function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, comment
                                 <div style={{display : "flex", margin: "12px 0 0"}}>
                                     <FavoritContainer 
                                         post_id={ele._id}
+                                        post_write_user={ele.userId}
                                     />
                                     <CommentBadgeContainer
                                         post_id={ele._id}

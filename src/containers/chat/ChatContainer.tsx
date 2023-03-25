@@ -6,6 +6,8 @@ import { RootState } from '../../modules';
 import {resetDataList, getChats} from '../../modules/chat';
 import { requestFavorit } from '../../modules/favorit';
 
+import PostViewSkeleton from '../../components/chat/PostViewSkeleton';
+
 
 import Chat from '../../components/chat/Chat';
 
@@ -28,9 +30,6 @@ function ChatContainer() {
 
     useEffect(()=> {
         _getChats()
-        // getFavoritByPost_id()
-        // getListByLimit(data.meta.nextId)
-        // dispatch(getListLimiteAsync({categoryName : Number(chatcategory),start : data.meta.nextId, count:7}))
 
         //게시판 이름 요청
         request("post","/api/chat/get/category", {class_no : chatcategory, start : data.meta.nextId})
@@ -72,16 +71,15 @@ function ChatContainer() {
                 state : e.currentTarget.checked,
                 _id : _id
             })
-      console.log(commentToggle);
         
     }, [commentToggle]) 
     
     
 
 
-    if(data.chats.loading) return <div>로딩중...</div>
-    if(data.chats.error) return <div>에러...</div>
-    if(!data.chats.data) return null;
+    if(data.chats.loading) return <PostViewSkeleton count={2} />
+    if(data.chats.error) return <PostViewSkeleton count={2} />
+    if(!data.chats.data) return <PostViewSkeleton count={2} />;
 
 
     return  (

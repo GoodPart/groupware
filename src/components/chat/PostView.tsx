@@ -24,11 +24,11 @@ export default function PostView({post}:any) {
         return useDateHook(timestamp);
     }
     const thumb = post.userId.slice(0,1)
+    
     // console.log(post)
     return (
         <ListWrap>
             <div className='chat-item'>
-                <>{post._id}</>
                 <div className="chat-item__header" style={{display : 'flex', alignItems : 'center'}}>
                     <div className="header__thumbnail"
                         style={{position : "relative",width : '40px', height : '40px', borderRadius : "25px", backgroundColor : "coral" , marginRight : "8px"}}
@@ -52,12 +52,15 @@ export default function PostView({post}:any) {
                 <FavoritContainer 
                     post_id={post._id}
                 />
-                {/* <CommentBadgeContainer
+                <CommentBadgeContainer
                     post_id={post._id}
-                    onCommentToggle={onCommentToggle}
-                    commentToggle={commentToggle}
+                    onCommentToggle={true}
+                    commentToggle={{
+                        _id : post._id,
+                        state : true
+                    }}
 
-                /> */}
+                />
             </div>
             
             <CommentContainer

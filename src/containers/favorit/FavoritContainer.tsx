@@ -8,7 +8,7 @@ import request from '../../utils/axios';
 
 import Favorit from '../../components/favorit/Favorit'
 
-function FavoritContainer({post_id}:any) {
+function FavoritContainer({post_id, post_write_user}:any) {
     const dispatch = useDispatch();
 
     const favorit_store = useSelector((state:RootState) => state.favoritRecuder);
@@ -16,8 +16,10 @@ function FavoritContainer({post_id}:any) {
 
     const [favoritCount, setFavoritCount] = useState(0);
     const [checkFavorit, setCheckFavorit] = useState(false);
+    const [postInfo, setPostInfo] = useState('');
     
     useEffect(()=> {
+        console.log(post_write_user)
         // getFavoritPostId()
         if(!auth_store.isAuth) {
             //미 로그인
@@ -33,7 +35,13 @@ function FavoritContainer({post_id}:any) {
         request("post", "/api/favorit/get/favoritbypostid", {post_id : post_id})
         .then((res:any)=> {
             setFavoritCount(res.find)
+
         })
+        // request("post", '/api/chat/get/chatlistby_id', {_id : post_id})
+        // .then((res:any)=> {
+        //     setPostInfo(res.result);
+        //     console.log(postInfo)
+        // })
         
     }, [dispatch, favoritCount, checkFavorit])
 
@@ -55,12 +63,31 @@ function FavoritContainer({post_id}:any) {
         if(checked) {
             //좋아요
             inCreaseFavoritHandle()
+            onCreateNotification()
             setCheckFavorit(checked)
         }else {
             deCreaseFavoritHandle()
             setCheckFavorit(checked)
         }
     }, [dispatch])
+
+    const onCreateNotification = () => {
+        let form = {
+            receiver_id : post_write_user, // 해당 글 작성자
+            writer_id : auth_store.isAuth, // 이 코멘트를 쓰는 사람 - 코멘터
+            post_id : post_id, //포스트 id
+            noti_desc : '',
+            noti_type : "favorit",
+            create_at : "",
+            is_checked : false
+
+        };
+
+        request('post', '/api/notification/create/user', form)
+        .then(res=> {
+            console.log(res)
+        })
+    }
     
 
     if(favorit_store.loading) return <>loading...</>

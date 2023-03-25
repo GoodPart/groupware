@@ -6,6 +6,7 @@ import { viewPost } from '../../modules/chat';
 import { RootState } from '../../modules';
 
 import PostView from '../../components/chat/PostView';
+import PostViewSkeleton from '../../components/chat/PostViewSkeleton';
 
 export default function PostViewContainer() {
     let {post_id, comment_id} = useParams();
@@ -17,17 +18,10 @@ export default function PostViewContainer() {
     
     useEffect(()=> {
         dispatch(viewPost(String(post_id)))
-        
-        // .then((res:any)=>{
-        //     console.log(res)
-        //     setPost(res)
-
-        //     // res.success ? navigate(`/chat/${}/${}/post-view`) : navigate()
-        // })
     }, [dispatch])
 
-    if(data.post_view.loading) return <>loading...</>;
-    if(!data.post_view.comment_data) return <>loading...</>;
+    if(data.post_view.loading) return <PostViewSkeleton></PostViewSkeleton>;
+    if(!data.post_view.comment_data) return <PostViewSkeleton></PostViewSkeleton>;
 
     return (
         <PostView 
