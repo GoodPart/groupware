@@ -45,7 +45,7 @@ const NotificationListItem = styled.li<{checked:boolean}>`
     margin : 0;
     border-bottom:  1px solid #ddd;
     box-sizing: border-box;
-    opacity : ${props => props.checked ? 0.4 : 1};
+    opacity : ${props => props.checked ? 0.3 : 1};
     
 
     &:after {
@@ -151,7 +151,7 @@ function NotificationView({onCheckHandle, onDeleteHandle, onViewPostHandle, noti
                                         </InfoType>
                                         <InfoActionAt>
                                             {SetDate(ele.create_at)}
-                                            <input type="button"  value='상태 변경' onClick={(e)=> onCheckHandle(e,ele._id)} />
+                                            {/* <input type="button"  value='상태 변경' onClick={(e)=> onCheckHandle(e,ele._id)} /> */}
                                             <input type="button"  value='제거' onClick={(e)=> onDeleteHandle(e,ele._id)} />
                                         </InfoActionAt>
 
