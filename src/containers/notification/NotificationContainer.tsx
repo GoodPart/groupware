@@ -15,7 +15,7 @@ import NotificationBadgeContainer from './NotificationBadgeContainer';
 
 
 function NotificationContainer({getAuth, badge}:any) {
-    const [notifivationToggle, setNotifivationToggle] = useState(true);
+    const [notifivationToggle, setNotifivationToggle] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const chatData = useSelector((state:RootState)=> state.chatReducer);

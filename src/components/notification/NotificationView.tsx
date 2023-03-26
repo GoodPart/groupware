@@ -7,7 +7,7 @@ import useDateHook from '../../hooks/useDateHook';
 const NotificationWrap = styled.div<{display:string}>`
     position: absolute;
     display: ${props => props.display === 'true' ? "block" : "none"};
-    top : 0;
+    top : 64px;
     right: 50px;
     background-color: #fff;
     width: 400px;

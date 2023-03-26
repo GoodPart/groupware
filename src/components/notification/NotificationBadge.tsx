@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
 
 const CommentWrap = styled.div`
+    display: flex;
+    align-self: center;
     input {
         display : none;
     };
@@ -54,9 +56,7 @@ function NotificationBadge({badge, not_checked, notificationOnToggle}:any) {
                                 ) : 
                                 <></>
                             }
-                            
-
-                            <FontAwesomeIcon icon={faEnvelope}  />
+                            <FontAwesomeIcon icon={faBell}  />
                         </label>
                     </>
                 ) : 
