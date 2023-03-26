@@ -9,29 +9,25 @@ const CommentWrap = styled.div`
         display : none;
     };
     input + label {
-        cursor : pointer
+        position: relative;
+        cursor : pointer;
+
     };
+    input + label div {
+    }
     input + label span {
-        font-size : 16px;
+        display: flex;
+        align-self: center;
+        justify-content: center;    
+        line-height: 14px;
+        font-size : 12px;
         font-weight : normal;
-        color : #777;
-        margin : 0 8px;
+        color : #fff;
+        font-weight : '700';
+
     };
 `;
 
-function Badge({fontColor, bgColor, badgeContent, notificationOnToggle}:any) {
-    return (
-        <>
-            <input type="checkbox" id="notification" />
-            <label htmlFor='notification'>
-                <div style={{backgroundColor:bgColor, color : fontColor, width: '16px', height:'16px', borderRadius : '16px', textAlign : 'center', fontWeight : '700'}}>
-                    {badgeContent}
-                </div>
-            </label>
-        </>
-       
-    )
-}
 
 //알림을 확인하면 아래 기능이 수행되야함.
 
@@ -50,13 +46,13 @@ function NotificationBadge({badge, not_checked, notificationOnToggle}:any) {
                         <label htmlFor='notification'>
                             {
                                 not_checked.find ? (
-                                    <div style={{backgroundColor:badge.bgColor, color : badge.txtColor, width: '16px', height:'16px', borderRadius : '16px', textAlign : 'center', fontWeight : '700'}}>
-                                        {not_checked.length}
+                                    <div style={{position :"absolute", top : 0, right : 0,backgroundColor:badge.bgColor, color : badge.txtColor, width: '12px', height:'12px', borderRadius : '12px', }}>
+                                        <span>{not_checked.length}</span>
                                     </div>
                                 ) : 
                                 <></>
                             }
-                            <FontAwesomeIcon icon={faBell}  />
+                            <FontAwesomeIcon icon={faBell}  size="xl"/>
                         </label>
                     </>
                 ) : 

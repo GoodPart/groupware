@@ -122,7 +122,7 @@ function Header() {
                       </UserSection>
                       <span className='info__name'>{getAuth.name}</span>
                       {/* <Link to={`/mypage/${getAuth.userId}`}>내정보</Link> */}
-                      {/* <button onClick={onLogOut}>로그아웃</button> */}
+                      <button onClick={onLogOut}>로그아웃</button>
                     </div>
                   </div>
                 ) : (
