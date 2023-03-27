@@ -16,6 +16,7 @@ import request from '../utils/axios';
 
 // import NotificationViewContainer from '../containers/notification/NotificationViewContainer';
 import NotificationContainer from '../containers/notification/NotificationContainer';
+import UserSettingContainer from '../containers/userISetting/UserSettingContainer';
 
 
 
@@ -51,7 +52,7 @@ const HeaderWrap = styled.div`
     align-self: center;
   }
 `
-const UserSection = styled.div`
+const ThumbNail = styled.div`
   align-self: center;
   position : relative;
   margin: 8px;
@@ -117,12 +118,13 @@ function Header() {
                       badge={{bgColor: "coral",txtColor : "#fff" }}
                     />
                     <div className='info__wrap'>
-                      <UserSection>
+                      <ThumbNail>
                           <span style={{position:"absolute", top:"50%", left:"50%", transform:"translate(-50%, -50%)", textTransform:"uppercase", fontSize:"24px", fontWeight:"bolder"}}>{getAuth.name.slice(0,1)}</span>
-                      </UserSection>
+                      </ThumbNail>
                       <span className='info__name'>{getAuth.name}</span>
+                      <UserSettingContainer />
                       {/* <Link to={`/mypage/${getAuth.userId}`}>내정보</Link> */}
-                      <button onClick={onLogOut}>로그아웃</button>
+                      {/* <button onClick={onLogOut}>로그아웃</button> */}
                     </div>
                   </div>
                 ) : (
