@@ -4,14 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import UserSettingView from '../../components/userSetting/UserSettingView';
 import UserSettingIcon from './UserSettingIcon';
 
-export default function UserSettingContainer() {
+export default function UserSettingContainer({authProps, onLogOut}:any) {
     const navigate = useNavigate();
 
     const [toggleProps, setToggleProps] = useState(false);
 
     const onToggleHandle = useCallback((e:any)=> {
         let checked = e.currentTarget.checked;
-        console.log(checked)
         setToggleProps(checked)
     }, [toggleProps])
     
@@ -21,7 +20,11 @@ export default function UserSettingContainer() {
                 onToggleHandle={onToggleHandle}
                 toggleProps={toggleProps}
             />
-            <UserSettingView />
+            <UserSettingView
+                authProps={authProps}
+                onLogOut={onLogOut}
+                toggleProps={toggleProps}
+            />
         </>
     )
 }

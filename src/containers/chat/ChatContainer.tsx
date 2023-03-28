@@ -83,7 +83,7 @@ function ChatContainer() {
 
 
     return  (
-        <>
+        <div style={{maxWidth : '600px', margin : "0 auto"}}>
         <Chat 
             chatCategory = {chatcategory}
             chatProps={data.chats.data.sort((a:any, b:any) => b.post_no - a.post_no)}
@@ -94,7 +94,7 @@ function ChatContainer() {
         />
         <button onClick={()=>_getChats()}> more</button>
 
-        </>
+        </div>
             
     ) 
     

@@ -23,10 +23,14 @@ import UserSettingContainer from '../containers/userISetting/UserSettingContaine
 const HeaderWrap = styled.div`
   display: flex;
   justify-content: space-between;
+  height: 44px;
   /* background-color: #26446c; */
 
   div.header__section {
     display: flex;
+  }
+  h2.header__logo {
+    margin:  0;
   }
 
   div.page__wrap {
@@ -47,6 +51,7 @@ const HeaderWrap = styled.div`
   }
   div.info__wrap {
     display: flex;
+    margin-left: 16px;
   }
   span.info__name {
     align-self: center;
@@ -121,8 +126,11 @@ function Header() {
                       <ThumbNail>
                           <span style={{position:"absolute", top:"50%", left:"50%", transform:"translate(-50%, -50%)", textTransform:"uppercase", fontSize:"24px", fontWeight:"bolder"}}>{getAuth.name.slice(0,1)}</span>
                       </ThumbNail>
-                      <span className='info__name'>{getAuth.name}</span>
-                      <UserSettingContainer />
+                      {/* <span className='info__name'>{getAuth.name}</span> */}
+                      <UserSettingContainer 
+                        authProps={getAuth}
+                        onLogOut={onLogOut}
+                      />
                       {/* <Link to={`/mypage/${getAuth.userId}`}>내정보</Link> */}
                       {/* <button onClick={onLogOut}>로그아웃</button> */}
                     </div>

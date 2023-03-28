@@ -31,7 +31,6 @@ function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, comment
     }
     return (
         <>
-        <hr />
             <h2>chat category name = {title}</h2>
             <ChatEditContainer
                 category_no={chatCategory}

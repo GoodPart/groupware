@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment as solidfaComment } from "@fortawesome/free-solid-svg-icons";
 import { faComment as regularfaComment } from "@fortawesome/free-regular-svg-icons";
+import Icon from '../../modules/icon/Icon';
 
 import request from '../../utils/axios';
 
@@ -37,7 +37,7 @@ export default function CommentBadgeContainer({post_id, onCommentToggle, comment
         <CommentWrap>
             <input id={`comment_${post_id}`} type="checkbox" onChange={(e)=> onCommentToggle(e, `comment_${post_id}`)} checked={commentToggle.state}/>
             <label htmlFor={`comment_${post_id}`}>
-                <FontAwesomeIcon
+                <Icon
                     icon={commentToggle._id === `comment_${post_id}` && commentToggle.state ? solidfaComment : regularfaComment}
                     style={{color: "#666"}} 
                 />

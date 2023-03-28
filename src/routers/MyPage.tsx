@@ -7,6 +7,7 @@ import request from '../utils/axios';
 
 function MyPage() {
     let {user} = useParams();
+    console.log(user)
 
     const data = useSelector((state:RootState)=> state.authCheckReducer);
     const [myInfo, setMyInfo] = useState({
@@ -73,15 +74,6 @@ function MyPage() {
                             <hr />
                         </li>
                     )
-                    // return false
-                    // if(ele[0] === 'userPw' || ele[0] === '_id' ) {
-                    //     return false
-                    // }else {
-                    //     return (
-                    //         <li key={index}>{ele[0]} : {ele[1]}</li>
-                    //     )
-                    // }
-                    
                 })
             }
         </ul>

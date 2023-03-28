@@ -6,8 +6,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown as solidfaCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 const IconWrap = styled.div<{checked:boolean}>`
+    align-self :center;
+    margin-left: 0;
     input {
         display: none;
+    }
+    input + label {
+        cursor: pointer;
     }
     input + label svg{
         transition: transform .3s cubic-bezier(0.075, 0.82, 0.165, 1) .1s;
