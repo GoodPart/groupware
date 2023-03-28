@@ -24,31 +24,40 @@ const NotificationWrap = styled.div<{display:string}>`
 
     ol {
         margin : 0;
-        padding : 8px;
+        padding : 8px 0;
         list-style: none;
         border-top: 1px solid rgb(221, 221, 221);
         border-bottom: 1px solid rgb(221, 221, 221);
     }
     li {
-
+        padding: 8px;
+        width : 100%;
+        
+        &:hover {
+            background-color: rgba(0,0,0,0.1)
+        }
     }
     li + li {
-        margin-top: 4px;
     }
     li a {
+        display: block;
+        width : 100%;
         font-size : 14px;
         font-weight : 400;
         color : #444;
         text-decoration: none;
     }
-    button {
+    li button {
+        cursor: pointer;
+        padding: 0;
+        text-align: left;
+        width : 100%;
         font-size : 14px;
         font-weight : 400;
         color : #444;
         text-decoration: none;
         border: none;
         background-color: transparent;
-        padding: 8px;
     }
 `
 const NotificationHeader = styled.div`
@@ -97,11 +106,11 @@ export default function UserSetting({authProps, onLogOut, toggleProps}:any) {
                 <li>
                     <Link to={`/mypage/${authProps.userId}`}>내정보</Link>
                 </li>
-                {/* <li>
+                <li>
                     <button type='button' onClick={onLogOut}>로그아웃</button>
-                </li> */}
+                </li>
             </ol>
-            <button type='button' onClick={onLogOut}>로그아웃</button>
+            {/* <button type='button' onClick={onLogOut}>로그아웃</button> */}
         </NotificationWrap>
     )
 }
