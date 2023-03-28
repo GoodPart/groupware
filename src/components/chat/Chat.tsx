@@ -15,20 +15,48 @@ import CommentBadgeContainer from '../../containers/comment/CommentBadgeContaine
 const ListWrap = styled.ul`
     background-color: #f1f1f1;
     padding: 16px;
+
     li {
+        opacity : 0;
         background-color: #fff;
         list-style: none;
         padding: 32px;
         margin-bottom: 16px;
         box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.1);
         border-radius: 10px;
+        transform: scale(.7);
+        /* transition: opacity .3s cubic-bezier(0.075, 0.82, 0.165, 1); */
+        animation-name: show;
+        animation-duration: .7s;
+        animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+        animation-fill-mode: forwards;
     }
+   
+   @keyframes show {
+    0% {
+        opacity : 0;
+        transform: scale(.7);
+    }
+    /* 30% {
+        opacity : .8;
+        transform: scale(.8);
+    } */
+    100% {
+        opacity : 1;
+        transform: scale(1);
+
+    }
+   }
 `
 
 function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, commentToggle}:any) {
+
     function SetDate (timestamp:any) {
         return useDateHook(timestamp);
     }
+    useEffect(()=> {
+        // console.log(chatProps)
+    }, [])
     return (
         <>
             <h2>chat category name = {title}</h2>
@@ -41,7 +69,9 @@ function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, comment
                 {
                     chatProps.map((ele:any, index:any)=> {
                         return (
-                            <li key={`chat_${index}`}>
+                            <li key={`chat_${index}`} 
+                                style={index%2 === 0 ? {animationDelay : ".2s"} : {animationDelay : ".4s"}}
+                                >
                                 <div className='chat-item'>
                                     <div className="chat-item__header" style={{display : 'flex', alignItems : 'center'}}>
                                         <div className="header__thumbnail"
@@ -82,8 +112,8 @@ function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, comment
                                  />
 
                             </li>
-                            
                         )
+                        
                     })
                 }
             </ListWrap>
