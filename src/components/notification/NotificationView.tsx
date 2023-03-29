@@ -15,6 +15,7 @@ const NotificationWrap = styled.div<{display:string}>`
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.1) 4px 4px 10px 0px;
     font-family: 'Sono';
+    z-index : 100;
 
     hr {
         margin: 0;
@@ -56,7 +57,7 @@ const NotificationListItem = styled.li<{checked:boolean}>`
         width : ${props=> props.checked ? 0 : '10px'};
         height: ${props=> props.checked ? 0 : '10px'};
         border-radius: 24px;
-        background-color: #ff505c;
+        background-color: #0F9485;
         transition: width, height .3s cubic-bezier(0.4, 0.96, 1, 1);
         
     }
@@ -75,7 +76,7 @@ const NotificationListItemThumbNail = styled.div`
     width : 40px;
     height : 40px;
     border-radius : 25px;
-    background-color : coral;
+    background-color : #0F9485;
 `
 const NotificationListItemInfo = styled.div`
     display: flex;
@@ -96,7 +97,7 @@ const InfoType = styled.div`
     color : #7c7272;
 
     span.heigh-light {
-        color : #ff505c
+        color : #0F9485
     }
 `
 const InfoActionAt = styled.div`

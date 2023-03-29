@@ -11,23 +11,30 @@ import useDateHook from '../../hooks/useDateHook';
 import FavoritContainer from '../../containers/favorit/FavoritContainer';
 import CommentBadgeContainer from '../../containers/comment/CommentBadgeContainer';
 
+const Page__title = styled.h2`
+    padding: 16px;
+    font-size : 20px;
+    color : #48484A;
+    background-color: #fff;
+    border-radius: 6px;
+    margin : 12px 0;
+`
 
 const ListWrap = styled.ul`
-    background-color: #f1f1f1;
+    background-color: #E5E7EB;
+    margin : 0;
     padding: 16px;
 
     li {
         opacity : 0;
         background-color: #fff;
         list-style: none;
-        padding: 32px;
+        padding: 16px;
         margin-bottom: 16px;
-        box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.1);
-        border-radius: 10px;
-        transform: scale(.7);
-        /* transition: opacity .3s cubic-bezier(0.075, 0.82, 0.165, 1); */
+        border-radius: 6px;
+        transform: scale(.9);
         animation-name: show;
-        animation-duration: .7s;
+        animation-duration: .4s;
         animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
         animation-fill-mode: forwards;
     }
@@ -35,7 +42,7 @@ const ListWrap = styled.ul`
    @keyframes show {
     0% {
         opacity : 0;
-        transform: scale(.7);
+        transform: scale(.9);
     }
     /* 30% {
         opacity : .8;
@@ -59,7 +66,7 @@ function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, comment
     }, [])
     return (
         <>
-            <h2>chat category name = {title}</h2>
+            <Page__title className='page__title'>{title}</Page__title>
             <ChatEditContainer
                 category_no={chatCategory}
                 chatProps={chatProps}
@@ -70,24 +77,24 @@ function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, comment
                     chatProps.map((ele:any, index:any)=> {
                         return (
                             <li key={`chat_${index}`} 
-                                style={index%2 === 0 ? {animationDelay : ".2s"} : {animationDelay : ".4s"}}
+                                style={index%3 === 0 ? {animationDelay : "0"} : {animationDelay : `.${index%3}s`}}
                                 >
                                 <div className='chat-item'>
                                     <div className="chat-item__header" style={{display : 'flex', alignItems : 'center'}}>
                                         <div className="header__thumbnail"
-                                            style={{position : "relative",width : '40px', height : '40px', borderRadius : "25px", backgroundColor : "coral" , marginRight : "8px"}}
-                                        ><span style={{position:"absolute", top:"50%", left:"50%", transform:"translate(-50%, -50%)", textTransform:"uppercase", fontSize:"24px", fontWeight:"bolder"}}>{ele.userId.slice(0,1)}</span></div>
+                                            style={{position : "relative",width : '40px', height : '40px', borderRadius : "25px", backgroundColor : "#0F9485" , marginRight : "8px", marginLeft : "8px"}}
+                                        ><span style={{position:"absolute", top:"50%", left:"50%", transform:"translate(-50%, -50%)", textTransform:"uppercase", fontSize:"24px", fontWeight:"bolder", color : "#E5E7EB"}}>{ele.userId.slice(0,1)}</span></div>
 
                                         <div className="header__info" style={{display : "flex", flexDirection :"column", justifyContent: "space-between"}}>
-                                            <div className="info__user-name" style={{fontSize : "14px",fontWeight : "bold"}}>{ele.userId}</div>
-                                            <div className="info_create-at" style={{fontSize : "10px", fontWeight : "bold", color : "#bbb"}}>{SetDate(ele.post_create_date)}</div>
+                                            <div className="info__user-name" style={{fontSize : "14px",fontWeight : "bold", color: "#48484A"}}>{ele.userId}</div>
+                                            <div className="info_create-at" style={{fontSize : "10px", color : "#bbb"}}>{SetDate(ele.post_create_date)}</div>
                                         </div>
                                         <div>
                                             {/* (...) 아이콘 추가 */}
                                         </div>
                                     </div>
-                                    <div className="chat-item__desc" style={{backgroundColor:"#f1f1f1", borderRadius:"10px", padding : "16px", marginTop:"24px", fontSize:"14px",color:"#444"}}>
-                                       <textarea value={ele.post_desc} rows={1} readOnly style={{display:'inline-table',fontFamily: 'Sono' ,outline:"none",border:"none",resize:"none", backgroundColor:"transparent", width:"100%", height:"auto", overflowY:"hidden"}}>
+                                    <div className="chat-item__desc" style={{backgroundColor:"#E5E7EB", borderRadius:"6px", padding : "16px", marginTop:"12px", fontSize:"14px",color:"#48484A"}}>
+                                       <textarea value={ele.post_desc} rows={1} readOnly style={{display:'inline-table',fontFamily: 'Sono' ,outline:"none",border:"none",resize:"none", backgroundColor:"transparent", width:"100%", height:"auto", overflowY:"hidden", color : "#48484A"}}>
                                        </textarea>
                                     </div>
                                     <div className="chat-item__emotions"></div>

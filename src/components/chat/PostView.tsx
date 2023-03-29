@@ -9,8 +9,6 @@ import CommentBadgeContainer from '../../containers/comment/CommentBadgeContaine
 import CommentContainer
  from '../../containers/chat/CommentContainer';
 const ListWrap = styled.div`
-    /* background-color: #f1f1f1;
-    padding: 16px; */
     background-color: #fff;
     list-style: none;
     padding: 32px;
@@ -31,7 +29,7 @@ export default function PostView({post}:any) {
             <div className='chat-item'>
                 <div className="chat-item__header" style={{display : 'flex', alignItems : 'center'}}>
                     <div className="header__thumbnail"
-                        style={{position : "relative",width : '40px', height : '40px', borderRadius : "25px", backgroundColor : "coral" , marginRight : "8px"}}
+                        style={{position : "relative",width : '40px', height : '40px', borderRadius : "25px", backgroundColor : "#0F9485" , marginRight : "8px"}}
                     ><span style={{position:"absolute", top:"50%", left:"50%", transform:"translate(-50%, -50%)", textTransform:"uppercase", fontSize:"24px", fontWeight:"bolder"}}>{thumb}</span></div>
 
                     <div className="header__info" style={{display : "flex", flexDirection :"column", justifyContent: "space-between"}}>
@@ -42,7 +40,7 @@ export default function PostView({post}:any) {
                         {/* (...) 아이콘 추가 */}
                     </div>
                 </div>
-                <div className="chat-item__desc" style={{backgroundColor:"#f1f1f1", borderRadius:"10px", padding : "16px", marginTop:"24px", fontSize:"14px",color:"#444"}}>
+                <div className="chat-item__desc" style={{backgroundColor:"#E5E7EB", borderRadius:"10px", padding : "16px", marginTop:"24px", fontSize:"14px",color:"#444"}}>
                     <textarea value={post.post_desc} rows={1} readOnly style={{display:'inline-table',fontFamily: 'Sono' ,outline:"none",border:"none",resize:"none", backgroundColor:"transparent", width:"100%", height:"auto", overflowY:"hidden"}}>
                     </textarea>
                 </div>

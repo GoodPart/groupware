@@ -18,7 +18,7 @@ const Skeleton = styled.div`
         width : 40px;
         height: 40px;
         border-radius: 25px;
-        background-color: coral;
+        background-color: #0F9485;
         margin-right: 8px;
     }
     .header__thumbnail span {
@@ -36,17 +36,17 @@ const Skeleton = styled.div`
     .header__info .info__user-name {
         width : 100px;
         height: 16px;
-        background-color: #f1f1f1;
+        background-color: #E5E7EB;
     }
     .header__info .info__create-at {
         margin-top: 8px;
         width : 80px;
         height: 12px;
-        background-color: #f1f1f1;
+        background-color: #E5E7EB;
     }
     .chat-item__desc {
         
-        background-color: #f1f1f1;
+        background-color: #E5E7EB;
         border-radius: 10px;
         padding : 16px;
         margin-top: 24px;

@@ -80,13 +80,13 @@ function ChatEditContainer({category_no, post_no}:any) {
 
     return (
         <ChatEdit 
-        handleSetTab={handleSetTab}
-        onChange={onChangeValue}
-        onChangeValueTitle={onChangeValueTitle}
-        textValue={textValue}
-        titleValue={titleValue}
-        onSubmit={onSubmit}
-        auth={data.isAuth}
+            handleSetTab={handleSetTab}
+            onChange={onChangeValue}
+            onChangeValueTitle={onChangeValueTitle}
+            textValue={textValue}
+            titleValue={titleValue}
+            onSubmit={onSubmit}
+            auth={data.isAuth}
             // onChange={onChangeValue}
         />
     )

@@ -53,7 +53,7 @@ function CommentContainer({chatProps, commentToggle}:any) {
             writer_id={writer_id}
             commentToggle={commentToggle}
          />
-    ) : ( <>loading...</>)
+    ) : ( <></>)
 }
 
 export default CommentContainer

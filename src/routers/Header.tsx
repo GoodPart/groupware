@@ -24,13 +24,20 @@ const HeaderWrap = styled.div`
   display: flex;
   justify-content: space-between;
   height: 44px;
-  /* background-color: #26446c; */
+
+  a {
+    color : #48484A;
+    text-decoration: none;
+  }
 
   div.header__section {
     display: flex;
   }
   h2.header__logo {
+    text-decoration: none;
     margin:  0;
+    font-size : 16px;
+    line-height: 44px;
   }
 
   div.page__wrap {
@@ -64,7 +71,7 @@ const ThumbNail = styled.div`
   width : 40px;
   height : 40px;
   border-radius : 25px;
-  background-color : pink;
+  background-color : #0F9485;
 `
 
 function Header() {
@@ -104,7 +111,7 @@ function Header() {
     return (
       <HeaderWrap>
           <div className='header__section'>
-            <h2 className='header__logo'><Link to='/'>Logo</Link></h2>
+            <h2 className='header__logo'><Link to='/'>CHATME</Link></h2>
             <div className='page__wrap'>
                 {/* <Link to='/'>Home</Link> */}
                 <Link to='/about'>about</Link>
@@ -120,19 +127,16 @@ function Header() {
                   <div className='section__wrap'>
                     <NotificationContainer 
                       getAuth={getAuth}
-                      badge={{bgColor: "coral",txtColor : "#fff" }}
+                      badge={{bgColor: "#0F9485",txtColor : "#fff" }}
                     />
                     <div className='info__wrap'>
                       <ThumbNail>
-                          <span style={{position:"absolute", top:"50%", left:"50%", transform:"translate(-50%, -50%)", textTransform:"uppercase", fontSize:"24px", fontWeight:"bolder"}}>{getAuth.name.slice(0,1)}</span>
+                          <span style={{position:"absolute", top:"50%", left:"50%", transform:"translate(-50%, -50%)", textTransform:"uppercase", fontSize:"24px", fontWeight:"bolder", color: "#48484A"}}>{getAuth.name.slice(0,1)}</span>
                       </ThumbNail>
-                      {/* <span className='info__name'>{getAuth.name}</span> */}
                       <UserSettingContainer 
                         authProps={getAuth}
                         onLogOut={onLogOut}
                       />
-                      {/* <Link to={`/mypage/${getAuth.userId}`}>내정보</Link> */}
-                      {/* <button onClick={onLogOut}>로그아웃</button> */}
                     </div>
                   </div>
                 ) : (

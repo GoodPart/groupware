@@ -10,6 +10,7 @@ import PostViewSkeleton from '../../components/chat/PostViewSkeleton';
 
 
 import Chat from '../../components/chat/Chat';
+import ChatSkeleton from '../../components/chat/ChatSkeleton';
 
 function ChatContainer() {
     let {chatcategory} = useParams();
@@ -50,7 +51,7 @@ function ChatContainer() {
     const _getChats = useCallback(()=> {
         let form = {
             chatName : Number(chatcategory),
-            count : 2,
+            count : 3,
             nextId : data.meta.nextId,
             history : ''
         }
@@ -77,9 +78,9 @@ function ChatContainer() {
     
 
 
-    if(data.chats.loading) return <PostViewSkeleton count={2} />
-    if(data.chats.error) return <PostViewSkeleton count={2} />
-    if(!data.chats.data) return <PostViewSkeleton count={2} />;
+    if(data.chats.loading) return <ChatSkeleton />
+    if(data.chats.error) return <ChatSkeleton />
+    if(!data.chats.data) return <ChatSkeleton />;
 
 
     return  (

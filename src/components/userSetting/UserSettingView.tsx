@@ -78,7 +78,7 @@ const ThumbNail = styled.div`
   width : 40px;
   height : 40px;
   border-radius : 25px;
-  background-color : pink;
+  background-color : #0F9485;
 `
 const UserInfo = styled.div`
     display: flex;
