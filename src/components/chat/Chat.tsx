@@ -39,9 +39,21 @@ const ListWrap = styled.ul`
         animation-fill-mode: forwards;
     }
 
+    
+
     .emotion__wrap {
         display: flex;
         margin: 12px 0 0 12px;
+    }
+    > li {
+        border: 3px solid blue;
+    }
+    li ul {
+        border: 3px solid green;
+    }
+
+    li ul li ul {
+        border : 3px solid red
     }
    
    @keyframes show {
@@ -114,13 +126,13 @@ function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, comment
                                         post_id={ele._id}
                                         onCommentToggle={onCommentToggle}
                                         commentToggle={commentToggle}
-
                                     />
                                 </div>
                                 
                                 <CommentContainer
                                     chatProps={ele}
                                     commentToggle={commentToggle}
+                                    depth={0}
                                  />
 
                             </li>

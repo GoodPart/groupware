@@ -1,16 +1,11 @@
 import React,{useState, useCallback} from "react";
 import sortProcess from "../../utils/sort";
-import CommentContainer from '../../containers/chat/CommentContainer';
 import CommentEditContainer from "../../containers/chat/CommentEditContainer";
 import FavoritContainer from '../../containers/favorit/FavoritContainer';
-import CommentBadgeContainer from '../../containers/comment/CommentBadgeContainer';
 
 import styled from "styled-components";
 
 import useDateHook from "../../hooks/useDateHook";
-
-import Icon from "../../modules/icon/Icon";
-
 
 
 const CommentWrap = styled.div<{matched:boolean,state:boolean}>`
@@ -56,16 +51,9 @@ function CommentArea({props, depth}:any) {
         return useDateHook(timestamp);
     }
 
-    const onCommentToggle = useCallback((e:any, _id:string)=> {
-            setCommentToggle({
-                state : e.currentTarget.checked,
-                _id : _id
-            })
-        
-    }, [commentToggle]) 
     return (
         props.map((comment:any, index:number)=> {
-            console.log(comment)
+            // console.log(comment)
             return (
                 <li key={index} style={{padding : "0 16px"}}>
                     <div style={{display:"flex"}}>
@@ -83,30 +71,10 @@ function CommentArea({props, depth}:any) {
 
                     <div className='emotion__wrap'>
                         <FavoritContainer 
-                            post_id={comment}
-                            // post_id={comment}
+                            post_id={comment._id}
                             post_write_user={comment.userId}
                         />
-                      
-                      {
-                          depth === 2 ? <></> : 
-                          <CommentBadgeContainer
-                              post_id={comment._id}
-                              onCommentToggle={onCommentToggle}
-                              commentToggle={commentToggle}
-  
-                          />
-                    
-                    }
                     </div>
-                    { 
-                        depth === 2 ? <></> : 
-                        <CommentContainer
-                            chatProps={comment}
-                            commentToggle={commentToggle}
-                            depth={depth}
-                        />
-                    }
                 </li>
             )
         })
@@ -123,7 +91,7 @@ type CommentProps = {
     depth : number
 }
 
-function Comment({props, sortState, toggleChange, _id,writer_id, commentToggle, depth}:CommentProps) {
+function CommentComment({props, sortState, toggleChange, _id,writer_id, commentToggle}:CommentProps) {
     return (
         // commentToggle._id === `comment_${_id}`
         // commentToggle.state
@@ -131,7 +99,7 @@ function Comment({props, sortState, toggleChange, _id,writer_id, commentToggle, 
         <CommentWrap id={`comment_${_id}`} matched={commentToggle._id === `comment_${_id}`} state={commentToggle.state}>
             
             <div style={{display:"flex", justifyContent : "space-between", paddingRight : "16px"}}>
-                <h3>{depth == 1 ? "Comment" : "Comment to Comment"} <span className="comment-count__badge">{props.length}</span></h3>
+                <h3>Comment Comment <span className="comment-count__badge">{props.length}</span></h3>
                 <button type="button" onClick={toggleChange} >{sortState== "ASC" ? "올림차순" : "내림차순"}</button>
             </div>
             <CommentEditContainer 
@@ -141,12 +109,11 @@ function Comment({props, sortState, toggleChange, _id,writer_id, commentToggle, 
             <ul style={{padding : 0}}>
                 {
                     <CommentArea 
-                    props={props}
-                    depth={depth} />
+                    props={props}/>
                 }
             </ul>
         </CommentWrap>
     )
 }
 
-export default Comment
+export default CommentComment

@@ -25,9 +25,11 @@ const CommentWrap = styled.div`
 
 export default function CommentBadgeContainer({post_id, onCommentToggle, commentToggle}:any) {
     const [commentProps, setCommentProps] = useState(0);
+    console.log(post_id)
     useEffect(()=> {
         request("post", "/api/chat/get/comment", {_id: post_id})
         .then((res)=> {
+            console.log(res)
             setCommentProps(res.find.length)
         })
     

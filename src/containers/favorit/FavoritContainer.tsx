@@ -26,13 +26,13 @@ function FavoritContainer({post_id, post_write_user}:any) {
             
         }else {
             //로그인
-            request("post", "/api/favorit/get/favoritauth", {post_id : post_id, user_id : auth_store.userId})
+            request("post", "/api/favorit/get/favoritauth", {post_id : post_id.post_comment_code, user_id : auth_store.userId})
             .then((res:any)=> {
                 setCheckFavorit(res.find)
             })
         }
         
-        request("post", "/api/favorit/get/favoritbypostid", {post_id : post_id})
+        request("post", "/api/favorit/get/favoritbypostid", {post_id : post_id.post_comment_code})
         .then((res:any)=> {
             setFavoritCount(res.find)
 
@@ -47,13 +47,13 @@ function FavoritContainer({post_id, post_write_user}:any) {
 
     const inCreaseFavoritHandle = ()=> {
         
-        dispatch(inCreaseFavorit(post_id, auth_store.userId))
+        dispatch(inCreaseFavorit(post_id.post_comment_code, auth_store.userId))
         setFavoritCount(favoritCount + 1);
     }
 
     const deCreaseFavoritHandle = ()=> {
         
-        dispatch(deCreaseFavorit(post_id, auth_store.userId))
+        dispatch(deCreaseFavorit(post_id.post_comment_code, auth_store.userId))
         setFavoritCount(favoritCount - 1);
     }
 
@@ -96,7 +96,7 @@ function FavoritContainer({post_id, post_write_user}:any) {
     return (
         <Favorit 
             checkAuth={auth_store.isAuth}
-            input_id={post_id}
+            input_id={post_id._id}
             checkFavorit={checkFavorit}
             favoritCount={favoritCount}
             onChange={favoritUpdate}
