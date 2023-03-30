@@ -11,11 +11,21 @@ const config = require('./config/key');
 
 const {auth} = require('./middleware/auth');
 
-app.use(cors({
-    origin : 'http://localhost:3000',
-    credentials : true,
+const whitelist = ["http://localhost:3000", "http://192.168.0.45:3000"];
+
+const corsOptions = {
+  origin: function (origin, callback) { 
+    if (whitelist.indexOf(origin) !== -1) { // 만일 whitelist 배열에 origin인자가 있을 경우
+      callback(null, true); // cors 허용
+    } else {
+      callback(new Error("Not Allowed Origin!")); // cors 비허용
+    }
+  },
+  credentials : true,
     optionsSuccessStatus: 200
-}));
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 app.use(cookieParser());

@@ -38,6 +38,11 @@ const ListWrap = styled.ul`
         animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
         animation-fill-mode: forwards;
     }
+
+    .emotion__wrap {
+        display: flex;
+        margin: 12px 0 0 12px;
+    }
    
    @keyframes show {
     0% {
@@ -100,7 +105,7 @@ function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, comment
                                     <div className="chat-item__emotions"></div>
                                 </div>
                              
-                                <div style={{display : "flex", margin: "12px 0 0"}}>
+                                <div className='emotion__wrap'>
                                     <FavoritContainer 
                                         post_id={ele._id}
                                         post_write_user={ele.userId}

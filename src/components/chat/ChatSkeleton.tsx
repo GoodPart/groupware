@@ -76,7 +76,7 @@ function ChatSkeleton({}:any) {
                 // category_no={chatCategory}
                 // chatProps={chatProps}
                 // post_no={post_no}
-             />
+            />
             <ListWrap>
                 {
                     <>
