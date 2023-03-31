@@ -8,13 +8,14 @@ import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../modules';
 
 
-function CommentEditContainer({_id, writer_id}:any) {
-
+function CommentEditContainer({post_id, type}:any) {
     const data = useSelector((state:RootState)=> state.authCheckReducer);
+    const chatStore = useSelector((state:RootState) => state.chatReducer);
 
     const [textValue , setTextValue] = useState("");
     useEffect(()=> {
-    //    console.log(_id)
+    //    console.log('post_id -->', post_id, 'type->', type)
+    //    console.log('---->', chatStore.chats.data)
     }, [])
 
     const onChangeValue = (e:ChangeEvent<HTMLInputElement>) => {
@@ -34,16 +35,31 @@ function CommentEditContainer({_id, writer_id}:any) {
         }
     }
 
-    const onCreateNotification = () => {
+    const onCreateNotification = (type:any) => {
         let form = {
-            receiver_id : writer_id, // 해당 글 작성자
+            receiver_id : post_id.userId, // 해당 글 작성자
             writer_id : data.userId, // 이 코멘트를 쓰는 사람 - 코멘터
-            post_id : _id, //포스트 id
+            post_id : post_id._id, //포스트 id
             noti_desc : textValue,
-            noti_type : "comment",
+            noti_type : type,
             create_at : "",
             is_checked : false
+        };
 
+        request('post', '/api/notification/create/user', form)
+        .then(res=> {
+            console.log(res)
+        })
+    }
+    const onCreateNotificationRecoment = (type:any) => {
+        let form = {
+            receiver_id : post_id.userId, // 해당 글 작성자
+            writer_id : data.userId, // 이 코멘트를 쓰는 사람 - 코멘터
+            post_id : post_id.post_comment_code, //포스트 id
+            noti_desc : textValue,
+            noti_type : type,
+            create_at : "",
+            is_checked : false
         };
 
         request('post', '/api/notification/create/user', form)
@@ -54,27 +70,53 @@ function CommentEditContainer({_id, writer_id}:any) {
 
 
     const onSubmit = (e:FormEvent<HTMLFormElement>)=> {
-        // e.preventDefault();
 
-        let _form = {
-            post_comment_code : _id,
-            post_comment_desc : textValue,
-            post_comment_create_date : "",
-            post_comment_update_date : "",
-            userId : data.userId,
+        
+        if(type === 'recoment') {
+            let _form = {
+                post_comment_code : post_id.post_comment_code,
+                comment_code : post_id._id,
+                re_comment_desc : textValue,
+                re_comment_create_date : "",
+                re_comment_update_date : "",
+                from : data.userId,
+                to : post_id.userId
+            }
+            // console.log(_form)
+
+            request("post", "/api/chat/create/recoment", _form)
+            .then((res:any)=> {
+    
+                if(res.success) {
+                    onCreateNotificationRecoment(type)
+                    window.location.reload()
+                }else {
+                    alert('error')
+                }
+            })
+        }else {
+            let _form = {
+                post_comment_code : post_id._id,
+                post_comment_desc : textValue,
+                post_comment_create_date : "",
+                post_comment_update_date : "",
+                userId : data.userId,
+            }
+
+            // console.log(post_id)
+            request("post", "/api/chat/create/comment", _form)
+            .then((res:any)=> {
+                console.log(res.payload)
+    
+                if(res.success) {
+                    onCreateNotification(type)
+                    window.location.reload()
+                }else {
+                    alert('error')
+                }
+            })
         }
 
-        request("post", "/api/chat/create/comment", _form)
-        .then((res:any)=> {
-            console.log(res.payload)
-
-            if(res.success) {
-                onCreateNotification()
-                window.location.reload()
-            }else {
-                alert('error')
-            }
-        })
         
     }
 

@@ -27,6 +27,32 @@ const chatCommentSchema = mongoose.Schema({
     }
 });
 
+const chatRecomentSchema = mongoose.Schema({
+    post_comment_code : {
+        type : String // 게시글 코드
+    },
+    comment_code : {
+        type : String // 댓글 코드
+    },
+    re_comment_desc : {
+        type : String,
+        maxLength : 240
+    },
+    re_comment_create_date : {
+        type : Date
+    },
+    re_comment_update_date : {
+        type : Date
+    },
+    to : {
+        type : String
+    },
+    from : {
+        type : String
+    }
+})
+
 
 const ChatComment = mongoose.model('ChatComment', chatCommentSchema)
-module.exports = {ChatComment}
+const ChatRecoment = mongoose.model('ChatRecoment', chatRecomentSchema)
+module.exports = {ChatComment, ChatRecoment}

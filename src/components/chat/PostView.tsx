@@ -52,7 +52,7 @@ export default function PostView({post}:any) {
                 />
                 <CommentBadgeContainer
                     post_id={post._id}
-                    onCommentToggle={true}
+                    // onCommentToggle={true}
                     commentToggle={{
                         _id : post._id,
                         state : true

@@ -14,13 +14,7 @@ const {auth} = require('./middleware/auth');
 const whitelist = ["http://localhost:3000", "http://192.168.0.45:3000"];
 
 const corsOptions = {
-  origin: function (origin, callback) { 
-    if (whitelist.indexOf(origin) !== -1) { // 만일 whitelist 배열에 origin인자가 있을 경우
-      callback(null, true); // cors 허용
-    } else {
-      callback(new Error("Not Allowed Origin!")); // cors 비허용
-    }
-  },
+  origin: "http://localhost:3000",
   credentials : true,
     optionsSuccessStatus: 200
 };
@@ -41,7 +35,9 @@ const { DbId } = require('./models/Db_Id');
 // 게시판 스키마
 const {Chat} = require('./models/Chat');
 // 게시판 코멘트(댓글) 스키마 
-const {ChatComment}  = require('./models/Chat_comment');
+const {ChatComment, ChatRecoment}  = require('./models/Chat_comment');
+// 코멘트(댓글)의 답글 스키마 
+// const {ChatRecoment}  = require('./models/Chat_comment');
 // 게시판 카테고리 스키마
 const {ChatCategory}  = require('./models/Chat_category');
 // 알림 스키마
@@ -569,8 +565,6 @@ app.post('/api/chat/get/comment', (req,res)=> {
         })
     })
     // Chat.find
-
-    
 })
 // 댓글 추가
 app.post('/api/chat/create/comment', auth,(req,res)=> {
@@ -617,6 +611,51 @@ app.post('/api/chat/update/comment', auth, (req,res)=> {
     )
 
 })
+
+// 대댓글 조회
+app.post("/api/chat/get/recomentby_id", auth,(req,res)=> {
+    let data = req.body;
+
+
+    ChatRecoment.find({
+        comment_code : data.comment_code
+    }, (err, find)=> {
+        if(err) res.json({
+            success : false
+        })
+        return res.status(200).json({
+            success : true,
+            find
+        })
+    })
+
+
+})
+
+// 대댓글 추가
+app.post('/api/chat/create/recoment', auth,(req,res)=> {
+    let data = req.body;
+    
+    data.re_comment_create_date = new Date();
+
+    const chatRecoment = new ChatRecoment(data);
+    
+    chatRecoment.save((err, result)=> {
+        if(err) res.json({
+            success : false,
+            message : "대댓글을 등록하지 못했습니다."
+        })
+        return res.status(200).json({
+            success : true,
+            message : "대댓글 등록 완료",
+            result
+        })
+    })
+})
+// 대댓글 업데이트
+
+//대댓글 제거
+
 
 
 
@@ -762,6 +801,7 @@ app.post("/api/favorit/get/favoritbyuserid", (req,res)=> {
 app.post("/api/favorit/get/favoritauth", (req,res)=> {
     const data = req.body;
 
+    console.log(data)
     Favorit.findOne({
         post_id : data.post_id,
         user_id : data.user_id,

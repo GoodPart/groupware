@@ -22,7 +22,7 @@ function CommentEdit({onChange, handleSetTab, textValue,onSubmit, auth}:EventTyp
                 value={textValue}
                 onChange={onChange}
                 onKeyDown={handleSetTab}
-                style={{resize : 'none', width : 'auto', height : '100px', backgroundColor:"#E5E7EB", border:"none",outline:"none", borderRadius:"10px", padding:"16px"}}
+                style={{resize : 'none', width : 'auto', height : '16px', backgroundColor:"transparent", borderTop : "none", borderLeft : "none", borderRight : "none", borderBottom:"1px solid red",outline:"none", borderRadius:"10px", padding:"16px"}}
                     ></textarea>
                 <div style={{display :"flex", justifyContent:"end", width : "100%", marginTop : "16px"}}>
                     <input 

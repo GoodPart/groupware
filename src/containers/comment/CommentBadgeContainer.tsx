@@ -25,11 +25,12 @@ const CommentWrap = styled.div`
 
 export default function CommentBadgeContainer({post_id, onCommentToggle, commentToggle}:any) {
     const [commentProps, setCommentProps] = useState(0);
-    console.log(post_id)
+    // console.log(commentToggle._id, post_id)
+    
     useEffect(()=> {
         request("post", "/api/chat/get/comment", {_id: post_id})
         .then((res)=> {
-            console.log(res)
+            // console.log(res)
             setCommentProps(res.find.length)
         })
     
@@ -40,7 +41,7 @@ export default function CommentBadgeContainer({post_id, onCommentToggle, comment
             <input id={`comment_${post_id}`} type="checkbox" onChange={(e)=> onCommentToggle(e, `comment_${post_id}`)} checked={commentToggle.state}/>
             <label htmlFor={`comment_${post_id}`}>
                 <Icon
-                    icon={commentToggle._id === `comment_${post_id}` && commentToggle.state ? solidfaComment : regularfaComment}
+                    icon={`comment_${commentToggle._id}` === `comment_${post_id}` && commentToggle.state ? solidfaComment : regularfaComment}
                     style={{color: "#666"}} 
                 />
                 <span>{commentProps}</span>

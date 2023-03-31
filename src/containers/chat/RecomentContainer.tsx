@@ -4,13 +4,13 @@ import request from "../../utils/axios";
 
 
 
-import Comment from "../../components/chat/Comment";
+import Recoment from "../../components/chat/Recoment";
 
-function CommentContainer({chatProps, commentToggle, depth}:any) {
-    // console.log(chatProps)
-    const post_id = chatProps._id;
-    const writer_id = chatProps.userId;
-    const [getComment, setGetComment] = useState('');
+function RecommentContainer({commentProps, depth}:any) {
+    // console.log(commentProps)
+    const post_id = commentProps.post_comment_code;
+    const writer_id = commentProps.userId;
+    const [reComent, setRecoment] = useState('');
     const [sortState,setSortState] = useState('ASC'); // 0 ASC
 
     useEffect(()=> {
@@ -18,17 +18,17 @@ function CommentContainer({chatProps, commentToggle, depth}:any) {
     }, [])
 
     const getCommentProps = (type:string) => {
-        return request("post","/api/chat/get/comment",{_id : post_id})
+        return request("post","/api/chat/get/recomentby_id",{comment_code : commentProps._id})
         .then((res)=> {
             // console.log("check comment ->", res)
             if(type =='DESC') {
-                setGetComment(
+                setRecoment(
                     res.find.sort((a:any,b:any) => +new Date(b.post_comment_create_date) - +new Date(a.post_comment_create_date))
                 )
                 setSortState(type)
             }else {
                 // ASC
-                setGetComment(
+                setRecoment(
                     res.find.sort((a:any,b:any) => +new Date(a.post_comment_create_date) - +new Date(b.post_comment_create_date))
                 )
                 setSortState(type)
@@ -45,18 +45,18 @@ function CommentContainer({chatProps, commentToggle, depth}:any) {
         }
     }
 
-    return getComment ? (
-        <Comment
-            chatProps={chatProps}
-            commentProps={getComment}
+    // return getComment ? (
+    return reComent ? (
+        <Recoment
+            reComent={reComent}
+            originProps={commentProps}
             sortState={sortState}
             toggleChange={toggleChange}
-            post_id={post_id}
-            writer_id={writer_id}
-            commentToggle={commentToggle}
-            depth={depth+1}
+            // writer_id={writer_id}
+            // commentToggle={commentToggle}
+            // depth={depth+1}
          />
     ) : ( <></>)
 }
 
-export default CommentContainer
+export default RecommentContainer

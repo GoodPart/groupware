@@ -144,7 +144,7 @@ export function getDataByUserId (userId:string) {
 };
 
 export function inCreaseFavorit (post_id:string, user_id:string):any {
-    console.log(post_id, user_id)
+    console.log('redux ---->',post_id, user_id)
     if(post_id === undefined || user_id === undefined) {
         alert("안돼 돌아가")
         return {

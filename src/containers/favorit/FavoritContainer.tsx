@@ -19,46 +19,42 @@ function FavoritContainer({post_id, post_write_user}:any) {
     const [postInfo, setPostInfo] = useState('');
     
     useEffect(()=> {
-        console.log(post_write_user)
         // getFavoritPostId()
         if(!auth_store.isAuth) {
             //미 로그인
             
         }else {
             //로그인
-            request("post", "/api/favorit/get/favoritauth", {post_id : post_id.post_comment_code, user_id : auth_store.userId})
+            request("post", "/api/favorit/get/favoritauth", {post_id : post_id, user_id : auth_store.userId})
             .then((res:any)=> {
+
                 setCheckFavorit(res.find)
             })
         }
         
-        request("post", "/api/favorit/get/favoritbypostid", {post_id : post_id.post_comment_code})
+        request("post", "/api/favorit/get/favoritbypostid", {post_id : post_id})
         .then((res:any)=> {
+            // console.log('---->', res.find)
             setFavoritCount(res.find)
 
         })
-        // request("post", '/api/chat/get/chatlistby_id', {_id : post_id})
-        // .then((res:any)=> {
-        //     setPostInfo(res.result);
-        //     console.log(postInfo)
-        // })
         
     }, [dispatch, favoritCount, checkFavorit])
 
     const inCreaseFavoritHandle = ()=> {
         
-        dispatch(inCreaseFavorit(post_id.post_comment_code, auth_store.userId))
+        dispatch(inCreaseFavorit(post_id, auth_store.userId))
         setFavoritCount(favoritCount + 1);
     }
 
     const deCreaseFavoritHandle = ()=> {
         
-        dispatch(deCreaseFavorit(post_id.post_comment_code, auth_store.userId))
+        dispatch(deCreaseFavorit(post_id, auth_store.userId))
         setFavoritCount(favoritCount - 1);
     }
 
     const favoritUpdate = useCallback((e:any)=> {
-        const checked = e.target.checked;
+        const checked = e.currentTarget.checked;
 
         if(checked) {
             //좋아요
@@ -74,13 +70,12 @@ function FavoritContainer({post_id, post_write_user}:any) {
     const onCreateNotification = () => {
         let form = {
             receiver_id : post_write_user, // 해당 글 작성자
-            writer_id : auth_store.isAuth, // 이 코멘트를 쓰는 사람 - 코멘터
+            writer_id : auth_store.userId, // 이 코멘트를 쓰는 사람 - 코멘터
             post_id : post_id, //포스트 id
             noti_desc : '',
             noti_type : "favorit",
             create_at : "",
             is_checked : false
-
         };
 
         request('post', '/api/notification/create/user', form)
@@ -96,7 +91,7 @@ function FavoritContainer({post_id, post_write_user}:any) {
     return (
         <Favorit 
             checkAuth={auth_store.isAuth}
-            input_id={post_id._id}
+            input_id={post_id}
             checkFavorit={checkFavorit}
             favoritCount={favoritCount}
             onChange={favoritUpdate}
