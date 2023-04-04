@@ -127,14 +127,20 @@ function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, comment
                                         post_id={ele._id}
                                         onCommentToggle={onCommentToggle}
                                         commentToggle={commentToggle}
+                                        type="comment"
                                     />
                                 </div>
+
+                                {
+                                    commentToggle.state && `${commentToggle._id}` === `comment_${ele._id}` ? 
+                                    <CommentContainer
+                                        chatProps={ele}
+                                        commentToggle={commentToggle}
+                                        depth={0}
+                                    /> : <></>
+                                }
                                 
-                                <CommentContainer
-                                    chatProps={ele}
-                                    commentToggle={commentToggle}
-                                    depth={0}
-                                 />
+                                
 
                             </li>
                         )

@@ -6,7 +6,7 @@ import request from "../../utils/axios";
 
 import Recoment from "../../components/chat/Recoment";
 
-function RecommentContainer({commentProps, depth}:any) {
+function RecommentContainer({commentProps, commentToggle}:any) {
     // console.log(commentProps)
     const post_id = commentProps.post_comment_code;
     const writer_id = commentProps.userId;
@@ -53,7 +53,7 @@ function RecommentContainer({commentProps, depth}:any) {
             sortState={sortState}
             toggleChange={toggleChange}
             // writer_id={writer_id}
-            // commentToggle={commentToggle}
+            commentToggle={commentToggle}
             // depth={depth+1}
          />
     ) : ( <></>)

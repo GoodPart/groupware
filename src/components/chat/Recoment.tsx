@@ -40,12 +40,8 @@ const ThumbNail = styled.div`
   background-color : #0F9485;
 `
 
-function CommentArea({props, depth}:any) {
+function CommentArea({props}:any) {
     // console.log(props)
-    const [commentToggle, setCommentToggle] = useState({
-        state : false,
-        _id : ''
-    });
 
     function SetDate (timestamp:any) {
         return useDateHook(timestamp);
@@ -53,7 +49,7 @@ function CommentArea({props, depth}:any) {
 
     return (
         props.map((comment:any, index:number)=> {
-            console.log('data-type=2 -->', comment.from)
+            // console.log('data-type=2 -->', comment.from)
             return (
                 <li key={index} style={{padding : "0 16px"}}>
                     <div style={{display:"flex"}}>
@@ -81,56 +77,55 @@ function CommentArea({props, depth}:any) {
     )
 }
 
-// type CommentProps = {
-//     toggleChange : ()=> void,
-//     props : any,
-//     sortState : string,
-//     _id : string,
-//     writer_id : string
-//     commentToggle:any
-//     depth : number
-// }
-
 function Recoment(
-    {reComent, originProps, sortState, toggleChange}:any
+    {reComent, originProps, sortState, toggleChange, commentToggle}:any
     // {props, sortState, toggleChange, _id,writer_id, commentToggle}:CommentProps
     ) {
+        // console.log('recomment->',reComent)
+        // console.log(commentToggle._id)
+
+        // const resultId = Object.values(reComent).map((ele:any, index)=> {
+        //     return ele.comment_code
+        // })
     return (
-       <div style={{border : "3px solid red"}}>
-      
-       <>답글</>
-        <div>origin post: {originProps.post_comment_code}</div>
-        <CommentEditContainer
+        <>
+        {/* 여기 - {resultId} */}
+            <CommentEditContainer
             // commentProps={reComent}
             post_id={originProps}
             type="recoment"
-         />
+            />
 
-        <ul>
-          <CommentArea 
-            props={reComent}
-           />
-        </ul>
-         
-      
-       </div>
-        // <CommentWrap id={`comment_${_id}`} matched={commentToggle._id === `comment_${_id}`} state={commentToggle.state}>
-        //     <div style={{display:"flex", justifyContent : "space-between", paddingRight : "16px"}}>
-        //         <h3>Recoment <span className="comment-count__badge">{props.length}</span></h3>
-        //         <button type="button" onClick={toggleChange} >{sortState== "ASC" ? "올림차순" : "내림차순"}</button>
-        //     </div>
-        //     <CommentEditContainer 
-        //         _id={_id}
-        //         writer_id={writer_id}
-        //     />
-        //     <ul style={{padding : 0}}>
-        //         {
-        //             <CommentArea 
-        //             props={props}/>
-        //         }
-        //     </ul>
-        // </CommentWrap>
+            <ul>
+                <CommentArea 
+                    props={reComent}
+                />
+            </ul>
+        </>
+    
     )
 }
 
 export default Recoment
+
+// return (
+//     <CommentWrap 
+//      id={`comment_${reComent.comment_code}`}
+//      matched={commentToggle._id === `comment_${reComent.comment_code}`}
+//       state={commentToggle.state}>
+   
+//      <div>origin post: {originProps.post_comment_code}</div>
+//      <CommentEditContainer
+//          // commentProps={reComent}
+//          post_id={originProps}
+//          type="recoment"
+//       />
+
+//      <ul>
+//        <CommentArea 
+//          props={reComent}
+//         />
+//      </ul>
+//     </CommentWrap>
+ 
+//  )

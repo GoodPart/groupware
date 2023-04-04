@@ -23,16 +23,23 @@ const CommentWrap = styled.div`
 `;
 
 
-export default function CommentBadgeContainer({post_id, onCommentToggle, commentToggle}:any) {
+export default function CommentBadgeContainer({post_id, onCommentToggle, commentToggle, type}:any) {
     const [commentProps, setCommentProps] = useState(0);
-    // console.log(commentToggle._id, post_id)
-    
     useEffect(()=> {
-        request("post", "/api/chat/get/comment", {_id: post_id})
-        .then((res)=> {
-            // console.log(res)
-            setCommentProps(res.find.length)
-        })
+        if(type === 'comment') {
+            request("post", "/api/chat/get/comment", {_id: post_id})
+            .then((res)=> {
+                // console.log(res)
+                setCommentProps(res.find.length)
+            })
+        }else {
+            request("post","/api/chat/get/recomentby_id", {comment_code : post_id})
+            .then((res)=> {
+                // console.log(res)
+                setCommentProps(res.find.length)
+            })
+        }
+        
     
     }, [])
 

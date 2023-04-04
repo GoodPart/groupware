@@ -12,6 +12,9 @@ import styled from "styled-components";
 import useDateHook from "../../hooks/useDateHook";
 
 import Icon from "../../modules/icon/Icon";
+import axios from "axios";
+
+import request from "../../utils/axios";
 
 
 
@@ -53,12 +56,14 @@ function CommentArea({commentProps, depth}:any) {
         state : false,
         _id : ''
     });
+    const [reCommentLength, setRecommentLength] = useState()
 
     function SetDate (timestamp:any) {
         return useDateHook(timestamp);
     }
 
     const onCommentToggle = useCallback((e:any, _id:string)=> {
+        // console.log(e.currentTarget.checked)
             setCommentToggle({
                 state : e.currentTarget.checked,
                 _id : _id
@@ -67,11 +72,8 @@ function CommentArea({commentProps, depth}:any) {
     }, [commentToggle]) 
     return (
         commentProps.map((comment:any, index:number)=> {
-            // console.log('data-type1 ->',comment)
             return (
                 <li key={index} style={{padding : "0 16px"}}>
-                    포스트 id - {comment.post_comment_code}<br/>
-                    코멘트 id- {comment._id}
                     <div style={{display:"flex"}}>
                         <ThumbNail>
                             <span style={{position:"absolute", top:"50%", left:"50%", transform:"translate(-50%, -50%)", textTransform:"uppercase", fontSize:"16px", fontWeight:"bolder", color: "#E5E7EB"}}>{comment.userId.slice(0,1)}</span>
@@ -90,12 +92,31 @@ function CommentArea({commentProps, depth}:any) {
                             post_id={comment._id}
                             post_write_user={comment.userId}
                         />
+                        <CommentBadgeContainer
+                            post_id={comment._id}
+                            onCommentToggle={onCommentToggle}
+                            commentToggle={commentToggle}
+                            type="recomment"
+                        />
+                        {/* <div>
+                            <input id={`comment_${comment._id}`} type="checkbox" onChange={(e)=> onCommentToggle(e, comment._id)}/>
+                            <label htmlFor={`comment_${comment._id}`}>답글</label>
+                        </div> */}
                     </div>
                  
-                    <RecommentContainer
-                        commentProps={comment}
-                        commentToggle={commentToggle}
-                    /> 
+                 
+                     
+                        {/* {commentToggle._id `comment_${comment._id}`} */}
+                        {
+                            commentToggle.state && `${commentToggle._id}` === `comment_${comment._id}` ? 
+                            <RecommentContainer
+                                commentProps={comment}
+                                commentToggle={commentToggle}
+                            /> : 
+                            <></>
+                        }
+                        
+                 
                 </li>
             )
         })

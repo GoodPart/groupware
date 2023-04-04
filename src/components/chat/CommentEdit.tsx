@@ -1,4 +1,20 @@
 import { ChangeEvent, ChangeEventHandler } from "react"
+import styled from "styled-components";
+
+
+const SubmitStyle = styled.input<{textLength:any}>`
+    width: 130px;
+    padding: 8px 0;
+    pointer-events: ${props => props.textLength <1 ? "none" : "auto"};
+    background-color: ${props=> props.textLength < 1 ? "#ccc" : "#0F9485"};
+    color : #E5E7EB;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color .6s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+`
 
 type EventType = {
     onChange:any,
@@ -17,19 +33,19 @@ function CommentEdit({onChange, handleSetTab, textValue,onSubmit, auth}:EventTyp
                 <textarea 
                 name=""
                 id=""
-                placeholder={auth ? "텍스트를 입력하세요" : "로그인이 필요합니다."}
+                placeholder={auth ? "코멘트 입력" : "로그인이 필요합니다."}
                 readOnly={auth ? false : true}
                 value={textValue}
                 onChange={onChange}
                 onKeyDown={handleSetTab}
-                style={{resize : 'none', width : 'auto', height : '16px', backgroundColor:"transparent", borderTop : "none", borderLeft : "none", borderRight : "none", borderBottom:"1px solid red",outline:"none", borderRadius:"10px", padding:"16px"}}
+                style={{resize : 'none', width : 'auto', height : '16px', backgroundColor:"transparent", borderTop : "none", borderLeft : "none", borderRight : "none", borderBottom:"1px solid #ccc",outline:"none", borderRadius:"0", padding:"16px"}}
                     ></textarea>
                 <div style={{display :"flex", justifyContent:"end", width : "100%", marginTop : "16px"}}>
-                    <input 
+                    <SubmitStyle 
                         type="button"
                         onClick={onSubmit}
+                        textLength={textValue.length}
                         disabled={auth ? false : true}
-                        style={{backgroundColor:"#0F9485", color : "#E5E7EB", border : "none", width : "130px", padding : "8px 0", borderRadius : "4px", fontWeight:"bold", cursor:"pointer"}}
                         value='Create comment'  />
                 </div>
             </div>
