@@ -21,7 +21,6 @@ const CommentWrap = styled.div`
 `;
 
 function Favorit({checkAuth,input_id,checkFavorit,favoritCount,onChange}:any) {
-    // console.log(input_id, favoritCount)
     return (
     <CommentWrap>
         <input id={input_id} type="checkbox" onChange={(e)=> onChange(e)}  checked={checkFavorit} disabled={!checkAuth} />

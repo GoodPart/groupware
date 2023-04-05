@@ -488,7 +488,7 @@ app.post('/api/chat/get/category', (req,res)=> {
         })
 
         getData.makePostNumber(getData, (err, result)=> {
-            // console.log(result)
+            console.log('---->',result)
             return res.status(200).json({
                 success : true,
                 message : "카테고리를 찾았습니다.",
@@ -524,7 +524,6 @@ app.post('/api/chat/create/category', (req,res)=> {
 //카테고리 업데이트
 app.post('/api/chat/update/category', (req,res)=> {
     const data = req.body;
-    // console.log('update input ->',data)
     ChatCategory.updateOne(
         {
             class_no : data.class_no

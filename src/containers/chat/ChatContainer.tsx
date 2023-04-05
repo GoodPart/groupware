@@ -33,7 +33,7 @@ function ChatContainer() {
         _getChats()
 
         //게시판 이름 요청
-        request("post","/api/chat/get/category", {class_no : chatcategory, start : data.meta.nextId})
+        request("post","/api/chat/get/category", {class_no : chatcategory})
         .then((res:any)=> {
             setTitle(res.result.category_name)
             setPost_no(res.result.post_no) 

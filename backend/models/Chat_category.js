@@ -27,6 +27,7 @@ chatCategorySchema.methods.makePostNumber = function(ele, cb) {
         category_name : category_name,
         class_no : class_no
     }
+    console.log("makePostNumber", _result)
     cb(null, _result)
     
     

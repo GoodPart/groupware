@@ -6,9 +6,16 @@ import {delay, put,call, takeEvery, takeLatest} from 'redux-saga/effects'
 const GETCHATLISTBYCATEGORY_URL = '/api/chat/getlistbycategory';
 const GETCATEGORY_URL = '/api/chat/get/category';
 
+// 신규 post 생성
+const CREATE_CHAT_URL = '/api/chat/createchat';
+
 
 
 // 액션타입
+const NEW_POST = 'chat/NEW_POST' as const;
+const UPDATE_POST= 'chat/UPDATE_POST' as const;
+
+
 const CHATLIST = 'chat/CHATLIST' as const;
 const GATEGORYLIST = 'chat/GATEGORYLIST' as const;
 
@@ -26,7 +33,8 @@ const GET_LIST_SUCCESS = 'chat/GET_LIST_SUCCESS' as const;
 const GETLISTLIMITE_ASYNC = 'chat/GETLIST_ASYNC' as const;
 const GETLISTLIMITE_ASYNC2 = 'chat/GETLIST_ASYNC2' as const;
 
-
+const LOADING = 'LOADING' as const;
+const SUCCESS = "SUCCESS" as const;
 
 
 
@@ -62,13 +70,6 @@ export function getChats (form:any):any {
         const chats = await request("post", GETCHATLISTBYCATEGORY_URL, {class_no : form.chatName});
         let limitedData = _getLimitedData(chats.chatprops, form.nextId, form.count);
         
-        // Object.values(limitedData.data).map(async (ele:any, index:number) => {
-        //     const getFavData = await request("post","/api/favorit/get/favoritbypostid", {post_id : ele._id})
-
-        //     limitedData.data[index].favorit_count = getFavData.find;
-        //     // return getFavData.find
-        // })
-        
         const data = getState().chatReducer;
         dispatch({
             type : GET_CHATS,
@@ -92,6 +93,35 @@ export function getChats (form:any):any {
         }
         
     }
+}
+
+
+export function updatePost (form:any,):any {
+    return async(dispatch:any, getState:any) => {
+        dispatch({
+            type : RESETLIST,
+        })
+
+        await request("post", CREATE_CHAT_URL, form);
+        try {
+            
+            const data = getState().chatReducer;
+            let _form = {
+                chatName : Number(form.class_no),
+                count : 3,
+                nextId : data.meta.nextId,
+                history : ''
+            }
+
+            dispatch(getChats(_form));
+
+            
+        }catch(err) {
+            
+        }
+    }
+
+    
 }
 
 type chatAction = (
@@ -129,7 +159,8 @@ type ChatState = {
         post_data : any,
         comment_data : any,
         err : any
-    }
+    },
+    loading : boolean
 }
 
 const initState:ChatState = {
@@ -157,19 +188,14 @@ const initState:ChatState = {
         post_data : '',
         comment_data : '',
         err : ''
-    }
+    },
+    loading : false,
 }
 
 
 //saga
 export const getListLimiteAsync = (payload:any):any => ({
     type : GETLISTLIMITE_ASYNC,
-    // payload : {
-    //     categoryName : payload.categoryName,
-    //     start : payload.start,
-    //     count : payload.count,
-    // },
-    // meta : payload.categoryName
 })
 
 export const getListSuccess = (getData:any) => {
@@ -235,7 +261,6 @@ function getLimitedData(data:any, start:number = 0, count:number):any {
 
 export function getListByCategory(categoryName : number):any {
 
-    // console.log(categoryName)
     const data = request("post", GETCHATLISTBYCATEGORY_URL, {class_no : categoryName});
 
     return data.then(res=> {
@@ -288,13 +313,6 @@ export function viewPost(post_id: string):any {
 
         }
 
-        // return data.then(res=> {
-        //     console.log(res)
-        //     return {
-        //         type : VIEWPOST,
-        //         payload : res.result
-        //     }
-        // })
     }
 
     
@@ -311,6 +329,12 @@ function chatReducer(state = initState, action:chatAction):any {
                 ...state,
                 success :action.payload.success,
                 result : action.payload
+            }
+        case NEW_POST:
+            return {
+                ...state,
+                success : action.payload.success,
+                
             }
         case VIEWPOST_GET_POST_DATA : 
             return {
@@ -352,7 +376,6 @@ function chatReducer(state = initState, action:chatAction):any {
                 }
             }
 
-
         case GET_CHATS : 
             return {
                 ...state,
@@ -387,6 +410,17 @@ function chatReducer(state = initState, action:chatAction):any {
                     data : null,
                     error : action.err
                 }
+            }
+        case LOADING : 
+            return {
+                ...state,
+                loading : true,
+                // post_no : action
+            }
+        case SUCCESS :
+            return {
+                ...state,
+                loading : false
             }
 
         default : 

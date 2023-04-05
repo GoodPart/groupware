@@ -23,7 +23,7 @@ const Page__title = styled.h2`
 const ListWrap = styled.ul`
     background-color: #E5E7EB;
     margin : 0;
-    padding: 16px;
+    padding: 16px 0;
 
     li {
         opacity : 0;
@@ -46,14 +46,14 @@ const ListWrap = styled.ul`
         margin: 12px 0 0 12px;
     }
     > li {
-        border: 3px solid blue;
+        /* border: 3px solid blue; */
     }
     li ul {
-        border: 3px solid green;
+        /* border: 3px solid green; */
     }
 
     li ul li ul {
-        border : 3px solid red
+        /* border : 3px solid red */
     }
    
    @keyframes show {
@@ -97,7 +97,7 @@ function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, comment
                                 style={index%3 === 0 ? {animationDelay : "0"} : {animationDelay : `.${index%3}s`}}
                                 >
                                 <div className='chat-item'>
-                                    {ele._id}
+                                    {/* {ele._id} */}
                                     <div className="chat-item__header" style={{display : 'flex', alignItems : 'center'}}>
                                         <div className="header__thumbnail"
                                             style={{position : "relative",width : '40px', height : '40px', borderRadius : "25px", backgroundColor : "#0F9485" , marginRight : "8px", marginLeft : "8px"}}

@@ -13,11 +13,6 @@ function CommentEditContainer({post_id, type}:any) {
     const chatStore = useSelector((state:RootState) => state.chatReducer);
 
     const [textValue , setTextValue] = useState("");
-    useEffect(()=> {
-    //    console.log('post_id -->', post_id, 'type->', type)
-    //    console.log('---->', chatStore.chats.data)
-    }, [])
-
     const onChangeValue = (e:ChangeEvent<HTMLInputElement>) => {
         setTextValue(e.target.value);
     };
