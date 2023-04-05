@@ -7,7 +7,6 @@ import request from "../../utils/axios";
 import Recoment from "../../components/chat/Recoment";
 
 function RecommentContainer({commentProps, commentToggle}:any) {
-    // console.log(commentProps)
     const post_id = commentProps.post_comment_code;
     const writer_id = commentProps.userId;
     const [reComent, setRecoment] = useState('');
@@ -20,7 +19,6 @@ function RecommentContainer({commentProps, commentToggle}:any) {
     const getCommentProps = (type:string) => {
         return request("post","/api/chat/get/recomentby_id",{comment_code : commentProps._id})
         .then((res)=> {
-            // console.log("check comment ->", res)
             if(type =='DESC') {
                 setRecoment(
                     res.find.sort((a:any,b:any) => +new Date(b.post_comment_create_date) - +new Date(a.post_comment_create_date))
@@ -54,6 +52,7 @@ function RecommentContainer({commentProps, commentToggle}:any) {
             toggleChange={toggleChange}
             // writer_id={writer_id}
             commentToggle={commentToggle}
+            getCommentProps={getCommentProps}
             // depth={depth+1}
          />
     ) : ( <></>)

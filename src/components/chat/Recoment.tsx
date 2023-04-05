@@ -7,29 +7,6 @@ import styled from "styled-components";
 
 import useDateHook from "../../hooks/useDateHook";
 
-
-// const CommentWrap = styled.div<{matched:boolean,state:boolean}>`
-//     background-color: #fff;
-//     overflow : hidden;
-//     height: ${props=> props.matched && props.state ? "auto" : 0};
-
-//     h3 {
-//         margin : 8px 0;
-//         font-size: 16px;
-//         font-weight : 600;
-//         color : #48484A;
-//     }
-
-//     .comment-count__badge {
-//         padding: 0 6px;
-//         font-size : 10px;
-//         border-radius: 25px;
-//         background-color: #838383;
-//         color : #fff;
-    
-//     }
-// `
-
 const ThumbNail = styled.div`
   align-self: center;
   position : relative;
@@ -58,7 +35,6 @@ const ItemList = styled.li`
         height : 2px;
         border-top: 2px solid #f1f1f1;
         border-bottom: 2px solid #f1f1f1;
-        /* background-color: #eee; */
     }
 `
 
@@ -103,18 +79,16 @@ const CommentWrap = styled.ul`
     position: relative;
     padding : 8px 16px 16px;
     margin : 0px 8px;
-    /* background-color: aqua; */
-
-    
 `
 function Recoment(
-    {reComent, originProps, sortState, toggleChange, commentToggle}:any
+    {reComent, originProps, sortState, toggleChange, commentToggle, getCommentProps}:any
     ) {
     return (
         <>
             <CommentEditContainer
                 post_id={originProps}
                 type="recoment"
+                getCommentProps={getCommentProps}
             />
 
             <CommentWrap>
@@ -128,25 +102,3 @@ function Recoment(
 }
 
 export default Recoment
-
-// return (
-//     <CommentWrap 
-//      id={`comment_${reComent.comment_code}`}
-//      matched={commentToggle._id === `comment_${reComent.comment_code}`}
-//       state={commentToggle.state}>
-   
-//      <div>origin post: {originProps.post_comment_code}</div>
-//      <CommentEditContainer
-//          // commentProps={reComent}
-//          post_id={originProps}
-//          type="recoment"
-//       />
-
-//      <ul>
-//        <CommentArea 
-//          props={reComent}
-//         />
-//      </ul>
-//     </CommentWrap>
- 
-//  )

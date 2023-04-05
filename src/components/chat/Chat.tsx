@@ -97,7 +97,7 @@ function Chat({chatProps, chatCategory, title, post_no, onCommentToggle, comment
                                 style={index%3 === 0 ? {animationDelay : "0"} : {animationDelay : `.${index%3}s`}}
                                 >
                                 <div className='chat-item'>
-                                    {/* {ele._id} */}
+                                    {ele.post_no}
                                     <div className="chat-item__header" style={{display : 'flex', alignItems : 'center'}}>
                                         <div className="header__thumbnail"
                                             style={{position : "relative",width : '40px', height : '40px', borderRadius : "25px", backgroundColor : "#0F9485" , marginRight : "8px", marginLeft : "8px"}}

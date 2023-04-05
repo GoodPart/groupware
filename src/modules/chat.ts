@@ -104,7 +104,6 @@ export function updatePost (form:any,):any {
 
         await request("post", CREATE_CHAT_URL, form);
         try {
-            
             const data = getState().chatReducer;
             let _form = {
                 chatName : Number(form.class_no),

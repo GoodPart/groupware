@@ -140,10 +140,10 @@ type CommentProps = {
     writer_id : string
     commentToggle:any
     depth : number
+    getCommentProps : any
 }
 
-function Comment({chatProps,commentProps, sortState, toggleChange, post_id,writer_id, commentToggle, depth}:CommentProps) {
-    // console.log('-->',chatProps)
+function Comment({chatProps,commentProps, sortState, toggleChange, post_id,writer_id, commentToggle, depth, getCommentProps}:CommentProps) {
     /*
         props : 댓글 정보 
             post_comment_code
@@ -152,7 +152,6 @@ function Comment({chatProps,commentProps, sortState, toggleChange, post_id,write
             ...
     */
     return (
-        // <CommentWrap id={`comment_${_id}`} matched={true} state={true}>
         <CommentWrap id={`comment_${post_id}`} matched={commentToggle._id === `comment_${post_id}`} state={commentToggle.state}>
             <div style={{display:"flex", justifyContent : "space-between", margin : " 16px 0 0"}}>
                 <h3>{depth == 1 ? "Comment" : "Comment to Comment"}
@@ -171,6 +170,7 @@ function Comment({chatProps,commentProps, sortState, toggleChange, post_id,write
             <CommentEditContainer 
                 post_id={chatProps}
                 type={depth === 1 ? "comment" : "recoment"}
+                getCommentProps={getCommentProps}
             />
 
             <ul style={{padding : "0 16px", margin : "12px 0"}}>

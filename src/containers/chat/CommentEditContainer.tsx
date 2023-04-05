@@ -8,9 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../modules';
 
 
-function CommentEditContainer({post_id, type}:any) {
+function CommentEditContainer({post_id, type, getCommentProps}:any) {
     const data = useSelector((state:RootState)=> state.authCheckReducer);
-    const chatStore = useSelector((state:RootState) => state.chatReducer);
 
     const [textValue , setTextValue] = useState("");
     const onChangeValue = (e:ChangeEvent<HTMLInputElement>) => {
@@ -77,14 +76,15 @@ function CommentEditContainer({post_id, type}:any) {
                 from : data.userId,
                 to : post_id.userId
             }
-            // console.log(_form)
 
             request("post", "/api/chat/create/recoment", _form)
             .then((res:any)=> {
     
                 if(res.success) {
                     onCreateNotificationRecoment(type)
-                    window.location.reload()
+                    // window.location.reload()
+                    getCommentProps(type)
+                    setTextValue('')
                 }else {
                     alert('error')
                 }
@@ -105,7 +105,9 @@ function CommentEditContainer({post_id, type}:any) {
     
                 if(res.success) {
                     onCreateNotification(type)
-                    window.location.reload()
+                    // window.location.reload()
+                    getCommentProps(type)
+                    setTextValue('')
                 }else {
                     alert('error')
                 }
