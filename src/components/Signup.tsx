@@ -38,11 +38,11 @@ function SignUp({
     userNo
 }:SignProps) {
 
-    console.log(userPwCF)
+    console.log(userPw === userPwCF)
 
     return (
-        <div>
-            <form>
+        <div style={{padding : "36px 16px", width : "100%"}}>
+            <form style={{width : "100%"}}>
                 <InputFormWrap check={userNo.userNo}>
                     {
                         userNo ? (
@@ -76,7 +76,7 @@ function SignUp({
 
                 {/* <button type='button' onClick={onIdCheck}>{idCheck ? "done" : "not"}</button> */}
                 <InputFormWrap check={userPw}>
-                    <input id='password' type="text" onChange={onChangePw}/>
+                    <input id='password' type="password" onChange={onChangePw}/>
                     <label htmlFor='password'>Password</label>
                 </InputFormWrap>
                 <br />
@@ -86,7 +86,7 @@ function SignUp({
                     <label htmlFor='password-confirm'>Password confirm</label>
                 </InputFormWrap>
                 <br />
-                <button onClick={submit}>회원가입</button>
+                <SubmitBtn disabled={userId && idCheck && userPw.length !== 0 && userPwCF.length !== 0 && userPw == userPwCF   ? false : true}  onClick={submit}>Sign Up</SubmitBtn>
             </form>
         </div>
     )
@@ -97,55 +97,71 @@ export default SignUp
 
 const InputFormWrap = styled.div<{check:any}>`
     position: relative;
-    width : 130px;
+    width : 100%;
 
     input {
-        width: 100%;
-        padding: 12px 4px 8px 12px;
+        width: calc(100% - 20px);
+        padding: 24px 4px 16px 16px;
         border-radius: 4px;
         border-color: #eee;
         color : #48484A;
-        font-size : 12px;
+        font-size : 16px;
         border-width: 1px;
         border-style: solid;
-
+    }
+    input:focus {
+        outline: 1px solid #0F9485;
     }
     input:focus + label {
-        top : 0;
-        left : 8px;
-        transform : scale(.7);
+        top : 4px;
+        left : 16px;
+        font-size : 12px;
+        /* transform : scale(.7); */
         color : #0F9485;
     }
     input + label {
         cursor: text;
         position: absolute;
-        top: ${props => props.check.length > 0 ? "0": "12px"};
-        left : ${props => props.check.length > 0 ? "8px": "12px"}; 
+        display: inline-flex;
+        top: ${props => props.check.length > 0 ? "4px": "16px"};
+        left : ${props => props.check.length > 0 ? "16px": "16px"}; 
         color : ${props=> props.check.length > 0 ? "#0F9485" : "#969696" };
         text-align: left;
         font-weight : bold;
-        font-size : 12px;
-        transform: scale(${props=> props.check.length > 0 ? .7 : 1 }); 
+        font-size : ${props=> props.check.length > 0 ? "12px" : "16px" };
         transition: scale .6s cubic-bezier(0.075, 0.82, 0.165, 1), top .6s cubic-bezier(0.075, 0.82, 0.165, 1) ;
     };
+
+    input:read-only {
+        background-color: rgba(0,0,0,0.2);
+        color : #fff
+    }
     input:read-only + label {
-        left: 0px;
+        /* left: 0px; */
     }
 
     label.duplicate-check {
         position: absolute;
         top : 50%;
-        right : -12px;
+        right : 12px;
         transform: translateY(-50%);
     }
-    //focus
-    
-/* 
-    //not placeholder-shown
-    input + label {
-        top : 0;
-        left : 8px;
-        transform : scale(.7);
-        color : #0F9485;
-    } */
+`
+
+const SubmitBtn = styled.button`
+    cursor: pointer;
+    width: 100%;
+    padding : 16px;
+    background-color: #0F9485;
+    border : none;
+    border-radius: 4px;
+    color : #fff;
+    font-size : 20px;
+    font-weight: bold;
+
+
+    &:disabled {
+        cursor: not-allowed;
+        background-color: gray
+    }
 `
