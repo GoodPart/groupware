@@ -17,6 +17,7 @@ export default function PostViewContainer() {
 
     
     useEffect(()=> {
+        // console.log(post_id, comment_id)
         dispatch(viewPost(String(post_id)))
     }, [dispatch])
 

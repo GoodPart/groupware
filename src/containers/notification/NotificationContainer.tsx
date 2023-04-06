@@ -47,7 +47,7 @@ function NotificationContainer({getAuth, badge}:any) {
     const onViewPostHandle = useCallback((e:any, post_id:string)=> {
         // navigate(`/chat/`)
         dispatch(viewPost(post_id))
-        console.log(chatData.post_view.comment_data)
+        // console.log(chatData.post_view.comment_data)
         
         !chatData.post_view.loading ? navigate(`/chat/${post_id}/${chatData.post_view.comment_data._id}/post-view`) : console.log(chatData)
     }, [dispatch])

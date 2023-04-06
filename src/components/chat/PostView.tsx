@@ -6,8 +6,7 @@ import useDateHook from '../../hooks/useDateHook';
 
 import FavoritContainer from '../../containers/favorit/FavoritContainer';
 import CommentBadgeContainer from '../../containers/comment/CommentBadgeContainer';
-import CommentContainer
- from '../../containers/chat/CommentContainer';
+import CommentContainer from '../../containers/chat/CommentContainer';
 const ListWrap = styled.div`
     background-color: #fff;
     list-style: none;
@@ -15,6 +14,13 @@ const ListWrap = styled.div`
     margin-bottom: 16px;
     box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.1);
     border-radius: 10px;
+    .emotion__wrap {
+        display: flex;
+        margin: 12px 0 0 12px;
+    }
+    li {
+        list-style: none;
+    }
 `
 
 export default function PostView({post}:any) {
@@ -27,6 +33,7 @@ export default function PostView({post}:any) {
     return (
         <ListWrap>
             <div className='chat-item'>
+                {post._id}
                 <div className="chat-item__header" style={{display : 'flex', alignItems : 'center'}}>
                     <div className="header__thumbnail"
                         style={{position : "relative",width : '40px', height : '40px', borderRadius : "25px", backgroundColor : "#0F9485" , marginRight : "8px"}}
@@ -52,11 +59,15 @@ export default function PostView({post}:any) {
                 />
                 <CommentBadgeContainer
                     post_id={post._id}
-                    // onCommentToggle={true}
+                    // onCommentToggle={{
+                    //     state: true,
+                    //     _id : post._id
+                    // }}
                     commentToggle={{
                         _id : post._id,
                         state : true
                     }}
+                    type="comment"
 
                 />
             </div>
@@ -64,10 +75,17 @@ export default function PostView({post}:any) {
             <CommentContainer
                 chatProps={post}
                 commentToggle={{
-                    _id : post._id,
-                    state : true
+                    _id : `comment_${post._id}`,
+                    state : true,
                 }}
-                />
+                depth={0}
+            />
+
+            {/* <RecommentContainer
+                commentProps={comment}
+                commentToggle={commentToggle}
+            /> */}
+            
         </ListWrap>
     )
 }
