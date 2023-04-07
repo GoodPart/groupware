@@ -396,6 +396,22 @@ app.post('/api/chat/get/chatall', (req, res)=> {
     })
 })
 
+//모든 카테고리 조회
+app.get("/api/get/chatcategoryall",(req,res)=> {
+    ChatCategory.find({}, (err, find)=> {
+        if(err) res.json({
+            success : false,
+            message : '카테고리가 존재하지 않습니다.'
+        })
+
+        return res.status(200).json({
+            success : true,
+            message : `카테고리를 찾았습니다.`,
+            find
+        })
+    })
+})
+
 // 카테고리별 게시판 조회
 app.post('/api/chat/getlistbycategory', (req, res)=> {
     const data = req.body;

@@ -5,17 +5,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import useDateHook from '../../hooks/useDateHook';
 
 const NotificationWrap = styled.div<{display:string}>`
+    z-index : 100;
     position: absolute;
     display: ${props => props.display === 'true' ? "block" : "none"};
     top : 64px;
-    right: 50px;
+    right: 0;
     background-color: #fff;
     width: 400px;
     height: 400px;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.1) 4px 4px 10px 0px;
     font-family: 'Sono';
-    z-index : 100;
 
     hr {
         margin: 0;
@@ -34,10 +34,12 @@ const NotificationHeader = styled.div`
     border-bottom: 1px solid #eee;
 `
 const NotificationList = styled.ol`
+    position: relative;
     overflow: auto;
     height: calc(100% - 44px);
     padding: 0;
     margin : 0;
+    z-index  : 1000;
 `
 
 const NotificationListItem = styled.li<{checked:boolean}>`

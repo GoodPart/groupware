@@ -9,7 +9,7 @@ function ChatPlazaContainer() {
         const data = request('get', '/api/chat/get/categoryall',{});
 
         data.then((res)=> {
-            console.log(res.getData)
+            // console.log(res.getData)
 
             setChatList(res.getData);
         })

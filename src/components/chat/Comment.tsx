@@ -151,7 +151,6 @@ function Comment({chatProps,commentProps, sortState, toggleChange, post_id,write
             userId -> 댓글 작성자
             ...
     */
-   console.log(commentToggle)
     return (
         <CommentWrap id={`comment_${post_id}`} matched={commentToggle._id === `comment_${post_id}`} state={commentToggle.state}>
             <div style={{display:"flex", justifyContent : "space-between", margin : " 16px 0 0"}}>

@@ -36,25 +36,6 @@ function CommentContainer({chatProps, commentToggle, depth}:any) {
         })
     }
 
-    // const commentUpdate = (type:string) => {
-    //     return request("post","/api/chat/get/comment",{_id : post_id})
-    //     .then((res)=> {
-    //         if(type =='DESC') {
-    //             setGetComment(
-    //                 res.find.sort((a:any,b:any) => +new Date(b.post_comment_create_date) - +new Date(a.post_comment_create_date))
-    //             )
-    //             setSortState(type)
-    //         }else {
-    //             // ASC
-    //             setGetComment(
-    //                 res.find.sort((a:any,b:any) => +new Date(a.post_comment_create_date) - +new Date(b.post_comment_create_date))
-    //             )
-    //             setSortState(type)
-    //         }
-
-    //     })
-    // }
-
     const toggleChange =() => {
         if(sortState == 'ASC') {
             getCommentProps('DESC')

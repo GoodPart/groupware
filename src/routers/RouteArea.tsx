@@ -11,12 +11,6 @@ import ChatPlazaContainer from './RouteChatPlaza';
 
 import PostViewContainer from '../containers/chat/postViewContainer';
 
-// import { RootState } from '../modules';
-// import { authCheck } from '../modules/auth';
-// import { getNotiList } from '../modules/notification';
-
-// import Chat from './'
-
 import Auth from '../hoc/Auth';
 
 function RouteArea () {

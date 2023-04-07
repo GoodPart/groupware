@@ -6,14 +6,14 @@ const NotificationWrap = styled.div<{display:string}>`
     position: absolute;
     display: ${props => props.display === 'true' ? "block" : "none"};
     top : 56px;
-    right: 120px;
+    right: 0;
     background-color: #fff;
     padding: 16px;
     width: 240px;
-    /* height: 100px; */
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.1) 4px 4px 10px 0px;
     font-family: 'Sono';
+    z-index : 10000;
 
     h2 {
         font-size: 14px
@@ -27,12 +27,12 @@ const NotificationWrap = styled.div<{display:string}>`
         padding : 8px 0;
         list-style: none;
         border-top: 1px solid rgb(221, 221, 221);
-        border-bottom: 1px solid rgb(221, 221, 221);
+        /* border-bottom: 1px solid rgb(221, 221, 221); */
     }
     li {
         padding: 8px;
-        width : 100%;
-        
+        border-radius:  4px;
+        transition: background-color .6s cubic-bezier(0.075, 0.82, 0.165, 1);
         &:hover {
             background-color: rgba(0,0,0,0.1)
         }
@@ -84,6 +84,13 @@ const UserInfo = styled.div`
     display: flex;
     flex-direction: column;
     align-self: center;
+    span.user-name {
+        font-weight : bold;
+        color : #48484A
+    }
+    span.user-id {
+        color : gray
+    }
 `
 
 export default function UserSetting({authProps, onLogOut, toggleProps}:any) {
@@ -98,16 +105,16 @@ export default function UserSetting({authProps, onLogOut, toggleProps}:any) {
                     <span style={{position:"absolute", top:"50%", left:"50%", transform:"translate(-50%, -50%)", textTransform:"uppercase", fontSize:"24px", fontWeight:"bolder"}}>{authProps.userId.slice(0,1)}</span>
                 </ThumbNail>
                 <UserInfo>
-                    <span>{authProps.name}</span>
-                    <span>{authProps.userId}</span>
+                    <span className='user-name'>{authProps.name}</span>
+                    <span className='user-id'>{authProps.userId}</span>
                 </UserInfo>
             </div>
             <ol>
                 <li>
-                    <Link to={`/mypage/${authProps.userId}`}>내정보</Link>
+                    <Link to={`/mypage/${authProps.userId}`}>Setting</Link>
                 </li>
                 <li>
-                    <button type='button' onClick={onLogOut}>로그아웃</button>
+                    <button type='button' onClick={onLogOut}>Log Out</button>
                 </li>
             </ol>
             {/* <button type='button' onClick={onLogOut}>로그아웃</button> */}

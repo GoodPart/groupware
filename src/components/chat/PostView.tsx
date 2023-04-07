@@ -33,7 +33,6 @@ export default function PostView({post}:any) {
     return (
         <ListWrap>
             <div className='chat-item'>
-                {post._id}
                 <div className="chat-item__header" style={{display : 'flex', alignItems : 'center'}}>
                     <div className="header__thumbnail"
                         style={{position : "relative",width : '40px', height : '40px', borderRadius : "25px", backgroundColor : "#0F9485" , marginRight : "8px"}}

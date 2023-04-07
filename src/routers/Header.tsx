@@ -21,6 +21,7 @@ import UserSettingContainer from '../containers/userISetting/UserSettingContaine
 
 
 const HeaderWrap = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   height: 44px;
@@ -74,6 +75,27 @@ const ThumbNail = styled.div`
   background-color : #0F9485;
 `
 
+const ButtonWrap = styled.div`
+  display: flex;
+  justify-content: space-around;
+`
+const ButtonItem = styled.div`
+  display: flex;
+  background-color: #0F9485;
+  border-radius: 4px;
+  transition: background-color .6s cubic-bezier(0.075, 0.82, 0.165, 1) ;
+
+  &:hover {
+    background-color: #0c7569;
+  }
+  a {
+    padding: 12px;
+    color : #fff;
+    font-weight: bold;
+
+  }
+`
+
 function Header() {
     const navigate = useNavigate();
 
@@ -104,7 +126,7 @@ function Header() {
         .then(res=> {
             console.log(res.success)
         })
-        navigate('/');
+        navigate('/signin');
         window.location.reload();
     }
 
@@ -114,9 +136,9 @@ function Header() {
             <h2 className='header__logo'><Link to='/'>CHATME</Link></h2>
             <div className='page__wrap'>
                 {/* <Link to='/'>Home</Link> */}
-                <Link to='/about'>about</Link>
-                <Link to='/users'>users</Link>
-                <Link to='/chat'>채팅광장</Link>
+                {/* <Link to='/about'>about</Link>
+                <Link to='/users'>users</Link> */}
+                <Link to='/chat'>Post Place</Link>
             </div>
           </div>
 
@@ -140,11 +162,14 @@ function Header() {
                     </div>
                   </div>
                 ) : (
-                  <>
-                    <Link to='/signup'>가입하기</Link>
-                    /
-                    <Link to='/signin'>로그인</Link>
-                  </>
+                  <ButtonWrap>
+                    {/* <ButtonItem>
+                      <Link to='/signup'>Sign up</Link>
+                    </ButtonItem> */}
+                    <ButtonItem>
+                      <Link to='/signin'>Sign In</Link>
+                    </ButtonItem>
+                  </ButtonWrap>
                 )
             }
           </div>

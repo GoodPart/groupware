@@ -3,7 +3,7 @@ import ChatContainer from '../containers/chat/ChatContainer';
 import { useParams } from 'react-router-dom';
 function Chat() {
     useEffect(()=> {
-        console.log("routChat")
+        // console.log("routChat")
 
     }, [])
     return (

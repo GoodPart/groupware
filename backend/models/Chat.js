@@ -43,6 +43,9 @@ const chatSchema = mongoose.Schema({
     class_no : {
         type : Number
     },
+    category_name : {
+        type : String
+    },
     userId : {
         type : String
     }

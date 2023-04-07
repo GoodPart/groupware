@@ -6,7 +6,8 @@ import { RootState } from '../../modules';
 import {resetDataList, getChats} from '../../modules/chat';
 import { requestFavorit } from '../../modules/favorit';
 
-import PostViewSkeleton from '../../components/chat/PostViewSkeleton';
+import * as ButtonWrap from '../../components/styledComponents/ButtonStyled'
+
 
 
 import Chat from '../../components/chat/Chat';
@@ -93,7 +94,7 @@ function ChatContainer() {
             onCommentToggle={onCommentToggle}
             commentToggle={commentToggle}
         />
-        <button onClick={()=>_getChats()}> more</button>
+        <ButtonWrap.SubmitBtn onClick={()=>_getChats()}> More Post</ButtonWrap.SubmitBtn>
 
         </div>
             

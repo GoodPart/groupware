@@ -4,6 +4,21 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import axios from "axios";
 import request from '../utils/axios';
+import styled from 'styled-components';
+
+import PaginationContainer from '../containers/PaginationContainer';
+
+import * as InputForm from '../components/styledComponents/InputStyled';
+import * as ButtonForm from '../components/styledComponents/ButtonStyled'
+
+const Page__title = styled.h2`
+    padding: 16px;
+    font-size : 20px;
+    color : #48484A;
+    background-color: #fff;
+    border-radius: 6px;
+    margin : 12px 0;
+`
 
 function MyPage() {
     let {user} = useParams();
@@ -18,8 +33,6 @@ function MyPage() {
 
     const [chatInfo, setChatInfo] = useState();
 
-    // const [getStore, setGetStore] = useState('');
-
     useEffect(()=> {
         // setGetStore(data.userId) // 스토어에서 조회
         
@@ -31,52 +44,45 @@ function MyPage() {
 
         request("post", "/api/chat/get/chatall", {userId : user})
         .then(res=> {
-            setChatInfo(res.chatprops)
+            setChatInfo(
+                res.chatprops.sort((a:any, b:any) => +new Date(b.post_create_date) - +new Date(a.post_create_date))
+            )
         })
 
 
 
     },[data])
 
-    // console.log('getUser -->', myInfo)
     return user && myInfo && chatInfo ? (
         <>
-        <h2>Hello!, {myInfo.name}</h2>
+        <Page__title>
+            My Page - <em style={{fontSize : "14px", color : "#aaa"}}>can't edit yet, sorry</em>
+        </Page__title>
+        {/* <h2>Hello!, {myInfo.name}</h2> */}
         
-        <ul>
+        <h3>My Infomation</h3>
+        <ul style={{padding : 0}}>
             {
                 Object.entries(myInfo).map((ele, index)=> {
-                    // console.log(ele)
-                    // return false
                     if(ele[0] === 'userPw' || ele[0] === '_id' ) {
                         return false
                     }else {
                         return (
-                            <li key={index}>{ele[0]} : {ele[1]}</li>
+                            <li key={index} style={{listStyle : "none"}}>
+                                <InputForm.InputFormWrap check={ele[0]}>
+                                    <input type="text" value={ele[1]} readOnly/>
+                                    <label>{ele[0]}</label>
+                                </InputForm.InputFormWrap>
+                                <br />
+                            </li>
                         )
                     }
                     
                 })
             }
         </ul>
-        <hr />
-        <h2>작성한 게시글</h2>
-        <ul>
-            {
-                Object.values(chatInfo).map((list:any, index)=> {
-                    console.log(list)
-                    return (
-                        <li key={index}>
-                            <div>시간 : {list.post_create_date}</div>
-                            <div>게시판 : {list.class_no}</div>
-                            <div>제목 : {list.post_title}</div>
-                            <div>내용 : {list.post_desc}</div>
-                            <hr />
-                        </li>
-                    )
-                })
-            }
-        </ul>
+        {/* <h2>작성한 게시글</h2> */}
+            <PaginationContainer postsList={chatInfo} />
         </>
     ) : (
         <>정상적인 페이지 접속이 아닙니다.</>
